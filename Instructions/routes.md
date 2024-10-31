@@ -38,9 +38,8 @@
 ## Blog (Public)
 - [x] `/blog` -> `BlogPage`
 - [x] `/blog/[postId]` -> `BlogPostPage`
-- [ ] `/blog/categories` -> `BlogCategoriesPage`
-- [ ] `/blog/authors` -> `BlogAuthorsPage`
-- [ ] `/blog/search` -> `BlogSearchPage`
+- [x] `/blog/categories` -> `BlogCategoriesPage`
+
 
 ## Forum (Public)
 - [x] `/forum` -> `ForumHomePage`
@@ -50,6 +49,7 @@
 - [ ] `/forums/search` -> `ForumSearchPage`
 - [ ] `/forums/tags` -> `ForumTagsPage`
 - [ ] `/forums/users` -> `ForumUsersPage`
+- [x] `/forums` -> `ForumsPage`
 
 ## Shop (Public)
 - [x] `/shop` -> `ShopHomePage`
@@ -72,6 +72,7 @@
 
 ## Members (Public)
 - [x] `/members` -> `MembersPage`
+- [x] `/members/[username]` -> `MemberProfilePage`
 - [ ] `/members/[memberId]` -> `MemberProfilePage`
 - [ ] `/members/search` -> `MemberSearchPage`
 - [ ] `/members/rankings` -> `MemberRankingsPage`

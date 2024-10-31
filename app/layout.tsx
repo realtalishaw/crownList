@@ -3,13 +3,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/layout/navbar'
 import Footer from '@/components/layout/footer'
+import defaultMetadata from './metadata'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'The Crown List - Your Ultimate Pageantry Resource',
-  description: 'The Crown List is your comprehensive platform for the pageantry community, connecting contestants with services, resources, and opportunities.',
-}
+export const metadata = defaultMetadata
 
 export default function RootLayout({
   children,

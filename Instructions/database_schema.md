@@ -1,382 +1,725 @@
-Let me continue with the Events and Pageant Management section. This will be a comprehensive addition to the existing schema:
 
-## 4. Events and Pageant Management
+### **1. Users and Authentication**
 
-### Core Event Tables
+This section handles user accounts, authentication, and role management.
 
-#### events
-Stores pageant and competition events.
+#### **Table: users**
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Event identifier                          |
-| director_id         | `UUID`                     | `REFERENCES users(id)`, `NOT NULL`          | Reference to director                     |
-| title               | `VARCHAR(255)`             | `NOT NULL`                                  | Event title                               |
-| slug               | `VARCHAR(255)`             | `NOT NULL`, `UNIQUE`                        | URL-friendly title                        |
-| description         | `TEXT`                     |                                             | Event description                         |
-| type               | `event_type`               | `NOT NULL`                                  | Type of event                             |
-| start_date          | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`                                  | Event start date/time                     |
-| end_date            | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`                                  | Event end date/time                       |
-| timezone            | `VARCHAR(50)`              | `NOT NULL`                                  | Event timezone                            |
-| venue               | `JSONB`                    |                                             | Venue details                             |
-| capacity            | `INTEGER`                  |                                             | Maximum contestants                       |
-| registration_deadline| `TIMESTAMP WITH TIME ZONE` |                                             | Registration cutoff date                  |
-| status              | `event_status`             | `NOT NULL`, `DEFAULT 'draft'`               | Event status                              |
-| banner_image_url    | `TEXT`                     |                                             | Banner image URL                          |
-| logo_url            | `TEXT`                     |                                             | Event logo URL                            |
-| contact_info        | `JSONB`                    |                                             | Contact information                       |
-| entry_fee           | `NUMERIC(10,2)`            |                                             | Registration fee                          |
-| rules               | `TEXT`                     |                                             | Event rules and guidelines                |
-| schedule            | `JSONB`                    |                                             | Event schedule                            |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Event creation timestamp                  |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+- **Purpose**: Stores basic authentication and role information for all users.
 
-```sql
-CREATE TYPE event_type AS ENUM (
-  'pageant',
-  'competition',
-  'workshop',
-  'rehearsal',
-  'orientation',
-  'photo_shoot'
-);
+| Column Name    | Data Type                           | Constraints                                    |
+|----------------|-------------------------------------|------------------------------------------------|
+| id             | `UUID`                              | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`    |
+| email          | `VARCHAR(255)`                      | `NOT NULL`, `UNIQUE`                           |
+| password_hash  | `VARCHAR(255)`                      | `NOT NULL`                                     |
+| role           | `VARCHAR(50)`                       | `NOT NULL`, check constraint for valid roles   |
+| is_active      | `BOOLEAN`                           | `DEFAULT TRUE`                                 |
+| created_at     | `TIMESTAMP WITH TIME ZONE`          | `DEFAULT NOW()`                                |
+| updated_at     | `TIMESTAMP WITH TIME ZONE`          | `DEFAULT NOW()`                                |
 
-CREATE TYPE event_status AS ENUM (
-  'draft',
-  'published',
-  'registration_open',
-  'registration_closed',
-  'in_progress',
-  'completed',
-  'cancelled'
-);
-```
+- **Roles**: `'contestant'`, `'business_owner'`, `'director'`, `'coach'`, `'parent'`, `'supporter'`, `'admin'`, `'judge'`
 
-#### event_categories
-Manages competition categories within events.
+#### **Table: user_profiles**
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Category identifier                       |
-| event_id            | `UUID`                     | `REFERENCES events(id)`, `NOT NULL`         | Reference to event                        |
-| name                | `VARCHAR(100)`             | `NOT NULL`                                  | Category name                             |
-| description         | `TEXT`                     |                                             | Category description                      |
-| weight              | `NUMERIC(5,2)`             | `NOT NULL`, `DEFAULT 1.0`                   | Category weight in scoring                |
-| display_order       | `INTEGER`                  | `DEFAULT 0`                                 | Display order                             |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Category creation timestamp               |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+- **Purpose**: Stores additional profile information for users.
 
-#### event_registrations
-Manages contestant registrations for events.
+| Column Name       | Data Type               | Constraints                           |
+|-------------------|-------------------------|---------------------------------------|
+| user_id           | `UUID`                  | `PRIMARY KEY`, `REFERENCES users(id)` |
+| first_name        | `VARCHAR(100)`          | `NOT NULL`                            |
+| last_name         | `VARCHAR(100)`          | `NOT NULL`                            |
+| profile_picture   | `TEXT`                  | URL to profile picture                |
+| bio               | `TEXT`                  |                                       |
+| contact_number    | `VARCHAR(20)`           |                                       |
+| location          | `VARCHAR(255)`          |                                       |
+| date_of_birth     | `DATE`                  |                                       |
+| social_links      | `JSONB`                 |                                       |
+| created_at        | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                     |
+| updated_at        | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                     |
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Registration identifier                   |
-| event_id            | `UUID`                     | `REFERENCES events(id)`, `NOT NULL`         | Reference to event                        |
-| contestant_id       | `UUID`                     | `REFERENCES contestants(user_id)`, `NOT NULL`| Reference to contestant                   |
-| registration_number | `VARCHAR(50)`              | `UNIQUE`                                    | Unique registration number                |
-| status              | `registration_status`      | `NOT NULL`, `DEFAULT 'pending'`             | Registration status                       |
-| payment_status      | `payment_status`           | `NOT NULL`, `DEFAULT 'pending'`             | Payment status                            |
-| amount_paid         | `NUMERIC(10,2)`            | `DEFAULT 0`                                 | Amount paid                               |
-| registration_date   | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Registration date                         |
-| check_in_status     | `check_in_status`         | `NOT NULL`, `DEFAULT 'not_checked_in'`      | Check-in status                           |
-| check_in_time       | `TIMESTAMP WITH TIME ZONE` |                                             | Check-in timestamp                        |
-| notes               | `TEXT`                     |                                             | Administrative notes                      |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Registration creation timestamp           |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+- **Relationships**:
+  - One-to-One with `users` via `user_id`.
 
-```sql
-CREATE TYPE registration_status AS ENUM (
-  'pending',
-  'approved',
-  'waitlisted',
-  'rejected',
-  'cancelled'
-);
+#### **Table: user_settings**
 
-CREATE TYPE check_in_status AS ENUM (
-  'not_checked_in',
-  'checked_in',
-  'checked_out',
-  'no_show'
-);
-```
+- **Purpose**: Stores user preferences and settings
 
-### Judging System
+| Column Name       | Data Type               | Constraints                           |
+|-------------------|-------------------------|---------------------------------------|
+| user_id           | `UUID`                  | `PRIMARY KEY`, `REFERENCES users(id)` |
+| notification_preferences | `JSONB`          | `DEFAULT '{}'`                        |
+| theme_preferences | `JSONB`                 | `DEFAULT '{}'`                        |
+| privacy_settings  | `JSONB`                 | `DEFAULT '{}'`                        |
+| language          | `VARCHAR(10)`           | `DEFAULT 'en'`                        |
+| timezone          | `VARCHAR(50)`           | `DEFAULT 'UTC'`                       |
+| created_at        | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                     |
+| updated_at        | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                     |
 
-#### event_judges
-Links judges to events and manages their assignments.
+#### **Table: user_verification**
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Judge assignment identifier               |
-| event_id            | `UUID`                     | `REFERENCES events(id)`, `NOT NULL`         | Reference to event                        |
-| judge_id            | `UUID`                     | `REFERENCES users(id)`, `NOT NULL`          | Reference to judge                        |
-| categories          | `UUID[]`                   |                                             | Assigned category IDs                     |
-| status              | `judge_status`             | `NOT NULL`, `DEFAULT 'pending'`             | Judge status                              |
-| access_code         | `VARCHAR(50)`              | `UNIQUE`                                    | Judge access code                         |
-| notes               | `TEXT`                     |                                             | Administrative notes                      |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Assignment creation timestamp             |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+- **Purpose**: Handles email verification and account recovery
 
-```sql
-CREATE TYPE judge_status AS ENUM (
-  'pending',
-  'accepted',
-  'declined',
-  'removed'
-);
-```
+| Column Name       | Data Type               | Constraints                           |
+|-------------------|-------------------------|---------------------------------------|
+| id                | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id           | `UUID`                  | `REFERENCES users(id)`                |
+| token             | `VARCHAR(255)`          | `NOT NULL`                            |
+| type              | `VARCHAR(50)`           | `NOT NULL`                            |
+| expires_at        | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`                         |
+| created_at        | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                     |
 
-#### judging_criteria
-Defines scoring criteria for event categories.
+- **Type Values**: `'email_verification'`, `'password_reset'`
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Criterion identifier                      |
-| event_id            | `UUID`                     | `REFERENCES events(id)`, `NOT NULL`         | Reference to event                        |
-| category_id         | `UUID`                     | `REFERENCES event_categories(id)`, `NOT NULL`| Reference to category                     |
-| name                | `VARCHAR(100)`             | `NOT NULL`                                  | Criterion name                            |
-| description         | `TEXT`                     |                                             | Criterion description                     |
-| max_score           | `NUMERIC(5,2)`             | `NOT NULL`                                  | Maximum possible score                    |
-| weight              | `NUMERIC(5,2)`             | `NOT NULL`, `DEFAULT 1.0`                   | Criterion weight                          |
-| scoring_guide       | `TEXT`                     |                                             | Scoring guidelines                        |
-| display_order       | `INTEGER`                  | `DEFAULT 0`                                 | Display order                             |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Criterion creation timestamp              |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+---
 
-#### scores
-Records judges' scores for contestants.
+### **2. Contestants**
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Score identifier                          |
-| event_id            | `UUID`                     | `REFERENCES events(id)`, `NOT NULL`         | Reference to event                        |
-| category_id         | `UUID`                     | `REFERENCES event_categories(id)`, `NOT NULL`| Reference to category                     |
-| criterion_id        | `UUID`                     | `REFERENCES judging_criteria(id)`, `NOT NULL`| Reference to criterion                    |
-| judge_id            | `UUID`                     | `REFERENCES users(id)`, `NOT NULL`          | Reference to judge                        |
-| contestant_id       | `UUID`                     | `REFERENCES contestants(user_id)`, `NOT NULL`| Reference to contestant                   |
-| score               | `NUMERIC(5,2)`             | `NOT NULL`                                  | Awarded score                             |
-| notes               | `TEXT`                     |                                             | Judge's notes                             |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Score creation timestamp                  |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+Information specific to users with the role of `contestant`.
 
-### Event Schedule Management
+#### **Table: contestants**
 
-#### event_schedule_items
-Manages detailed event schedule and activities.
+| Column Name    | Data Type               | Constraints                              |
+|----------------|-------------------------|------------------------------------------|
+| user_id        | `UUID`                  | `PRIMARY KEY`, `REFERENCES users(id)`    |
+| title          | `VARCHAR(255)`          |                                          |
+| platform       | `TEXT`                  |                                          |
+| coach_id       | `UUID`                  | `REFERENCES users(id)`                   |
+| parent_id      | `UUID`                  | `REFERENCES users(id)`                   |
+| division       | `VARCHAR(100)`          |                                          |
+| age_group      | `VARCHAR(50)`           |                                          |
+| competition_level | `VARCHAR(50)`         |                                          |
+| achievements   | `JSONB`                 |                                          |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
 
-| Column Name          | Data Type                  | Constraints                                 | Description                               |
-|---------------------|----------------------------|---------------------------------------------|-------------------------------------------|
-| id                  | `UUID`                     | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` | Schedule item identifier                  |
-| event_id            | `UUID`                     | `REFERENCES events(id)`, `NOT NULL`         | Reference to event                        |
-| title               | `VARCHAR(255)`             | `NOT NULL`                                  | Activity title                            |
-| description         | `TEXT`                     |                                             | Activity description                      |
-| type                | `schedule_item_type`       | `NOT NULL`                                  | Type of activity                          |
-| start_time          | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`                                  | Start time                                |
-| end_time            | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`                                  | End time                                  |
-| location            | `VARCHAR(255)`             |                                             | Activity location                         |
-| participants        | `UUID[]`                   |                                             | Participant user IDs                      |
-| requirements        | `JSONB`                    |                                             | Special requirements                      |
-| status              | `schedule_item_status`     | `NOT NULL`, `DEFAULT 'scheduled'`           | Item status                               |
-| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Item creation timestamp                   |
-| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             | Last update timestamp                     |
+- **Relationships**:
+  - One-to-One with `users` via `user_id`.
+  - Many contestants can be linked to a `coach` and `parent`.
 
-```sql
-CREATE TYPE schedule_item_type AS ENUM (
-  'registration',
-  'rehearsal',
-  'competition',
-  'interview',
-  'photoshoot',
-  'meal',
-  'break',
-  'ceremony'
-);
+---
 
-CREATE TYPE schedule_item_status AS ENUM (
-  'scheduled',
-  'in_progress',
-  'completed',
-  'cancelled',
-  'delayed'
-);
-```
+### **3. Businesses and Multi-Tenancy**
 
-### Indexes and Constraints
+Supports multi-tenancy where businesses can have multiple staff members with different roles and permissions.
 
-```sql
--- Events
-CREATE INDEX idx_events_director ON events(director_id);
-CREATE INDEX idx_events_status ON events(status);
-CREATE INDEX idx_events_dates ON events(start_date, end_date);
-CREATE INDEX idx_events_type ON events(type);
+#### **Table: businesses**
 
--- Registrations
-CREATE INDEX idx_registrations_event ON event_registrations(event_id);
-CREATE INDEX idx_registrations_contestant ON event_registrations(contestant_id);
-CREATE INDEX idx_registrations_status ON event_registrations(status);
-CREATE UNIQUE INDEX idx_registration_number ON event_registrations(registration_number);
+| Column Name          | Data Type               | Constraints                                 |
+|----------------------|-------------------------|---------------------------------------------|
+| id                   | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| business_name        | `VARCHAR(255)`          | `NOT NULL`                                  |
+| business_description | `TEXT`                  |                                             |
+| logo                 | `TEXT`                  | URL to logo image                           |
+| location             | `VARCHAR(255)`          |                                             |
+| contact_email        | `VARCHAR(255)`          |                                             |
+| contact_phone        | `VARCHAR(20)`           |                                             |
+| website              | `VARCHAR(255)`          |                                             |
+| social_links         | `JSONB`                 |                                             |
+| created_at           | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                           |
+| updated_at           | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                           |
 
--- Judges
-CREATE INDEX idx_judges_event ON event_judges(event_id);
-CREATE INDEX idx_judges_user ON event_judges(judge_id);
-CREATE UNIQUE INDEX idx_judge_access_code ON event_judges(access_code);
+#### **Table: business_staff**
 
--- Scores
-CREATE INDEX idx_scores_event ON scores(event_id);
-CREATE INDEX idx_scores_category ON scores(category_id);
-CREATE INDEX idx_scores_judge ON scores(judge_id);
-CREATE INDEX idx_scores_contestant ON scores(contestant_id);
+- **Purpose**: Links users to businesses and assigns roles within the business.
 
--- Schedule
-CREATE INDEX idx_schedule_event ON event_schedule_items(event_id);
-CREATE INDEX idx_schedule_times ON event_schedule_items(start_time, end_time);
-```
+| Column Name    | Data Type               | Constraints                                  |
+|----------------|-------------------------|----------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| business_id    | `UUID`                  | `REFERENCES businesses(id)`, `NOT NULL`, `ON DELETE CASCADE` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`, `ON DELETE CASCADE` |
+| role           | `VARCHAR(20)`           | `NOT NULL`, check constraint (`'owner'`, `'manager'`, `'staff'`) |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
 
-### Functions and Triggers
+- **Unique Constraint**: `(business_id, user_id)` to prevent duplicate staff entries.
+- **Relationships**:
+  - Many-to-One with `businesses` via `business_id`.
+  - Many-to-One with `users` via `user_id`.
 
-```sql
--- Calculate final scores for contestants
-CREATE OR REPLACE FUNCTION calculate_contestant_scores()
-RETURNS TRIGGER AS $$
-BEGIN
-  -- Implementation for calculating weighted scores
-  -- and updating contestant rankings
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+#### **Table: business_permissions**
 
-CREATE TRIGGER update_contestant_scores
-AFTER INSERT OR UPDATE ON scores
-FOR EACH ROW
-EXECUTE FUNCTION calculate_contestant_scores();
+- **Purpose**: Defines permissions for each staff member within a business.
 
--- Prevent schedule conflicts
-CREATE OR REPLACE FUNCTION check_schedule_conflicts()
-RETURNS TRIGGER AS $$
-BEGIN
-  IF EXISTS (
-    SELECT 1 FROM event_schedule_items
-    WHERE event_id = NEW.event_id
-    AND (
-      (NEW.start_time, NEW.end_time) OVERLAPS (start_time, end_time)
-    )
-    AND id != NEW.id
-  ) THEN
-    RAISE EXCEPTION 'Schedule conflict detected';
-  END IF;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+| Column Name         | Data Type               | Constraints                                  |
+|---------------------|-------------------------|----------------------------------------------|
+| id                  | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| business_staff_id   | `UUID`                  | `REFERENCES business_staff(id)`, `NOT NULL`, `ON DELETE CASCADE` |
+| permission          | `VARCHAR(50)`           | `NOT NULL`, check constraint (various permissions) |
+| created_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
 
-CREATE TRIGGER prevent_schedule_conflicts
-BEFORE INSERT OR UPDATE ON event_schedule_items
-FOR EACH ROW
-EXECUTE FUNCTION check_schedule_conflicts();
-```
+- **Unique Constraint**: `(business_staff_id, permission)` to prevent duplicate permissions.
+- **Permissions Examples**: `'manage_listings'`, `'view_bookings'`, `'edit_profile'`, `'manage_finances'`
+- **Relationships**:
+  - Many-to-One with `business_staff` via `business_staff_id`.
 
-### Row Level Security (RLS) Policies
+#### **Table: business_listings**
 
-```sql
--- Enable RLS
-ALTER TABLE events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE event_registrations ENABLE ROW LEVEL SECURITY;
-ALTER TABLE event_judges ENABLE ROW LEVEL SECURITY;
-ALTER TABLE scores ENABLE ROW LEVEL SECURITY;
+| Column Name    | Data Type               | Constraints                                  |
+|----------------|-------------------------|----------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| business_id    | `UUID`                  | `REFERENCES businesses(id)`, `NOT NULL`      |
+| title          | `VARCHAR(255)`          | `NOT NULL`                                   |
+| description    | `TEXT`                  |                                              |
+| price          | `NUMERIC(10,2)`         |                                              |
+| images         | `TEXT[]`                | Array of image URLs                          |
+| category_id    | `UUID`                  | `REFERENCES listing_categories(id)`          |
+| availability   | `JSONB`                 | Availability details                         |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
 
--- Event access policies
-CREATE POLICY "Public can view published events"
-  ON events FOR SELECT
-  USING (status = 'published');
+- **Relationships**:
+  - Many-to-One with `businesses` via `business_id`.
+  - Many-to-One with `listing_categories` via `category_id`.
 
-CREATE POLICY "Directors can manage their events"
-  ON events FOR ALL
-  USING (director_id = auth.uid());
+#### **Table: listing_categories**
 
--- Registration access policies
-CREATE POLICY "Contestants can view their registrations"
-  ON event_registrations FOR SELECT
-  USING (contestant_id = auth.uid());
+| Column Name    | Data Type               | Constraints                                 |
+|----------------|-------------------------|---------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| name           | `VARCHAR(100)`          | `NOT NULL`                                  |
+| description    | `TEXT`                  |                                             |
+| parent_id      | `UUID`                  | `REFERENCES listing_categories(id)`         |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                           |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                           |
 
-CREATE POLICY "Directors can manage registrations"
-  ON event_registrations FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM events
-      WHERE id = event_id
-      AND director_id = auth.uid()
-    )
-  );
+- **Relationships**:
+  - Self-referential Many-to-One for category hierarchy via `parent_id`.
 
--- Judge access policies
-CREATE POLICY "Judges can view their assignments"
-  ON event_judges FOR SELECT
-  USING (judge_id = auth.uid());
+---
 
-CREATE POLICY "Directors can manage judges"
-  ON event_judges FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM events
-      WHERE id = event_id
-      AND director_id = auth.uid()
-    )
-  );
+### **4. Bookings**
 
--- Score access policies
-CREATE POLICY "Judges can manage their scores"
-  ON scores FOR ALL
-  USING (judge_id = auth.uid());
+Handles service bookings made by users.
 
-CREATE POLICY "Directors can view all scores"
-  ON scores FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM events
-      WHERE id = event_id
-      AND director_id = auth.uid()
-    )
-  );
-```
+#### **Table: bookings**
 
-### Notes
+| Column Name    | Data Type               | Constraints                                  |
+|----------------|-------------------------|----------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| listing_id     | `UUID`                  | `REFERENCES business_listings(id)`, `NOT NULL` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`           |
+| booking_date   | `TIMESTAMP WITH TIME ZONE` | `NOT NULL`                                 |
+| status         | `VARCHAR(20)`           | `DEFAULT 'pending'`, check constraint        |
+| total_price    | `NUMERIC(10,2)`         |                                              |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
 
-1. **Event Management Features**:
-   - Comprehensive event scheduling
-   - Registration management
-   - Judge assignments
-   - Scoring system
-   - Schedule conflict prevention
+- **Status Values**: `'pending'`, `'confirmed'`, `'completed'`, `'cancelled'`
+- **Relationships**:
+  - Many-to-One with `business_listings` via `listing_id`.
+  - Many-to-One with `users` via `user_id`.
 
-2. **Security Considerations**:
-   - Role-based access control
-   - Schedule conflict prevention
-   - Score integrity protection
-   - Judge access management
+---
 
-3. **Performance Optimization**:
-   - Efficient indexing strategy
-   - Optimized score calculations
-   - Schedule conflict checking
-   - Contestant ranking updates
+### **5. Reviews**
 
-4. **Data Integrity**:
-   - Foreign key relationships
-   - Unique constraints
-   - Status transitions
-   - Schedule validation
+Stores reviews left by users for business listings.
 
-5. **Extensibility**:
-   - Flexible scoring system
-   - Customizable event types
-   - Modular schedule management
-   - Expandable judging criteria
+#### **Table: reviews**
 
-6. **Monitoring and Analytics**:
-   - Score tracking
-   - Registration analytics
-   - Schedule management
-   - Judge performance metrics
+| Column Name    | Data Type               | Constraints                                  |
+|----------------|-------------------------|----------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| listing_id     | `UUID`                  | `REFERENCES business_listings(id)`, `NOT NULL` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`           |
+| rating         | `SMALLINT`              | `NOT NULL`, check between 1 and 5            |
+| comment        | `TEXT`                  |                                              |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
 
-Would you like me to continue with the next section, such as Voting and People's Ch
+- **Relationships**:
+  - Many-to-One with `business_listings` via `listing_id`.
+  - Many-to-One with `users` via `user_id`.
+
+---
+
+### **6. Events and Pageant Management**
+
+Handles events organized by directors and contestant participation.
+
+#### **Table: events**
+
+| Column Name    | Data Type               | Constraints                                  |
+|----------------|-------------------------|----------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| director_id    | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`           |
+| name           | `VARCHAR(255)`          | `NOT NULL`                                   |
+| description    | `TEXT`                  |                                              |
+| start_date     | `DATE`                  | `NOT NULL`                                   |
+| end_date       | `DATE`                  | `NOT NULL`                                   |
+| location       | `VARCHAR(255)`          |                                              |
+| schedule       | `JSONB`                 |                                              |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+
+- **Relationships**:
+  - Many-to-One with `users` via `director_id`.
+
+#### **Table: event_registrations**
+
+| Column Name      | Data Type               | Constraints                                   |
+|------------------|-------------------------|-----------------------------------------------|
+| id               | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`   |
+| event_id         | `UUID`                  | `REFERENCES events(id)`, `NOT NULL`           |
+| contestant_id    | `UUID`                  | `REFERENCES contestants(user_id)`, `NOT NULL` |
+| registration_date| `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             |
+| status           | `VARCHAR(20)`           | `DEFAULT 'pending'`, check constraint         |
+| payment_status   | `VARCHAR(20)`           | `DEFAULT 'unpaid'`, check constraint          |
+| created_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             |
+| updated_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                             |
+
+- **Status Values**: `'pending'`, `'approved'`, `'rejected'`
+- **Payment Status**: `'unpaid'`, `'paid'`
+- **Relationships**:
+  - Many-to-One with `events` via `event_id`.
+  - Many-to-One with `contestants` via `contestant_id`.
+
+#### **Table: event_judges**
+
+| Column Name      | Data Type               | Constraints                               |
+|------------------|-------------------------|-------------------------------------------|
+| event_id         | `UUID`                  | `REFERENCES events(id)`, `NOT NULL`       |
+| judge_id         | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| assigned_categories | `JSONB`              |                                           |
+| created_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Primary Key**: Composite of `event_id` and `judge_id`
+
+#### **Table: judging_criteria**
+
+| Column Name    | Data Type               | Constraints                                  |
+|----------------|-------------------------|----------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| event_id       | `UUID`                  | `REFERENCES events(id)`, `NOT NULL`          |
+| name           | `VARCHAR(255)`          | `NOT NULL`                                   |
+| description    | `TEXT`                  |                                              |
+| max_score      | `SMALLINT`              | `NOT NULL`                                   |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                            |
+
+- **Relationships**:
+  - Many-to-One with `events` via `event_id`.
+
+#### **Table: scores**
+
+| Column Name    | Data Type               | Constraints                                 |
+|----------------|-------------------------|---------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| event_id       | `UUID`                  | `REFERENCES events(id)`, `NOT NULL`         |
+| contestant_id  | `UUID`                  | `REFERENCES contestants(user_id)`, `NOT NULL` |
+| judge_id       | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`          |
+| criterion_id   | `UUID`                  | `REFERENCES judging_criteria(id)`, `NOT NULL` |
+| score          | `SMALLINT`              | `NOT NULL`                                  |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                           |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                           |
+
+- **Relationships**:
+  - Many-to-One with `events`, `contestants`, `users`, and `judging_criteria`.
+
+---
+
+### **7. Contestant's Digital Pageant Binder**
+
+Manages contestant-specific resources and planning tools.
+
+#### **Table: documents**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| file_url       | `TEXT`                  | `NOT NULL`                                |
+| category       | `VARCHAR(50)`           |                                           |
+| upload_date    | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: tasks**
+
+| Column Name    | Data Type               | Constraints                                |
+|----------------|-------------------------|--------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`         |
+| title          | `VARCHAR(255)`          | `NOT NULL`                                 |
+| description    | `TEXT`                  |                                            |
+| status         | `VARCHAR(20)`           | `DEFAULT 'to_do'`, check constraint        |
+| due_date       | `DATE`                  |                                            |
+| priority       | `VARCHAR(20)`           | check constraint                           |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                          |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                          |
+
+- **Status Values**: `'to_do'`, `'in_progress'`, `'completed'`
+- **Priority Values**: `'low'`, `'medium'`, `'high'`
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: wardrobe_items**
+
+| Column Name    | Data Type               | Constraints                              |
+|----------------|-------------------------|------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`       |
+| name           | `VARCHAR(255)`          | `NOT NULL`                               |
+| description    | `TEXT`                  |                                          |
+| images         | `TEXT[]`                | Array of image URLs                      |
+| category       | `VARCHAR(100)`          |                                          |
+| color          | `VARCHAR(50)`           |                                          |
+| occasions      | `TEXT[]`                | Array of occasions                       |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: appearances**
+
+| Column Name    | Data Type               | Constraints                              |
+|----------------|-------------------------|------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| contestant_id  | `UUID`                  | `REFERENCES contestants(user_id)`         |
+| measurement_type| `VARCHAR(50)`          | `NOT NULL`                               |
+| value          | `NUMERIC(10,2)`         | `NOT NULL`                               |
+| date_taken     | `DATE`                  | `NOT NULL`                               |
+| notes          | `TEXT`                  |                                          |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: travel_plans**
+
+| Column Name           | Data Type               | Constraints                              |
+|-----------------------|-------------------------|------------------------------------------|
+| id                    | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id               | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`       |
+| destination           | `VARCHAR(255)`          | `NOT NULL`                               |
+| start_date            | `DATE`                  | `NOT NULL`                               |
+| end_date              | `DATE`                  | `NOT NULL`                               |
+| accommodation         | `VARCHAR(255)`          |                                          |
+| transportation_details| `TEXT`                  |                                          |
+| confirmation_numbers  | `TEXT`                  |                                          |
+| created_at            | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at            | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: expenses**
+
+| Column Name    | Data Type               | Constraints                              |
+|----------------|-------------------------|------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`       |
+| amount         | `NUMERIC(10,2)`         | `NOT NULL`                               |
+| date           | `DATE`                  | `NOT NULL`                               |
+| category       | `VARCHAR(100)`          |                                          |
+| description    | `TEXT`                  |                                          |
+| receipt_url    | `TEXT`                  | URL to receipt image                     |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: sponsorships**
+
+| Column Name     | Data Type               | Constraints                              |
+|-----------------|-------------------------|------------------------------------------|
+| id              | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id         | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`       |
+| sponsor_name    | `VARCHAR(255)`          | `NOT NULL`                               |
+| amount          | `NUMERIC(10,2)`         | `NOT NULL`                               |
+| date            | `DATE`                  | `NOT NULL`                               |
+| sponsorship_letter_url | `TEXT`           | URL to sponsorship letter                |
+| created_at      | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at      | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: fundraising_campaigns**
+
+| Column Name    | Data Type               | Constraints                                |
+|----------------|-------------------------|--------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()`  |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`         |
+| title          | `VARCHAR(255)`          | `NOT NULL`                                 |
+| description    | `TEXT`                  |                                            |
+| goal_amount    | `NUMERIC(10,2)`         | `NOT NULL`                                 |
+| current_amount | `NUMERIC(10,2)`         | `DEFAULT 0`                                |
+| start_date     | `DATE`                  |                                            |
+| end_date       | `DATE`                  |                                            |
+| is_public      | `BOOLEAN`               | `DEFAULT TRUE`                             |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                          |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                          |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: fundraising_contributions**
+
+| Column Name      | Data Type               | Constraints                               |
+|------------------|-------------------------|-------------------------------------------|
+| id               | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| campaign_id      | `UUID`                  | `REFERENCES fundraising_campaigns(id)`, `NOT NULL` |
+| contributor_name | `VARCHAR(255)`          |                                           |
+| amount           | `NUMERIC(10,2)`         | `NOT NULL`                                |
+| date             | `DATE`                  | `DEFAULT NOW()`                           |
+| message          | `TEXT`                  |                                           |
+| created_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Relationships**:
+  - Many-to-One with `fundraising_campaigns` via `campaign_id`.
+
+---
+
+### **8. Messaging and Notifications**
+
+Handles user communications and alerts.
+
+#### **Table: conversations**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| type           | `VARCHAR(20)`           | `NOT NULL`, check constraint              |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Type Values**: `'direct'`, `'group'`
+
+#### **Table: conversation_participants**
+
+| Column Name      | Data Type               | Constraints                               |
+|------------------|-------------------------|-------------------------------------------|
+| conversation_id  | `UUID`                  | `REFERENCES conversations(id)`, `NOT NULL` |
+| user_id          | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| joined_at        | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Primary Key**: Composite of `conversation_id` and `user_id`
+
+#### **Table: messages**
+
+| Column Name      | Data Type               | Constraints                               |
+|------------------|-------------------------|-------------------------------------------|
+| id               | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| conversation_id  | `UUID`                  | `REFERENCES conversations(id)`, `NOT NULL` |
+| sender_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| content          | `TEXT`                  | `NOT NULL`                                |
+| sent_at          | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| created_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at       | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+#### **Table: notifications**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| type           | `VARCHAR(50)`           | `NOT NULL`                                |
+| message        | `TEXT`                  | `NOT NULL`                                |
+| is_read        | `BOOLEAN`               | `DEFAULT FALSE`                           |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Relationships**:
+  - Many-to-One with `users` via `user_id`.
+
+---
+
+### **9. Forums and Discussions**
+
+Enables community interactions through forums.
+
+#### **Table: forum_categories**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| name           | `VARCHAR(100)`          | `NOT NULL`                                |
+| description    | `TEXT`                  |                                           |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+#### **Table: forum_threads**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| category_id    | `UUID`                  | `REFERENCES forum_categories(id)`, `NOT NULL` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| title          | `VARCHAR(255)`          | `NOT NULL`                                |
+| content        | `TEXT`                  | `NOT NULL`                                |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Relationships**:
+  - Many-to-One with `forum_categories` via `category_id`.
+  - Many-to-One with `users` via `user_id`.
+
+#### **Table: forum_posts**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| thread_id      | `UUID`                  | `REFERENCES forum_threads(id)`, `NOT NULL` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| content        | `TEXT`                  | `NOT NULL`                                |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Relationships**:
+  - Many-to-One with `forum_threads` via `thread_id`.
+  - Many-to-One with `users` via `user_id`.
+
+---
+
+### **10. Media Kits and Social Media Management**
+
+Allows contestants to create media kits and schedule social media posts.
+
+#### **Table: media_kits**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| template_id    | `UUID`                  |                                           |
+| content        | `JSONB`                 | JSON data of the media kit                |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+#### **Table: social_media_posts**
+
+| Column Name    | Data Type               | Constraints                               |
+|----------------|-------------------------|-------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| user_id        | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`        |
+| platform       | `VARCHAR(50)`           | `NOT NULL`                                |
+| content        | `TEXT`                  | `NOT NULL`                                |
+| scheduled_at   | `TIMESTAMP WITH TIME ZONE` |                                           |
+| status         | `VARCHAR(20)`           | `DEFAULT 'scheduled'`, check constraint   |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                         |
+
+- **Status Values**: `'scheduled'`, `'posted'`, `'failed'`
+
+---
+
+### **11. Coaches and Coaching Services**
+
+Information specific to users with the role of `coach`.
+
+#### **Table: coaches**
+
+| Column Name        | Data Type               | Constraints                              |
+|--------------------|-------------------------|------------------------------------------|
+| user_id            | `UUID`                  | `PRIMARY KEY`, `REFERENCES users(id)`    |
+| bio                | `TEXT`                  |                                          |
+| experience         | `TEXT`                  |                                          |
+| certifications     | `TEXT`                  |                                          |
+| services_offered   | `JSONB`                 |                                          |
+| availability       | `JSONB`                 |                                          |
+| pricing            | `JSONB`                 |                                          |
+| created_at         | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at         | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Relationships**:
+  - One-to-One with `users` via `user_id`.
+
+---
+
+### **12. Parent-Child Relationships**
+
+Links parents to their children's accounts.
+
+#### **Table: parent_child_links**
+
+| Column Name    | Data Type               | Constraints                            |
+|----------------|-------------------------|----------------------------------------|
+| parent_id      | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`     |
+| child_id       | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`     |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                      |
+
+- **Primary Key**: Composite of `parent_id` and `child_id`
+- **Relationships**:
+  - Many-to-Many between `users` (parents and children).
+
+---
+
+### **13. Admin and Moderation**
+
+Tables for administrative functions.
+
+#### **Table: reports**
+
+| Column Name    | Data Type               | Constraints                              |
+|----------------|-------------------------|------------------------------------------|
+| id             | `UUID`                  | `PRIMARY KEY`, `DEFAULT uuid_generate_v4()` |
+| reported_by    | `UUID`                  | `REFERENCES users(id)`, `NOT NULL`       |
+| content_type   | `VARCHAR(50)`           | `NOT NULL`                               |
+| content_id     | `UUID`                  | `NOT NULL`                               |
+| reason         | `VARCHAR(255)`          | `NOT NULL`                               |
+| description    | `TEXT`                  |                                          |
+| status         | `VARCHAR(20)`           | `DEFAULT 'pending'`, check constraint    |
+| created_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| updated_at     | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+
+- **Status Values**: `'pending'`, `'reviewed'`, `'resolved'`
+
+#### **Table: system_logs**
+
+| Column Name    | Data Type               | Constraints                              |
+|----------------|-------------------------|------------------------------------------|
+| id             | `BIGSERIAL`             | `PRIMARY KEY`                            |
+| timestamp      | `TIMESTAMP WITH TIME ZONE` | `DEFAULT NOW()`                        |
+| level          | `VARCHAR(20)`           | `NOT NULL`                               |
+| message        | `TEXT`                  | `NOT NULL`                               |
+| context        | `JSONB`                 |                                          |
+
+- **Level Values**: `'info'`, `'warning'`, `'error'`
+
+---
+
+## **Summary of Relationships**
+
+- **Users**:
+  - Linked to **User Profiles** (`user_profiles`).
+  - Can have multiple **Roles** via the `role` column.
+  - Can be **Contestants**, **Business Owners**, **Directors**, **Coaches**, **Parents**, or **Admins**.
+
+- **Businesses**:
+  - Owned and managed by users through **Business Staff** (`business_staff`).
+  - Have multiple **Business Listings** (`business_listings`).
+  - Staff members have **Permissions** (`business_permissions`) defining their access within the business.
+
+- **Contestants**:
+  - Participate in **Events** through **Event Registrations** (`event_registrations`).
+  - Have access to **Digital Pageant Binder** resources like **Documents**, **Tasks**, **Wardrobe Items**, **Appearances**, **Travel Plans**, **Expenses**, **Sponsorships**, and **Fundraising Campaigns**.
+
+- **Events**:
+  - Managed by **Directors**.
+  - Include **Judging Criteria**, **Event Judges**, and **Scores**.
+
+- **Messaging and Notifications**:
+  - Users communicate via **Conversations** and **Messages**.
+  - Receive **Notifications** based on activities and system alerts.
+
+- **Forums and Discussions**:
+  - Users interact through **Forum Categories**, **Forum Threads**, and **Forum Posts**.
+
+- **Parent-Child Links**:
+  - **Parents** linked to **Contestant Children** via **Parent-Child Links**.
+
+- **Coaches**:
+  - Provide services to **Contestants**.
+  - Manage their profiles and offerings in the **Coaches** table.
+
+---

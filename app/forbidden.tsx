@@ -1,6 +1,11 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Shield } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Access Forbidden'
+}
 
 export default function ForbiddenPage() {
   return (

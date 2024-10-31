@@ -161,8 +161,8 @@ export default function FiltersComponent() {
   )
 
   return (
-    <div className="bg-white border-b border-gray-200">
-      <div className="mx-auto">
+    <div className="bg-white border-b border-gray-200 w-full">
+      <div className="container mx-auto">
         <div className="flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
           {/* Sort Dropdown */}
           <div className="relative">
@@ -323,7 +323,7 @@ export default function FiltersComponent() {
 
         {/* Active Filters */}
         {allSelectedFilters.length > 0 && (
-          <div className="bg-gray-100 py-3 px-4 sm:px-6 lg:px-8">
+          <div className="bg-gray-100 py-3 px-4 sm:px-6 lg:px-8 w-full">
             <div className="flex items-center">
               <span className="text-sm text-gray-500 mr-4">Filters</span>
               <div className="flex flex-wrap gap-2">

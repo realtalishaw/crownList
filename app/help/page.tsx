@@ -1,3 +1,9 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Help Center'
+}
+
 export default function HelpCenterPage() {
   return (
     <div className="container mx-auto px-4 py-16">

@@ -1,15 +1,13 @@
 "use client"
 
-import { Crown, Search, Filter, Users } from 'lucide-react'
+import { Crown, Search, Filter, MapPin, MessageCircle, UserPlus } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 
 export function MembersContent() {
   return (
@@ -43,27 +41,76 @@ export function MembersContent() {
       </div>
 
       {/* Members Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3, 4, 5, 6].map((index) => (
-          <Card key={index} className="hover:shadow-lg transition-shadow">
-            <CardHeader className="flex flex-row items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center">
-                <Users className="h-6 w-6 text-purple-500" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+          <Card 
+            key={index} 
+            className="overflow-hidden hover:shadow-lg transition-all duration-300"
+          >
+            <Link href={`/members/${index}`} className="block">
+              <div className="relative h-48 bg-purple-100">
+                <Image
+                  src={`https://source.unsplash.com/random/400x300?portrait&${index}`}
+                  alt={`Member ${index}`}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <div>
-                <CardTitle className="text-lg">Member Name {index}</CardTitle>
-                <CardDescription>Title / Role</CardDescription>
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Sarah Johnson</h3>
+                    <p className="text-sm text-gray-600">Miss California 2023</p>
+                  </div>
+                  <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+                    Contestant
+                  </Badge>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                  <MapPin className="h-4 w-4" />
+                  <span>Los Angeles, CA</span>
+                </div>
+              </CardContent>
+            </Link>
+            <Separator />
+            <div className="p-4 flex justify-between items-center">
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map((follower) => (
+                  <div 
+                    key={follower} 
+                    className="h-6 w-6 rounded-full border-2 border-white overflow-hidden bg-purple-100"
+                  >
+                    <Image
+                      src={`https://source.unsplash.com/random/100x100?face&${follower}`}
+                      alt="Follower"
+                      width={24}
+                      height={24}
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+                <div className="h-6 px-2 flex items-center text-xs text-gray-500 bg-gray-50 rounded-full border-2 border-white">
+                  +42
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
-              </p>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">View Profile</Button>
-                <Button variant="secondary" size="sm">Connect</Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="text-gray-600 hover:text-purple-600"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-purple-600 hover:bg-purple-50"
+                >
+                  <UserPlus className="h-4 w-4 mr-1" />
+                  Follow
+                </Button>
               </div>
-            </CardContent>
+            </div>
           </Card>
         ))}
       </div>

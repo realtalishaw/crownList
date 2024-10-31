@@ -1,3 +1,9 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Media Kit'
+}
+
 export default function MediaKitPage() {
   return (
     <div className="container mx-auto px-4 py-16">

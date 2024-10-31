@@ -1,4 +1,9 @@
 import { Wrench } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Site Maintenance'
+}
 
 export default function MaintenancePage() {
   return (

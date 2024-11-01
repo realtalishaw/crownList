@@ -1,24 +1,34 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import type { Database } from '@/lib/database.types'
 
 export async function GET(request: Request) {
-  const requestUrl = new URL(request.url)
-  const code = requestUrl.searchParams.get('code')
-  const returnUrl = requestUrl.searchParams.get('returnUrl')
-
-  if (code) {
+  try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
-    
-    try {
-      await supabase.auth.exchangeCodeForSession(code)
-    } catch (error) {
-      console.error('Error exchanging code for session:', error)
-      return NextResponse.redirect(`${requestUrl.origin}/auth/login?error=auth`)
-    }
-  }
+    const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore })
+    const requestUrl = new URL(request.url)
+    const code = requestUrl.searchParams.get('code')
 
-  // Redirect to the return URL if provided, otherwise go to the home page
-  return NextResponse.redirect(returnUrl ? `${requestUrl.origin}${returnUrl}` : requestUrl.origin)
+    if (code) {
+      await supabase.auth.exchangeCodeForSession(code)
+      
+      // Check if user needs to complete onboarding
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('onboarding_completed')
+        .single()
+
+      if (!profile?.onboarding_completed) {
+        return NextResponse.redirect(new URL('/auth/register', requestUrl.origin))
+      }
+    }
+
+    return NextResponse.redirect(new URL('/', requestUrl.origin))
+  } catch (error) {
+    console.error('Auth callback error:', error)
+    return NextResponse.redirect(
+      new URL('/auth/auth-error', request.url)
+    )
+  }
 }

@@ -4,6 +4,9 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Bell, ChevronDown, Crown, Mail, Menu, User } from "lucide-react"
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useEffect } from 'react'
+import type { Database } from '@/lib/database.types'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -14,6 +17,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { useProfile } from '@/hooks/use-profile'
 
 const navLinks = [
   { 
@@ -38,7 +42,13 @@ const navLinks = [
   { name: "Blog", href: "/blog" },
 ]
 
-const DesktopNav = ({ pathname, isLoggedIn, setIsLoggedIn }) => {
+interface NavProps {
+  pathname: string
+  isLoggedIn: boolean
+  setIsLoggedIn: (value: boolean) => void
+}
+
+const DesktopNav = ({ pathname, isLoggedIn, setIsLoggedIn }: NavProps) => {
   const router = useRouter()
   
   return (
@@ -78,7 +88,7 @@ const DesktopNav = ({ pathname, isLoggedIn, setIsLoggedIn }) => {
   )
 }
 
-const MobileNav = ({ pathname, isLoggedIn, setIsLoggedIn }) => {
+const MobileNav = ({ pathname, isLoggedIn, setIsLoggedIn }: NavProps) => {
   const router = useRouter()
   
   return (
@@ -141,9 +151,54 @@ const MobileNav = ({ pathname, isLoggedIn, setIsLoggedIn }) => {
   )
 }
 
-const UserMenu = ({ isLoggedIn, setIsLoggedIn }) => {
+interface UserMenuProps {
+  isLoggedIn: boolean
+  setIsLoggedIn: (value: boolean) => void
+}
+
+const UserMenu = ({ isLoggedIn, setIsLoggedIn }: UserMenuProps) => {
   const router = useRouter()
+  const supabase = createClientComponentClient<Database>()
+  const { profile } = useProfile()
   
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      
+      setIsLoggedIn(false)
+      router.push('/auth/login')
+    } catch (error) {
+      console.error('Error logging out:', error)
+    }
+  }
+
+  const getMenuItems = () => {
+    const items = [
+      { label: 'Profile', href: '/profile' },
+      { label: 'Settings', href: '/settings' },
+    ]
+
+    if (profile?.role === 'business') {
+      items.push(
+        { label: 'My Listings', href: '/business/listings' },
+        { label: 'Analytics', href: '/business/analytics' }
+      )
+    } else if (profile?.role === 'contestant') {
+      items.push(
+        { label: 'My Applications', href: '/contestant/applications' },
+        { label: 'Saved Items', href: '/contestant/saved' }
+      )
+    } else if (profile?.role === 'admin') {
+      items.push(
+        { label: 'Admin Dashboard', href: '/admin' },
+        { label: 'Manage Users', href: '/admin/users' }
+      )
+    }
+
+    return items
+  }
+
   return (
     <div className="flex items-center space-x-4">
       {isLoggedIn ? (
@@ -165,9 +220,15 @@ const UserMenu = ({ isLoggedIn, setIsLoggedIn }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsLoggedIn(false)}>Logout</DropdownMenuItem>
+              {getMenuItems().map((item) => (
+                <DropdownMenuItem key={item.href} onClick={() => router.push(item.href)}>
+                  {item.label}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </>
@@ -192,6 +253,24 @@ const UserMenu = ({ isLoggedIn, setIsLoggedIn }) => {
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const pathname = usePathname()
+  const supabase = createClientComponentClient<Database>()
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setIsLoggedIn(!!session)
+    }
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsLoggedIn(!!session)
+    })
+
+    checkUser()
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [supabase])
 
   return (
     <nav className="sticky top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 shadow-sm z-50">

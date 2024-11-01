@@ -1,73 +1,25 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import type { Database } from '@/lib/database.types'
 
-export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  })
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-        },
-      },
-    }
-  )
-
-  const { data: { user } } = await supabase.auth.getUser()
-
-  // If user is not signed in and the current path is protected, redirect to login
-  if (!user && (request.nextUrl.pathname.startsWith('/contestant') || request.nextUrl.pathname.startsWith('/business'))) {
-    const redirectUrl = new URL('/auth/login', request.url)
-    // Add the return URL as a query parameter
-    redirectUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
-    redirectUrl.searchParams.set('message', 'Please sign in to access this page')
-    return NextResponse.redirect(redirectUrl)
-  }
-
-  return response
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient<Database>({ req, res })
+  await supabase.auth.getSession()
+  return res
 }
 
 export const config = {
-  matcher: ['/contestant/:path*', '/business/:path*'],
+  matcher: [
+    /*
+     * Match all request paths except:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public files (public directory)
+     * - auth files (auth directory, except for protected routes)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|public|auth/login|auth/callback).*)',
+  ],
 }

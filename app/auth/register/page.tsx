@@ -1,47 +1,75 @@
 "use client"
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Crown, User } from "lucide-react";
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Crown } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import type { Database } from '@/lib/database.types'
+
+type UserRole = Database['public']['Enums']['user_role']
+
+const ROLE_LABELS = {
+  contestant: 'Contestant',
+  business_owner: 'Business Owner',
+  director: 'Director',
+  coach: 'Coach',
+  parent: 'Parent',
+  supporter: 'Supporter',
+  judge: 'Judge'
+} as const
 
 export default function RegisterPage() {
+  const router = useRouter()
+  const supabase = createClientComponentClient<Database>()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
+    username: '',
     firstName: '',
     lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [status, setStatus] = useState({ type: '', message: '' });
-  const [isLoading, setIsLoading] = useState(false);
+    role: '' as UserRole,
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
 
-    // Basic validation
-    if (!formData.email || !formData.password || !formData.confirmPassword) {
-      setStatus({ type: 'error', message: 'All fields are required' });
-      setIsLoading(false);
-      return;
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) throw new Error('No user found')
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          username: formData.username,
+          full_name: `${formData.firstName} ${formData.lastName}`.trim(),
+          role: formData.role,
+          onboarding_completed: true,
+        })
+        .eq('id', user.id)
+
+      if (updateError) throw updateError
+
+      router.push('/')
+    } catch (error) {
+      setError('Failed to update profile. Please try again.')
+    } finally {
+      setLoading(false)
     }
-
-    if (formData.password !== formData.confirmPassword) {
-      setStatus({ type: 'error', message: 'Passwords do not match' });
-      setIsLoading(false);
-      return;
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Handle registration success
-    }, 1000);
-  };
+  }
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 p-4">
@@ -51,79 +79,98 @@ export default function RegisterPage() {
             <Crown className="h-12 w-12 text-purple-600" />
           </div>
           <CardTitle className="text-3xl font-bold text-center text-purple-900">
-            Create an Account
+            Complete Your Profile
           </CardTitle>
           <CardDescription className="text-center text-base">
-            Join The Crown List community today
+            Tell us a little about yourself to get started
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+            <div className="space-y-4">
+              <div>
                 <Input
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  placeholder="Choose a username"
+                  value={formData.username}
+                  onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                  className="transition-shadow duration-200 focus:shadow-lg"
+                  required
                 />
+                <p className="text-sm text-gray-500 mt-1">
+                  This will be your unique identifier on The Crown List
+                </p>
               </div>
-              <div className="space-y-2">
-                <Input
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                />
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+                    className="transition-shadow duration-200 focus:shadow-lg"
+                    required
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
+                    className="transition-shadow duration-200 focus:shadow-lg"
+                    required
+                  />
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Input
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Input
-                type="password"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              />
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Account Type
+                </label>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value: UserRole) => setFormData(prev => ({ ...prev, role: value }))}
+                  required
+                >
+                  <SelectTrigger className="w-full transition-shadow duration-200 focus:shadow-lg">
+                    <SelectValue placeholder="Select your account type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(ROLE_LABELS).map(([value, label]) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-gray-500 mt-1">
+                  Choose the type of account that best fits your needs
+                </p>
+              </div>
             </div>
 
-            {status.type === 'error' && (
-              <Alert variant="destructive" className="py-2">
-                <AlertDescription>{status.message}</AlertDescription>
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
             <Button 
               type="submit" 
-              className="w-full bg-purple-600 hover:bg-purple-700"
-              disabled={isLoading}
+              className="w-full bg-purple-600 hover:bg-purple-700 transition-all duration-200 transform hover:scale-[1.02]"
+              disabled={loading}
             >
-              <User className="mr-2 h-4 w-4" />
-              {isLoading ? 'Creating Account...' : 'Create Account'}
+              {loading ? 'Saving...' : 'Complete Registration'}
             </Button>
-          </form>
 
-          <p className="text-sm text-center text-gray-500">
-            Already have an account?{" "}
-            <Link href="/auth/login" className="text-purple-600 hover:underline">
-              Sign in
-            </Link>
-          </p>
+            <p className="text-sm text-center text-gray-500 mt-4">
+              By completing registration, you agree to our{" "}
+              <a href="/terms-conditions" className="text-purple-600 hover:underline">Terms & Conditions</a>
+              {" "}and{" "}
+              <a href="/privacy-policy" className="text-purple-600 hover:underline">Privacy Policy</a>
+            </p>
+          </form>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

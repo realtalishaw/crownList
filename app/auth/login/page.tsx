@@ -1,49 +1,79 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Facebook, Mail, CheckCircle2, Crown } from "lucide-react";
-import { useAuth } from '@/hooks/use-auth';
+import type { Database } from '@/lib/database.types'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState({ type: '', message: '' });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { signInWithMagicLink, isLoading } = useAuth();
   const searchParams = useSearchParams();
   const message = searchParams.get('message');
   const returnUrl = searchParams.get('returnUrl');
+  const supabase = createClientComponentClient<Database>()
 
   const handleMagicLinkSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus({ type: '', message: '' });
+    setError(null);
 
     if (!email) {
-      setStatus({ type: 'error', message: 'Please enter your email address' });
+      setError('Please enter your email address');
       return;
     }
     
     // Email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setStatus({ type: 'error', message: 'Please enter a valid email address' });
+      setError('Please enter a valid email address');
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      const success = await signInWithMagicLink(email, returnUrl);
-      if (success) {
-        setIsSubmitted(true);
-      }
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        }
+      });
+
+      if (error) throw error;
+      setIsSubmitted(true);
     } catch (error) {
-      setStatus({ type: 'error', message: 'Failed to send magic link. Please try again.' });
+      setError('Failed to send magic link. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'facebook',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            // Optional: Add additional permissions you need
+            // scope: 'email,public_profile'
+          }
+        }
+      })
+
+      if (error) throw error
+    } catch (error) {
+      console.error('Facebook login error:', error)
+      setError('Failed to login with Facebook. Please try again.')
+    }
+  }
 
   if (isSubmitted) {
     return (
@@ -70,7 +100,7 @@ export default function LoginPage() {
                 onClick={() => {
                   setEmail('');
                   setIsSubmitted(false);
-                  setStatus({ type: '', message: '' });
+                  setError(null);
                 }}
               >
                 Use a different email
@@ -114,9 +144,9 @@ export default function LoginPage() {
                 className="w-full transition-shadow duration-200 focus:shadow-lg"
               />
 
-              {status.type === 'error' && (
+              {error && (
                 <Alert variant="destructive" className="py-2">
-                  <AlertDescription>{status.message}</AlertDescription>
+                  <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
             </div>
@@ -145,7 +175,7 @@ export default function LoginPage() {
             <Button 
               variant="outline" 
               className="w-full transition-all duration-200 transform hover:scale-[1.02] hover:bg-blue-50 border-blue-600 text-blue-600"
-              onClick={() => {/* Implement Facebook OAuth */}}
+              onClick={handleFacebookLogin}
             >
               <Facebook className="mr-2 h-4 w-4" />
               Continue with Facebook

@@ -63,6 +63,15 @@
 - [ ] `/shop/orders` -> `OrdersPage`
 - [ ] `/shop/wishlist` -> `WishlistPage`
 
+## Sell Routes (Public)
+- [ ] `/sell` -> `SellLandingPage` # Information about the resale program
+- [ ] `/sell/how-it-works` -> `HowItWorksPage`
+- [ ] `/sell/pricing` -> `PricingPage`
+- [ ] `/sell/accepted-items` -> `AcceptedItemsPage`
+- [ ] `/sell/success-stories` -> `SuccessStoriesPage`
+- [ ] `/sell/faq` -> `SellerFAQPage`
+
+
 
 ## Directory (Public)
 - [x] `/directory` -> `DirectoryHomePage`
@@ -84,30 +93,36 @@
 - [x] `/contestant/dashboard` -> `ContestantDashboardPage`
 - [x] `/contestant/profile` -> `ContestantProfilePage`
 - [x] `/contestant/profile/edit` -> `EditProfilePage`
-- [ ] `/contestant/achievements` -> `AchievementsPage`
-- [ ] `/contestant/analytics` -> `ContestantAnalyticsPage`
+
+
+### Contestant Resale Management
+- [ ] `/contestant/dashboard/resale` -> `ResaleOverviewPage`
+- [ ] `/contestant/dashboard/resale/items` -> `MyResaleItemsPage`
+- [ ] `/contestant/dashboard/resale/shipping` -> `ShippingLabelsPage`
+- [ ] `/contestant/dashboard/resale/earnings` -> `ResaleEarningsPage`
+- [ ] `/contestant/dashboard/resale/analytics` -> `ResaleAnalyticsPage`
 
 ### Digital Pageant Binder
-- [x] `/contestant/binder` -> `DigitalBinderHomePage`
-- [x] `/contestant/binder/[binderId]` -> `BinderPage`
-- [x] `/contestant/binder/[binderId]/documents` -> `DocumentsPage`
-- [x] `/contestant/binder/[binderId]/wardrobe` -> `WardrobePage`
-- [x] `/contestant/binder/[binderId]/schedule` -> `SchedulePage`
-- [x] `/contestant/binder/[binderId]/tasks` -> `TasksPage`
-- [x] `/contestant/binder/[binderId]/appearances` -> `AppearancesPage`
-- [x] `/contestant/binder/[binderId]/travel` -> `TravelPlannerPage`
+- [x] `/contestant/dashboard/binder` -> `DigitalBinderHomePage`
+- [x] `/contestant/dashboard/binder/[binderId]` -> `BinderPage`
+- [x] `/contestant/dashboard/binder/[binderId]/documents` -> `DocumentsPage`
+- [x] `/contestant/dashboard/binder/[binderId]/wardrobe` -> `WardrobePage`
+- [x] `/contestant/dashboard/binder/[binderId]/schedule` -> `SchedulePage`
+- [x] `/contestant/dashboard/binder/[binderId]/tasks` -> `TasksPage`
+- [x] `/contestant/dashboard/binder/[binderId]/appearances` -> `AppearancesPage`
+- [x] `/contestant/dashboard/binder/[binderId]/travel` -> `TravelPlannerPage`
 
 ### Platform Development
-- [x] `/contestant/binder/[binderId]/platform` -> `PlatformDevelopmentPage`
-- [x] `/contestant/binder/[binderId]/platform/social` -> `SocialMediaManagerPage`
-- [x] `/contestant/binder/[binderId]/platform/media-kit` -> `MediaKitPage`
-- [x] `/contestant/binder/[binderId]/platform/community` -> `CommunityServicePage`
+- [x] `/contestant/dashboard/binder/[binderId]/platform` -> `PlatformDevelopmentPage`
+- [x] `/contestant/dashboard/binder/[binderId]/platform/social` -> `SocialMediaManagerPage`
+- [x] `/contestant/dashboard/binder/[binderId]/platform/media-kit` -> `MediaKitPage`
+- [x] `/contestant/dashboard/binder/[binderId]/platform/community` -> `CommunityServicePage`
 
 ### Financial Management
-- [x] `/contestant/binder/[binderId]/finances` -> `FinancialManagementPage`
-- [x] `/contestant/binder/[binderId]/finances/expenses` -> `ExpensesPage`
-- [x] `/contestant/binder/[binderId]/finances/sponsorships` -> `SponsorshipsPage`
-- [x] `/contestant/binder/[binderId]/finances/fundraising` -> `FundraisingPage`
+- [x] `/contestant/dashboard/binder/[binderId]/finances` -> `FinancialManagementPage`
+- [x] `/contestant/dashboard/binder/[binderId]/finances/expenses` -> `ExpensesPage`
+- [x] `/contestant/dashboard/binder/[binderId]/finances/sponsorships` -> `SponsorshipsPage`
+- [x] `/contestant/dashboard/binder/[binderId]/finances/fundraising` -> `FundraisingPage`
 
 ### Communication
 - [x] `/contestant/messages` -> `MessagesPage`
@@ -117,46 +132,57 @@
 
 ## Business Routes (Authenticated)
 - [x] `/business/dashboard` -> `BusinessDashboardPage`
-- [x] `/business/profile` -> `BusinessProfilePage`
-- [x] `/business/profile/edit` -> `EditBusinessProfilePage`
+- [x] `/business/dashboard/profile` -> `BusinessProfilePage`
+- [x] `/business/dashboard/profile/edit` -> `EditBusinessProfilePage`
 
 ### Listings Management
-- [x] `/business/listings` -> `ListingsManagementPage`
-- [x] `/business/listings/new` -> `CreateListingPage`
-- [x] `/business/listings/[listingId]/edit` -> `EditListingPage`
+- [x] `/business/dashboard/listings` -> `ListingsManagementPage`
+- [x] `/business/dashboard/listings/new` -> `CreateListingPage`
+- [x] `/business/dashboard/listings/[listingId]/edit` -> `EditListingPage`
 
 ### Bookings & Calendar
-- [x] `/business/bookings` -> `BookingsPage`
-- [x] `/business/bookings/[bookingId]` -> `BookingDetailPage`
-- [x] `/business/calendar` -> `AvailabilityCalendarPage`
+- [x] `/business/dashboard/bookings` -> `BookingsPage`
+- [x] `/business/dashboard/bookings/[bookingId]` -> `BookingDetailPage`
+- [x] `/business/dashboard/calendar` -> `AvailabilityCalendarPage`
 
 ### Reviews
-- [x] `/business/reviews` -> `ReviewsManagementPage`
-- [x] `/business/reviews/[reviewId]` -> `ReviewDetailPage`
+- [x] `/business/dashboard/reviews` -> `ReviewsManagementPage`
+- [x] `/business/dashboard/reviews/[reviewId]` -> `ReviewDetailPage`
 
 ### Analytics
-- [x] `/business/analytics` -> `AnalyticsPage`
-- [x] `/business/analytics/performance` -> `PerformanceMetricsPage`
-- [x] `/business/analytics/competitors` -> `CompetitorAnalysisPage`
+- [x] `/business/dashboard/analytics` -> `AnalyticsPage`
+- [x] `/business/dashboard/analytics/performance` -> `PerformanceMetricsPage`
+- [x] `/business/dashboard/analytics/competitors` -> `CompetitorAnalysisPage`
 
 ### Finances
-- [x] `/business/finances` -> `BusinessFinancesPage`
-- [x] `/business/finances/invoices` -> `InvoicesPage`
-- [x] `/business/finances/payments` -> `PaymentsPage`
-- [ ] `/business/finances/reports` -> `FinancialReportsPage`
-- [ ] `/business/finances/tax-documents` -> `TaxDocumentsPage`
+- [x] `/business/dashboard/finances` -> `BusinessFinancesPage`
+- [x] `/business/dashboard/finances/invoices` -> `InvoicesPage`
+- [x] `/business/dashboard/finances/payments` -> `PaymentsPage`
+- [ ] `/business/dashboard/finances/reports` -> `FinancialReportsPage`
+- [ ] `/business/dashboard/finances/tax-documents` -> `TaxDocumentsPage`
 
 ### Promotions
-- [x] `/business/promotions` -> `PromotionsPage`
-- [x] `/business/promotions/new` -> `CreatePromotionPage`
-- [ ] `/business/promotions/[promotionId]/edit` -> `EditPromotionPage`
-- [ ] `/business/promotions/analytics` -> `PromotionAnalyticsPage`
+- [x] `/business/dashboard/promotions` -> `PromotionsPage`
+- [x] `/business/dashboard/promotions/new` -> `CreatePromotionPage`
+- [ ] `/business/dashboard/promotions/[promotionId]/edit` -> `EditPromotionPage`
+- [ ] `/business/dashboard/promotions/analytics` -> `PromotionAnalyticsPage`
 
 ### Settings
-- [x] `/business/settings` -> `BusinessSettingsPage`
-- [ ] `/business/settings/team` -> `TeamManagementPage`
-- [ ] `/business/settings/integrations` -> `IntegrationsPage`
-- [ ] `/business/settings/billing` -> `BillingSettingsPage`
+- [x] `/business/dashboard/settings` -> `BusinessSettingsPage`
+- [ ] `/business/dashboard/settings/team` -> `TeamManagementPage`
+- [ ] `/business/dashboard/settings/integrations` -> `IntegrationsPage`
+- [ ] `/business/dashboard/settings/billing` -> `BillingSettingsPage`
+
+### Retailer Resale Program
+- [ ] `/business/dashboard/resale` -> `RetailerResaleOverviewPage`
+- [ ] `/business/dashboard/resale/inventory` -> `ResaleInventoryPage`
+- [ ] `/business/dashboard/resale/listings` -> `ResaleListingsPage`
+- [ ] `/business/dashboard/resale/listings/new` -> `CreateResaleListingPage`
+- [ ] `/business/dashboard/resale/listings/[listingId]/edit` -> `EditResaleListingPage`
+- [ ] `/business/dashboard/resale/orders` -> `ResaleOrdersPage`
+- [ ] `/business/dashboard/resale/payouts` -> `ResalePayoutsPage`
+- [ ] `/business/dashboard/resale/analytics` -> `RetailerResaleAnalyticsPage`
+
 
 ## Director Routes (Authenticated)
 - [x] `/director/dashboard` -> `DirectorDashboardPage`
@@ -302,3 +328,43 @@
 - [ ] `/api/payments/[paymentId]` -> `GET` Payment status
 - [ ] `/api/payments/history` -> `GET` Payment history
 - [ ] `/api/payments/refund` -> `POST` Process refund
+
+### Shop
+- [ ] `/api/shop/products` -> `GET` Shop products
+- [ ] `/api/shop/products/[productId]` -> `GET` Shop product details
+- [ ] `/api/shop/cart` -> `GET` Shop cart
+- [ ] `/api/shop/checkout` -> `POST` Shop checkout  
+- [ ] `/api/shop/wishlist` -> `GET` Shop wishlist
+- [ ] `/api/shop/orders` -> `GET` Shop orders
+- [ ] `/api/shop/orders/[orderId]` -> `GET` Shop order details
+- [ ] `/api/shop/shipping` -> `GET` Shop shipping options
+- [ ] `/api/shop/tracking` -> `GET` Shop tracking information
+- [ ] `/api/shop/resale/locations` -> `GET` Resale locations
+- [ ] `/api/shop/resale/items` -> `GET` Resale items
+- [ ] `/api/shop/resale/tracking` -> `GET` Track resale status
+- [ ] `/api/shop/resale/listings` -> `GET` Resale listings
+
+
+### Resale Program (Contestant)
+- [ ] `/api/contestant/resale/items` -> `GET/POST` Manage resale items
+- [ ] `/api/contestant/resale/shipping` -> `POST` Generate shipping label
+- [ ] `/api/contestant/resale/earnings` -> `GET` View earnings
+
+### Resale (Business)
+- [ ] `/api/business/resale/inventory` -> `GET/POST/PUT` Inventory management
+- [ ] `/api/business/resale/shipping` -> `POST` Generate shipping label
+- [ ] `/api/business/resale/listings` -> `GET/POST/PUT/DELETE` Listing operations
+- [ ] `/api/business/resale/orders` -> `GET/PUT` Order management
+- [ ] `/api/business/resale/payouts` -> `GET` Payout information
+- [ ] `/api/business/resale/analytics` -> `GET` Business resale metrics
+
+### Ambassador Program
+- [ ] `/api/ambassador/register` -> `POST` Register as ambassador
+- [ ] `/api/ambassador/profile` -> `GET/PUT` Ambassador profile operations
+- [ ] `/api/ambassador/tasks` -> `GET` Available tasks
+- [ ] `/api/ambassador/tasks/complete` -> `POST` Mark task as complete
+- [ ] `/api/ambassador/points` -> `GET` Point balance and history
+- [ ] `/api/ambassador/rewards` -> `GET` Reward catalog
+- [ ] `/api/ambassador/rewards/redeem` -> `POST` Redeem reward
+- [ ] `/api/ambassador/analytics` -> `GET` Ambassador performance metrics
+- [ ] `/api/ambassador/leaderboard` -> `GET` Leaderboard

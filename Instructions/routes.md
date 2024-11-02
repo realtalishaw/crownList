@@ -34,6 +34,7 @@
 - [x] `/events/categories` -> `EventCategoriesPage`
 - [x] `/events/search` -> `EventSearchPage`
 - [x] `/events/calendar` -> `EventCalendarPage`
+- [x] `/events/categories/[categoryId]` -> `EventCategoryPage`
 
 ## Blog (Public)
 - [x] `/blog` -> `BlogPage`
@@ -43,9 +44,9 @@
 
 ## Forum (Public)
 - [x] `/forum` -> `ForumHomePage`
-- [x] `/forums/categories` -> `ForumCategoriesPage`
-- [x] `/forums/categories/[categoryId]` -> `ForumCategoryPage`
-- [x] `/forums/thread/[threadId]` -> `ThreadPage`
+- [ ] `/forums/categories` -> `ForumCategoriesPage`
+- [ ] `/forums/categories/[categoryId]` -> `ForumCategoryPage`
+- [ ] `/forums/thread/[threadId]` -> `ThreadPage`
 - [ ] `/forums/search` -> `ForumSearchPage`
 - [ ] `/forums/tags` -> `ForumTagsPage`
 - [ ] `/forums/users` -> `ForumUsersPage`
@@ -53,7 +54,7 @@
 
 ## Shop (Public)
 - [x] `/shop` -> `ShopHomePage`
-- [x] `/shop/products` -> `ProductListPage`
+- [ ] `/shop/products` -> `ProductListPage`
 - [x] `/shop/products/[productId]` -> `ProductDetailPage`
 - [ ] `/shop/categories` -> `ShopCategoriesPage`
 - [ ] `/shop/search` -> `ShopSearchResultsPage`
@@ -224,11 +225,20 @@
 - [ ] `/vote/[eventId]/leaderboard` -> `VotingLeaderboardPage`
 - [ ] `/vote/[eventId]/rules` -> `VotingRulesPage`
 
+## Admin Routes (Authenticated)
+- [x] `/admin/dashboard` -> `AdminDashboardPage`
+- [x] `/admin/users` -> `AdminUsersPage`
+- [x] `/admin/users/[userId]` -> `AdminUserPage`
+- [x] `/admin/businesses` -> `AdminBusinessesPage`
+- [x] `/admin/businesses/pending` -> `PendingBusinessesPage`
+- [ ] `/admin/businesses/[businessId]` -> `AdminBusinessPage`
+
 ## Maintenance Routes
 - [x] `/404` -> `NotFoundPage`
 - [x] `/500` -> `ServerErrorPage`
 - [x] `/403` -> `ForbiddenPage`
 - [x] `/maintenance` -> `MaintenancePage`
+
 
 ## API Routes
 ### Authentication & Users

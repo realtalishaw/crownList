@@ -7,6 +7,9 @@
 - [x] `/terms-conditions` -> `TermsOfServicePage`
 - [x] `/faqs` -> `FAQPage`
 - [x] `/help` -> `HelpCenterPage`
+- [ ] `/help/search` -> `HelpSearchResultsPage`
+- [ ] `/help/[categoryId]` -> `HelpCategoryPage`
+- [ ] `/help/[categoryId]/[topicId]` -> `HelpTopicPage` 
 
 ## Business Pages (Public)
 - [x] `/for-directors` -> `DirectorsLandingPage`
@@ -123,6 +126,15 @@
 - [x] `/contestant/dashboard/binder/[binderId]/finances/expenses` -> `ExpensesPage`
 - [x] `/contestant/dashboard/binder/[binderId]/finances/sponsorships` -> `SponsorshipsPage`
 - [x] `/contestant/dashboard/binder/[binderId]/finances/fundraising` -> `FundraisingPage`
+
+### Ambassador Program
+- [ ] `/contestant/dashboard/ambassador` -> `AmbassadorPage`
+- [ ] `/contestant/dashboard/ambassador/tasks` -> `AmbassadorTasksPage`
+- [ ] `/contestant/dashboard/ambassador/tasks/[taskId]` -> `TaskDetailPage`\
+- [ ] `/contestant/dashboard/ambassador/rewards` -> `RewardsPage`
+- [ ] `/contestant/dashboard/ambassador/rewards/[rewardId]/redeem` -> `RewardRedemptionPage`
+- [ ] `/contestant/dashboard/ambassador/points` -> `PointsPage`
+- [ ] `/contestant/dashboard/ambassador/leaderboard` -> `AmbassadorLeaderboardPage`
 
 ### Communication
 - [x] `/contestant/messages` -> `MessagesPage`

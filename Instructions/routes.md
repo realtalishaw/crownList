@@ -56,10 +56,12 @@
 - [x] `/shop/products` -> `ProductListPage`
 - [x] `/shop/products/[productId]` -> `ProductDetailPage`
 - [ ] `/shop/categories` -> `ShopCategoriesPage`
+- [ ] `/shop/search` -> `ShopSearchResultsPage`
 - [ ] `/shop/cart` -> `ShoppingCartPage`
 - [ ] `/shop/checkout` -> `CheckoutPage`
 - [ ] `/shop/orders` -> `OrdersPage`
 - [ ] `/shop/wishlist` -> `WishlistPage`
+
 
 ## Directory (Public)
 - [x] `/directory` -> `DirectoryHomePage`
@@ -227,3 +229,66 @@
 - [x] `/500` -> `ServerErrorPage`
 - [x] `/403` -> `ForbiddenPage`
 - [x] `/maintenance` -> `MaintenancePage`
+
+## API Routes
+### Authentication & Users
+- [ ] `/api/auth/login` -> `POST` Login endpoint
+- [ ] `/api/auth/register` -> `POST` Register new user
+- [ ] `/api/auth/verify` -> `POST` Verify email
+- [ ] `/api/auth/reset-password` -> `POST` Reset password
+- [ ] `/api/auth/refresh` -> `POST` Refresh access token
+
+- [ ] `/api/users/me` -> `GET` Current user profile
+- [ ] `/api/users/[userId]` -> `GET/PUT/DELETE` User operations
+- [ ] `/api/users/settings` -> `GET/PUT` User settings
+- [ ] `/api/users/notifications` -> `GET/PUT` Notification preferences
+
+### Business & Listings
+- [ ] `/api/businesses/register` -> `POST` Register business
+- [ ] `/api/businesses/[businessId]` -> `GET/PUT/DELETE` Business operations
+- [ ] `/api/businesses/search` -> `GET` Search businesses
+- [ ] `/api/businesses/categories` -> `GET` Business categories
+
+- [ ] `/api/listings/create` -> `POST` Create listing
+- [ ] `/api/listings/[listingId]` -> `GET/PUT/DELETE` Listing operations
+- [ ] `/api/listings/search` -> `GET` Search listings
+- [ ] `/api/listings/featured` -> `GET` Featured listings
+
+### Events & Bookings
+- [ ] `/api/events/create` -> `POST` Create event
+- [ ] `/api/events/[eventId]` -> `GET/PUT/DELETE` Event operations
+- [ ] `/api/events/search` -> `GET` Search events
+- [ ] `/api/events/categories` -> `GET` Event categories
+
+- [ ] `/api/bookings/create` -> `POST` Create booking
+- [ ] `/api/bookings/[bookingId]` -> `GET/PUT/DELETE` Booking operations
+- [ ] `/api/bookings/history` -> `GET` Booking history
+
+### Communication
+- [ ] `/api/messages/send` -> `POST` Send message
+- [ ] `/api/messages/[messageId]` -> `GET/DELETE` Message operations
+- [ ] `/api/messages/threads` -> `GET` Message threads
+- [ ] `/api/messages/unread` -> `GET` Unread messages
+
+- [ ] `/api/notifications/send` -> `POST` Send notification
+- [ ] `/api/notifications/[notificationId]` -> `GET/DELETE` Notification operations
+- [ ] `/api/notifications/unread` -> `GET` Unread notifications
+
+### Reviews & Analytics
+- [ ] `/api/reviews/create` -> `POST` Create review
+- [ ] `/api/reviews/[reviewId]` -> `GET/PUT/DELETE` Review operations
+- [ ] `/api/reviews/business/[businessId]` -> `GET` Business reviews
+
+- [ ] `/api/analytics/dashboard` -> `GET` Dashboard analytics
+- [ ] `/api/analytics/reports` -> `GET` Generate reports
+- [ ] `/api/analytics/metrics` -> `GET` Key metrics
+
+### Files & Payments
+- [ ] `/api/files/upload` -> `POST` Upload file
+- [ ] `/api/files/[fileId]` -> `GET/DELETE` File operations
+- [ ] `/api/files/download/[fileId]` -> `GET` Download file
+
+- [ ] `/api/payments/create` -> `POST` Create payment
+- [ ] `/api/payments/[paymentId]` -> `GET` Payment status
+- [ ] `/api/payments/history` -> `GET` Payment history
+- [ ] `/api/payments/refund` -> `POST` Process refund

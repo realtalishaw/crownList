@@ -19,23 +19,17 @@
 - [x] `/auth/login` -> `LoginPage`
 - [x] `/auth/register` -> `RegisterPage`
 - [x] `/auth/reset-password` -> `ResetPasswordPage`
-- [x] `/auth/verify-email` -> `EmailVerificationPage`
+
 
 ## Resource Center (Public)
 - [x] `/resources` -> `ResourcesHomePage`
-- [x] `/resources/pageant-tips` -> `PageantTipsPage`
-- [x] `/resources/interview-prep` -> `InterviewPrepPage`
-- [x] `/resources/fitness-nutrition` -> `FitnessNutritionPage`
-- [x] `/resources/wardrobe-styling` -> `WardrobeStylingPage`
-- [x] `/resources/categories` -> `ResourcesCategoriesPage`
+- [ ] `/resources/[categoryId]` -> `ResourceCategoryPage`
 - [x] `/resources/[resourceId]` -> `ResourceDetailPage`
 - [x] `/resources/search` -> `ResourceSearchResultsPage`
 
 ## Events (Public)
 - [x] `/events` -> `EventsPage`
 - [x] `/events/[eventId]` -> `EventDetailPage`
-- [x] `/events/categories` -> `EventCategoriesPage`
-- [x] `/events/search` -> `EventSearchPage`
 - [x] `/events/calendar` -> `EventCalendarPage`
 - [x] `/events/categories/[categoryId]` -> `EventCategoryPage`
 
@@ -45,55 +39,43 @@
 - [x] `/blog/categories` -> `BlogCategoriesPage`
 
 
-## Forum (Public)
-- [x] `/forum` -> `ForumHomePage`
-- [ ] `/forums/categories` -> `ForumCategoriesPage`
-- [ ] `/forums/categories/[categoryId]` -> `ForumCategoryPage`
-- [ ] `/forums/thread/[threadId]` -> `ThreadPage`
-- [ ] `/forums/search` -> `ForumSearchPage`
-- [ ] `/forums/tags` -> `ForumTagsPage`
-- [ ] `/forums/users` -> `ForumUsersPage`
-- [x] `/forums` -> `ForumsPage`
+## Community (Public)
+- [ ] `/community` -> `CommunityHomePage`
+- [ ] `/community/groups` -> `CommunityGroupsPage`
+- [ ] `/community/groups/[groupId]` -> `CommunityGroupPage`
+- [ ] `/community/posts/[postId]` -> `PostPage`
+- [ ] `/community/search` -> `CommunitySearchPage`
+- [ ] `/community/members` -> `CommunityMembersPage`
+- [ ] `/community/members/[username]` -> `MemberProfilePage`
+- [ ] `/community/members/search` -> `MemberSearchPage`
+
 
 ## Shop (Public)
 - [x] `/shop` -> `ShopHomePage`
-- [ ] `/shop/products` -> `ProductListPage`
-- [x] `/shop/products/[productId]` -> `ProductDetailPage`
-- [ ] `/shop/categories` -> `ShopCategoriesPage`
+- [x] `/shop/[productId]` -> `ProductDetailPage`
+- [ ] `/shop/categories/[categoryId]` -> `ShopCategoryPage`
 - [ ] `/shop/search` -> `ShopSearchResultsPage`
 - [ ] `/shop/cart` -> `ShoppingCartPage`
 - [ ] `/shop/checkout` -> `CheckoutPage`
 - [ ] `/shop/orders` -> `OrdersPage`
-- [ ] `/shop/wishlist` -> `WishlistPage`
+- [ ] `/shop/[storeId]` -> `StorePage`
 
 ## Sell Routes (Public)
 - [ ] `/sell` -> `SellLandingPage` # Information about the resale program
-- [ ] `/sell/how-it-works` -> `HowItWorksPage`
-- [ ] `/sell/pricing` -> `PricingPage`
-- [ ] `/sell/accepted-items` -> `AcceptedItemsPage`
-- [ ] `/sell/success-stories` -> `SuccessStoriesPage`
-- [ ] `/sell/faq` -> `SellerFAQPage`
-
-
+- [ ] `/sell/guide` -> `SellGuidePage`
+- [ ] `/sell/earnings` -> `EarningsPage`
 
 ## Directory (Public)
 - [x] `/directory` -> `DirectoryHomePage`
 - [x] `/directory/search` -> `SearchResultsPage`
-- [x] `/directory/categories` -> `CategoriesListPage`
 - [x] `/directory/categories/[categoryId]` -> `CategoryPage`
 - [x] `/directory/businesses/[businessId]` -> `BusinessProfilePage`
-- [ ] `/directory/compare` -> `CompareBusinessesPage`
-- [ ] `/directory/saved` -> `SavedBusinessesPage`
 
-## Members (Public)
-- [x] `/members` -> `MembersPage`
-- [x] `/members/[username]` -> `MemberProfilePage`
-- [ ] `/members/[memberId]` -> `MemberProfilePage`
-- [ ] `/members/search` -> `MemberSearchPage`
-- [ ] `/members/rankings` -> `MemberRankingsPage`
 
 ## Contestant Routes (Authenticated)
 - [x] `/contestant/dashboard` -> `ContestantDashboardPage`
+- [ ] `/contestant/dashboard/wallet` -> `ContestantWalletPage`
+- [ ] `/contestant/dashboard/favorites` -> `ContestantFavoritesPage`
 - [x] `/contestant/profile` -> `ContestantProfilePage`
 - [x] `/contestant/profile/edit` -> `EditProfilePage`
 

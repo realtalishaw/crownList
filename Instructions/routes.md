@@ -76,7 +76,6 @@
 - [x] `/contestant/dashboard` -> `ContestantDashboardPage`
 - [ ] `/contestant/dashboard/wallet` -> `ContestantWalletPage`
 - [ ] `/contestant/dashboard/favorites` -> `ContestantFavoritesPage`
-- [x] `/contestant/profile` -> `ContestantProfilePage`
 - [x] `/contestant/profile/edit` -> `EditProfilePage`
 
 
@@ -91,17 +90,29 @@
 - [x] `/contestant/dashboard/binder` -> `DigitalBinderHomePage`
 - [x] `/contestant/dashboard/binder/[binderId]` -> `BinderPage`
 - [x] `/contestant/dashboard/binder/[binderId]/documents` -> `DocumentsPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/paperwork` -> `PaperworkPage`
 - [x] `/contestant/dashboard/binder/[binderId]/wardrobe` -> `WardrobePage`
-- [x] `/contestant/dashboard/binder/[binderId]/schedule` -> `SchedulePage`
-- [x] `/contestant/dashboard/binder/[binderId]/tasks` -> `TasksPage`
 - [x] `/contestant/dashboard/binder/[binderId]/appearances` -> `AppearancesPage`
-- [x] `/contestant/dashboard/binder/[binderId]/travel` -> `TravelPlannerPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/schedule` -> `SchedulePage`
+- [ ] `/contestant/dashboard/binder/[binderId]/packing-list` -> `PackingListPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/competitions` -> `CompetitionsPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/trip-details` -> `TripDetailsPage`
 
-### Platform Development
-- [x] `/contestant/dashboard/binder/[binderId]/platform` -> `PlatformDevelopmentPage`
-- [x] `/contestant/dashboard/binder/[binderId]/platform/social` -> `SocialMediaManagerPage`
-- [x] `/contestant/dashboard/binder/[binderId]/platform/media-kit` -> `MediaKitPage`
-- [x] `/contestant/dashboard/binder/[binderId]/platform/community` -> `CommunityServicePage`
+### Brand & Platform
+- [x] `/contestant/dashboard/binder/[binderId]/brand` -> `BrandHomePage`
+
+# Personal Branding
+- [x] `/contestant/dashboard/binder/[binderId]/brand/social` -> `SocialMediaManagerPage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/media-kit` -> `MediaKitPage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/website` -> `TitleholderWebsitePage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/website/edit` -> `WebsiteEditorPage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/website/preview` -> `WebsitePreviewPage`
+
+# Social Impact
+- [x] `/contestant/dashboard/binder/[binderId]/brand/platform` -> `SocialImpactPage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/platform/cause` -> `CauseManagementPage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/platform/initiatives` -> `InitiativesPage`
+- [x] `/contestant/dashboard/binder/[binderId]/brand/platform/impact` -> `ImpactMetricsPage`
 
 ### Financial Management
 - [x] `/contestant/dashboard/binder/[binderId]/finances` -> `FinancialManagementPage`

@@ -1,0 +1,177 @@
+invoices:
+  get:
+    summary: Get all invoices
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, open, paid, void, uncollectible]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: customerId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [date, amount, dueDate, status]
+        default: date
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved invoices
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business-invoicing.yaml#/Invoice'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+  post:
+    summary: Create new invoice
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-invoicing.yaml#/Invoice'
+    responses:
+      '201':
+        description: Invoice created successfully
+
+invoice:
+  get:
+    summary: Get invoice by ID
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved invoice
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-invoicing.yaml#/Invoice'
+
+  put:
+    summary: Update invoice
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-invoicing.yaml#/Invoice'
+    responses:
+      '200':
+        description: Invoice updated successfully
+
+  delete:
+    summary: Delete invoice (draft only)
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Invoice deleted successfully
+
+send-invoice:
+  post:
+    summary: Send invoice to customer
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              sendCopy:
+                type: boolean
+    responses:
+      '200':
+        description: Invoice sent successfully
+
+void-invoice:
+  post:
+    summary: Void invoice
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+    responses:
+      '200':
+        description: Invoice voided successfully
+
+download-invoice:
+  get:
+    summary: Download invoice PDF
+    tags:
+      - Business Invoicing
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Invoice PDF
+        content:
+          application/pdf:
+            schema:
+              type: string
+              format: binary 

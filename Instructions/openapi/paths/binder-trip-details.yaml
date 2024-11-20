@@ -1,0 +1,24 @@
+trip-details:
+  get:
+    summary: Get trip details for a binder
+    # ... rest of trip details endpoint
+
+flights:
+  post:
+    summary: Add flight details
+    # ... rest of flights endpoint
+
+flight:
+  put:
+    summary: Update flight details
+    # ... rest of flight endpoint
+
+hotel:
+  put:
+    summary: Update hotel details
+    # ... rest of hotel endpoint
+
+car-rental:
+  put:
+    summary: Update car rental details
+    # ... rest of car rental endpoint 

@@ -1,0 +1,61 @@
+leaderboard:
+  get:
+    summary: Get leaderboard rankings
+    tags:
+      - Ambassador Leaderboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [daily, weekly, monthly, all_time]
+        default: weekly
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum: [points, tasks, referrals]
+        default: points
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 100
+    responses:
+      '200':
+        description: Successfully retrieved leaderboard
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/ambassador-leaderboard.yaml#/LeaderboardPeriod'
+
+ambassador-rank:
+  get:
+    summary: Get ambassador's current ranking
+    tags:
+      - Ambassador Leaderboard
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved ambassador ranking
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentRank:
+                  type: integer
+                nearbyRanks:
+                  type: array
+                  items:
+                    $ref: '../schemas/ambassador-leaderboard.yaml#/LeaderboardEntry'
+                stats:
+                  type: object
+                  properties:
+                    pointsToNextRank:
+                      type: integer
+                    rankChange:
+                      type: integer 

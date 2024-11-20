@@ -1,0 +1,118 @@
+Review:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    reviewer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        avatar:
+          type: string
+          format: uri
+        isVerifiedCustomer:
+          type: boolean
+    rating:
+      type: integer
+      minimum: 1
+      maximum: 5
+    title:
+      type: string
+    comment:
+      type: string
+    images:
+      type: array
+      items:
+        type: string
+        format: uri
+    serviceUsed:
+      type: string
+      description: Name of service/product reviewed
+    response:
+      type: object
+      properties:
+        text:
+          type: string
+        respondedBy:
+          type: string
+          format: uuid
+        respondedAt:
+          type: string
+          format: date-time
+    status:
+      type: string
+      enum: [pending, published, flagged, removed]
+    hasResponse:
+      type: boolean
+      default: false
+    visibility:
+      type: string
+      enum: [public, private]
+    helpful:
+      type: object
+      properties:
+        count:
+          type: integer
+        users:
+          type: array
+          items:
+            type: string
+            format: uuid
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - businessId
+    - reviewer
+    - rating
+    - comment
+
+ReviewStats:
+  type: object
+  properties:
+    averageRating:
+      type: number
+      format: float
+    totalReviews:
+      type: integer
+    responseRate:
+      type: number
+      format: float
+    pendingResponses:
+      type: integer
+    ratingBreakdown:
+      type: object
+      properties:
+        five:
+          type: integer
+        four:
+          type: integer
+        three:
+          type: integer
+        two:
+          type: integer
+        one:
+          type: integer
+    trendsOverTime:
+      type: array
+      items:
+        type: object
+        properties:
+          period:
+            type: string
+          averageRating:
+            type: number
+            format: float
+          totalReviews:
+            type: integer 

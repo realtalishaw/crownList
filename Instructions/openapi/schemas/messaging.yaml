@@ -1,0 +1,151 @@
+ChatChannel:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    streamChannelId:
+      type: string
+    type:
+      type: string
+      enum: [direct, group]
+    name:
+      type: string
+    image:
+      type: string
+      format: uri
+    members:
+      type: array
+      items:
+        type: object
+        properties:
+          userId:
+            type: string
+            format: uuid
+          role:
+            type: string
+            enum: [admin, moderator, member]
+          lastSeen:
+            type: string
+            format: date-time
+    metadata:
+      type: object
+      properties:
+        isPrivate:
+          type: boolean
+        allowedRoles:
+          type: array
+          items:
+            type: string
+            enum: [contestant, director, business, parent, supporter, judge, admin]
+    settings:
+      type: object
+      properties:
+        messageRetention:
+          type: string
+          enum: [30_days, 90_days, infinite]
+        allowMedia:
+          type: boolean
+          default: true
+        allowLinks:
+          type: boolean
+          default: true
+        allowReactions:
+          type: boolean
+          default: true
+    status:
+      type: string
+      enum: [active, archived, muted]
+    lastMessage:
+      $ref: '#/ChatMessage'
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+ChatMessage:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    streamMessageId:
+      type: string
+    channelId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [text, media, file, system]
+    text:
+      type: string
+    attachments:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum: [image, video, file]
+          url:
+            type: string
+            format: uri
+          name:
+            type: string
+          size:
+            type: integer
+          mimeType:
+            type: string
+    mentions:
+      type: array
+      items:
+        type: object
+        properties:
+          userId:
+            type: string
+            format: uuid
+          username:
+            type: string
+    reactions:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+          score:
+            type: integer
+          userId:
+            type: string
+            format: uuid
+    metadata:
+      type: object
+      properties:
+        isEdited:
+          type: boolean
+        editedAt:
+          type: string
+          format: date-time
+        readBy:
+          type: array
+          items:
+            type: string
+            format: uuid
+    parentId:
+      type: string
+      format: uuid
+      description: For thread replies
+    status:
+      type: string
+      enum: [sent, delivered, read, failed]
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time 

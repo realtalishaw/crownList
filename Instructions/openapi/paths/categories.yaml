@@ -1,0 +1,92 @@
+product-categories:
+  get:
+    summary: Get product categories
+    tags:
+      - Shop
+    parameters:
+      - in: query
+        name: parentId
+        schema:
+          type: string
+          format: uuid
+        description: Filter by parent category
+    responses:
+      '200':
+        description: Successfully retrieved categories
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/products.yaml#/ProductCategory'
+
+  post:
+    summary: Create product category
+    tags:
+      - Shop
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/products.yaml#/ProductCategory'
+    responses:
+      '201':
+        description: Category created successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+product-category:
+  get:
+    summary: Get category details
+    tags:
+      - Shop
+    responses:
+      '200':
+        description: Successfully retrieved category
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/products.yaml#/ProductCategory'
+      '404':
+        description: Category not found
+
+  put:
+    summary: Update category
+    tags:
+      - Shop
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/products.yaml#/ProductCategory'
+    responses:
+      '200':
+        description: Category updated successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+      '404':
+        description: Category not found
+
+  delete:
+    summary: Delete category
+    tags:
+      - Shop
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Category deleted successfully
+      '401':
+        description: Unauthorized
+      '404':
+        description: Category not found 

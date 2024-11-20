@@ -1,0 +1,34 @@
+TripDetails:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    # ... rest of TripDetails schema
+
+FlightDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    # ... rest of FlightDetail schema
+
+HotelDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    # ... rest of HotelDetail schema
+
+CarRentalDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    # ... rest of CarRentalDetail schema 

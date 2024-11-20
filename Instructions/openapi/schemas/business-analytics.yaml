@@ -1,0 +1,137 @@
+AnalyticsOverview:
+  type: object
+  properties:
+    totalRevenue:
+      type: number
+      format: float
+    totalBookings:
+      type: integer
+    newClients:
+      type: integer
+    averageRating:
+      type: number
+      format: float
+    periodComparison:
+      type: object
+      properties:
+        revenue:
+          type: object
+          properties:
+            change:
+              type: number
+              format: float
+            percentage:
+              type: number
+              format: float
+        bookings:
+          type: object
+          properties:
+            change:
+              type: integer
+            percentage:
+              type: number
+              format: float
+        clients:
+          type: object
+          properties:
+            change:
+              type: integer
+            percentage:
+              type: number
+              format: float
+
+RevenueAnalytics:
+  type: object
+  properties:
+    summary:
+      type: object
+      properties:
+        total:
+          type: number
+          format: float
+        average:
+          type: number
+          format: float
+        highest:
+          type: number
+          format: float
+        lowest:
+          type: number
+          format: float
+    trends:
+      type: array
+      items:
+        type: object
+        properties:
+          period:
+            type: string
+          revenue:
+            type: number
+            format: float
+          bookings:
+            type: integer
+          comparison:
+            type: object
+            properties:
+              previousPeriod:
+                type: number
+                format: float
+              percentage:
+                type: number
+                format: float
+    byService:
+      type: array
+      items:
+        type: object
+        properties:
+          serviceId:
+            type: string
+            format: uuid
+          serviceName:
+            type: string
+          revenue:
+            type: number
+            format: float
+          percentage:
+            type: number
+            format: float
+
+ServicePerformance:
+  type: object
+  properties:
+    serviceId:
+      type: string
+      format: uuid
+    serviceName:
+      type: string
+    metrics:
+      type: object
+      properties:
+        totalBookings:
+          type: integer
+        revenue:
+          type: number
+          format: float
+        averageRating:
+          type: number
+          format: float
+    trends:
+      type: array
+      items:
+        type: object
+        properties:
+          period:
+            type: string
+          bookings:
+            type: integer
+          revenue:
+            type: number
+            format: float
+          comparison:
+            type: object
+            properties:
+              previousPeriod:
+                type: integer
+              percentage:
+                type: number
+                format: float 

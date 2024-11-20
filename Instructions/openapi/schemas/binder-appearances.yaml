@@ -1,0 +1,28 @@
+Appearance:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [community_service, media, charity, school_visit, parade, photoshoot, other]
+    # ... rest of Appearance schema
+
+AppearanceBookingLink:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    # ... rest of AppearanceBookingLink schema 

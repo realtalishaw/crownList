@@ -1,0 +1,176 @@
+Order:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    orderNumber:
+      type: string
+      description: Human-readable order identifier
+    status:
+      type: string
+      enum:
+        - pending
+        - processing
+        - completed
+        - cancelled
+        - refunded
+    items:
+      type: array
+      items:
+        $ref: '#/OrderItem'
+    storeOrders:
+      type: array
+      items:
+        $ref: '#/StoreOrder'
+    subtotal:
+      type: number
+      format: float
+    tax:
+      type: number
+      format: float
+    shipping:
+      type: number
+      format: float
+    total:
+      type: number
+      format: float
+    shippingAddress:
+      $ref: '#/Address'
+    billingAddress:
+      $ref: '#/Address'
+    paymentInfo:
+      type: object
+      properties:
+        stripePaymentIntentId:
+          type: string
+        paymentMethod:
+          type: string
+        last4:
+          type: string
+        brand:
+          type: string
+    orderDate:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - status
+    - shippingAddress
+    - total
+
+OrderItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    orderId:
+      type: string
+      format: uuid
+    productId:
+      type: string
+      format: uuid
+    storeId:
+      type: string
+      format: uuid
+    quantity:
+      type: integer
+    price:
+      type: number
+      format: float
+    attributes:
+      type: object
+      properties:
+        color:
+          type: string
+        size:
+          type: string
+    productSnapshot:
+      type: object
+      description: Snapshot of product data at time of purchase
+  required:
+    - productId
+    - storeId
+    - quantity
+    - price
+
+StoreOrder:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    orderId:
+      type: string
+      format: uuid
+    storeId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum:
+        - pending
+        - processing
+        - shipped
+        - delivered
+        - cancelled
+    subtotal:
+      type: number
+      format: float
+    shipping:
+      type: number
+      format: float
+    total:
+      type: number
+      format: float
+    trackingNumber:
+      type: string
+    trackingUrl:
+      type: string
+    estimatedDelivery:
+      type: string
+      format: date
+  required:
+    - orderId
+    - storeId
+    - status
+
+Address:
+  type: object
+  properties:
+    firstName:
+      type: string
+    lastName:
+      type: string
+    street:
+      type: string
+    apartment:
+      type: string
+    city:
+      type: string
+    state:
+      type: string
+    zipCode:
+      type: string
+    country:
+      type: string
+    phone:
+      type: string
+  required:
+    - firstName
+    - lastName
+    - street
+    - city
+    - state
+    - zipCode
+    - country

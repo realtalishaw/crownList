@@ -1,0 +1,113 @@
+Store:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 2
+      maxLength: 100
+    slug:
+      type: string
+    description:
+      type: string
+      maxLength: 2000
+    shortDescription:
+      type: string
+      maxLength: 500
+    logo:
+      type: string
+      format: uri
+    bannerImage:
+      type: string
+      format: uri
+    links:
+      type: object
+      properties:
+        website:
+          type: string
+          format: uri
+        facebook:
+          type: string
+          format: uri
+        instagram:
+          type: string
+          format: uri
+        twitter:
+          type: string
+          format: uri
+    rating:
+      type: number
+      format: float
+      minimum: 0
+      maximum: 5
+    reviewCount:
+      type: integer
+      default: 0
+    status:
+      type: string
+      enum:
+        - active
+        - inactive
+        - pending
+    policies:
+      type: object
+      properties:
+        shipping:
+          type: string
+        returns:
+          type: string
+        payments:
+          type: array
+          items:
+            type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - businessId
+    - userId
+
+StoreReview:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    storeId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    rating:
+      type: integer
+      minimum: 1
+      maximum: 5
+    title:
+      type: string
+      maxLength: 200
+    content:
+      type: string
+      maxLength: 1000
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - storeId
+    - userId
+    - rating

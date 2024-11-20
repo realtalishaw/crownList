@@ -1,0 +1,70 @@
+PointTransaction:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    ambassadorId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [earned, spent, expired, bonus, adjustment]
+    amount:
+      type: integer
+    description:
+      type: string
+    source:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [task, referral, reward, system]
+        id:
+          type: string
+          format: uuid
+    multiplier:
+      type: number
+      format: float
+    expiresAt:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+
+PointsSummary:
+  type: object
+  properties:
+    currentBalance:
+      type: integer
+    lifetimePoints:
+      type: integer
+    pointsToNextLevel:
+      type: integer
+    expiringPoints:
+      type: array
+      items:
+        type: object
+        properties:
+          amount:
+            type: integer
+          expiryDate:
+            type: string
+            format: date
+    earnedThisMonth:
+      type: integer
+    spentThisMonth:
+      type: integer
+    multiplier:
+      type: number
+      format: float
+    breakdown:
+      type: object
+      properties:
+        tasks:
+          type: integer
+        referrals:
+          type: integer
+        bonuses:
+          type: integer 

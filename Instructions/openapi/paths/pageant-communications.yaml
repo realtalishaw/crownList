@@ -1,0 +1,164 @@
+communications-overview:
+  get:
+    summary: Get communications overview
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved communications overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/pageant-communications.yaml#/CommunicationOverview'
+
+messages:
+  get:
+    summary: Get all messages
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, scheduled, sent, failed]
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [email, push_notification]
+    responses:
+      '200':
+        description: Successfully retrieved messages
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-communications.yaml#/PageantMessage'
+
+  post:
+    summary: Create new message
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-communications.yaml#/PageantMessage'
+    responses:
+      '201':
+        description: Message created successfully
+
+message:
+  get:
+    summary: Get message details
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved message
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/pageant-communications.yaml#/PageantMessage'
+
+  put:
+    summary: Update message
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-communications.yaml#/PageantMessage'
+    responses:
+      '200':
+        description: Message updated successfully
+
+  delete:
+    summary: Delete message
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Message deleted successfully
+
+send-message:
+  post:
+    summary: Send or schedule message
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              sendNow:
+                type: boolean
+              scheduledFor:
+                type: string
+                format: date-time
+    responses:
+      '200':
+        description: Message sent or scheduled successfully
+
+message-templates:
+  get:
+    summary: Get message templates
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [email, push_notification]
+      - in: query
+        name: category
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved templates
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-communications.yaml#/MessageTemplate'
+
+message-template:
+  get:
+    summary: Get template by ID
+    tags:
+      - Pageant Communications
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved template
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/pageant-communications.yaml#/MessageTemplate' 

@@ -1,0 +1,167 @@
+AmbassadorProfile:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum: [pending, active, inactive, suspended]
+    level:
+      type: string
+      enum: [rising_star, shining_star, superstar, crown_elite]
+    currentPoints:
+      type: integer
+      default: 0
+    lifetimePoints:
+      type: integer
+      default: 0
+    referralCode:
+      type: string
+    joinDate:
+      type: string
+      format: date-time
+    application:
+      type: object
+      properties:
+        pageantExperience:
+          type: string
+        goals:
+          type: string
+        socialMediaHandles:
+          type: object
+          properties:
+            instagram:
+              type: string
+            tiktok:
+              type: string
+            youtube:
+              type: string
+        videoSubmission:
+          type: string
+          format: uri
+        completedOrientation:
+          type: boolean
+          default: false
+    stats:
+      type: object
+      properties:
+        totalReferrals:
+          type: integer
+        completedTasks:
+          type: integer
+        redeemedRewards:
+          type: integer
+        pointsEarnedThisMonth:
+          type: integer
+        lastActivityDate:
+          type: string
+          format: date-time
+    multiplier:
+      type: number
+      format: float
+      description: Points multiplier based on level
+    benefits:
+      type: array
+      items:
+        type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - status
+    - level
+
+AmbassadorTask:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    category:
+      type: string
+      enum: [social_media, referral, community_building, special_event]
+    type:
+      type: string
+    title:
+      type: string
+    description:
+      type: string
+    points:
+      type: integer
+    frequencyLimit:
+      type: object
+      properties:
+        quantity:
+          type: integer
+        period:
+          type: string
+          enum: [day, week, month, total]
+    requirements:
+      type: array
+      items:
+        type: string
+    verificationRequired:
+      type: boolean
+    isActive:
+      type: boolean
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - category
+    - type
+    - title
+    - points
+
+AmbassadorTaskCompletion:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    ambassadorId:
+      type: string
+      format: uuid
+    taskId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum: [pending, approved, rejected]
+    submission:
+      type: object
+      properties:
+        content:
+          type: string
+        mediaUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+        verificationData:
+          type: object
+    pointsEarned:
+      type: integer
+    reviewedBy:
+      type: string
+      format: uuid
+    reviewNotes:
+      type: string
+    completedAt:
+      type: string
+      format: date-time
+  required:
+    - ambassadorId
+    - taskId
+    - submission 

@@ -1,0 +1,147 @@
+Wallet:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    stripeCustomerId:
+      type: string
+    stripeAccountId:
+      type: string
+      description: For receiving payments (resale earnings)
+    balance:
+      type: number
+      format: float
+    availableBalance:
+      type: number
+      format: float
+    pendingBalance:
+      type: number
+      format: float
+    currency:
+      type: string
+      default: USD
+    status:
+      type: string
+      enum: [active, frozen, suspended]
+    defaultPaymentMethodId:
+      type: string
+    updatedAt:
+      type: string
+      format: date-time
+
+PaymentMethod:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    stripePaymentMethodId:
+      type: string
+    type:
+      type: string
+      enum: [card, bank_account]
+    isDefault:
+      type: boolean
+    details:
+      type: object
+      properties:
+        brand:
+          type: string
+        last4:
+          type: string
+        expiryMonth:
+          type: string
+        expiryYear:
+          type: string
+        cardholderName:
+          type: string
+    createdAt:
+      type: string
+      format: date-time
+
+Subscription:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    stripeSubscriptionId:
+      type: string
+    status:
+      type: string
+      enum: [active, past_due, canceled, incomplete, incomplete_expired, trialing, unpaid]
+    planId:
+      type: string
+    planName:
+      type: string
+    amount:
+      type: number
+      format: float
+    interval:
+      type: string
+      enum: [month, year]
+    currentPeriodStart:
+      type: string
+      format: date-time
+    currentPeriodEnd:
+      type: string
+      format: date-time
+    cancelAtPeriodEnd:
+      type: boolean
+    paymentMethodId:
+      type: string
+    createdAt:
+      type: string
+      format: date-time
+
+WalletTransaction:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [payment, refund, deposit, withdrawal, subscription_charge, resale_earning]
+    amount:
+      type: number
+      format: float
+    currency:
+      type: string
+      default: USD
+    status:
+      type: string
+      enum: [pending, completed, failed, cancelled]
+    description:
+      type: string
+    metadata:
+      type: object
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        subscriptionId:
+          type: string
+        resaleItemId:
+          type: string
+          format: uuid
+    paymentMethodId:
+      type: string
+    stripeTransactionId:
+      type: string
+    createdAt:
+      type: string
+      format: date-time 

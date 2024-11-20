@@ -1,0 +1,120 @@
+PageantFinancials:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    summary:
+      type: object
+      properties:
+        totalRevenue:
+          type: number
+          format: float
+        totalExpenses:
+          type: number
+          format: float
+        netIncome:
+          type: number
+          format: float
+        pendingPayments:
+          type: number
+          format: float
+    revenueBreakdown:
+      type: object
+      properties:
+        applicationFees:
+          type: number
+          format: float
+        competitionFees:
+          type: number
+          format: float
+        optionalCompetitions:
+          type: number
+          format: float
+        peoplesChoice:
+          type: number
+          format: float
+        merchandise:
+          type: number
+          format: float
+        other:
+          type: number
+          format: float
+    expenseBreakdown:
+      type: object
+      properties:
+        venue:
+          type: number
+          format: float
+        staffing:
+          type: number
+          format: float
+        marketing:
+          type: number
+          format: float
+        prizes:
+          type: number
+          format: float
+        equipment:
+          type: number
+          format: float
+        other:
+          type: number
+          format: float
+    monthlyStats:
+      type: array
+      items:
+        type: object
+        properties:
+          month:
+            type: string
+            format: date
+          revenue:
+            type: number
+            format: float
+          expenses:
+            type: number
+            format: float
+          netIncome:
+            type: number
+            format: float
+
+PageantTransaction:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [revenue, expense]
+    category:
+      type: string
+    amount:
+      type: number
+      format: float
+    description:
+      type: string
+    date:
+      type: string
+      format: date
+    status:
+      type: string
+      enum: [pending, completed, cancelled]
+    relatedTo:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [contestant, vendor, staff, other]
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string 

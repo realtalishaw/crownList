@@ -1,0 +1,246 @@
+ResaleShipment:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    shipmentNumber:
+      type: string
+      description: Human-readable shipment identifier
+    status:
+      type: string
+      enum:
+        - pending
+        - in_transit
+        - received
+        - processed
+        - completed
+        - cancelled
+    trackingNumber:
+      type: string
+    shippingCarrier:
+      type: string
+    items:
+      type: array
+      items:
+        $ref: '#/ResaleItem'
+    shippingAddress:
+      $ref: '../schemas/orders.yaml#/Address'
+    returnAddress:
+      $ref: '../schemas/orders.yaml#/Address'
+    notes:
+      type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+ResaleItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    shipmentId:
+      type: string
+      format: uuid
+    productId:
+      type: string
+      format: uuid
+      description: ID of the product listing if accepted
+    status:
+      type: string
+      enum:
+        - pending_review
+        - accepted
+        - rejected
+        - donated
+        - listed
+        - sold
+        - returned
+    type:
+      type: string
+      enum:
+        - dress
+        - gown
+        - costume
+        - shoes
+        - accessories
+        - other
+    details:
+      type: object
+      properties:
+        brand:
+          type: string
+        size:
+          type: string
+        color:
+          type: string
+        condition:
+          type: string
+          enum:
+            - new_with_tags
+            - like_new
+            - gently_used
+            - well_worn
+        originalPrice:
+          type: number
+          format: float
+        askingPrice:
+          type: number
+          format: float
+        description:
+          type: string
+        yearPurchased:
+          type: integer
+    images:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [main, detail, damage, tag]
+    reviewNotes:
+      type: string
+      description: Internal notes from review process
+    listingStats:
+      type: object
+      properties:
+        views:
+          type: integer
+        saves:
+          type: integer
+        dateListed:
+          type: string
+          format: date-time
+        dateSold:
+          type: string
+          format: date-time
+        soldPrice:
+          type: number
+          format: float
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+ResaleOverview:
+  type: object
+  properties:
+    processingCount:
+      type: integer
+    processedCount:
+      type: integer
+    soldCount:
+      type: integer
+    totalEarnings:
+      type: number
+      format: float
+    availableBalance:
+      type: number
+      format: float
+    pendingBalance:
+      type: number
+      format: float
+    recentShipments:
+      type: array
+      items:
+        $ref: '#/ResaleShipment'
+    recentSales:
+      type: array
+      items:
+        $ref: '#/ResaleItem'
+
+ResaleEarnings:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    totalEarnings:
+      type: number
+      format: float
+    availableBalance:
+      type: number
+      format: float
+    pendingBalance:
+      type: number
+      format: float
+    onHoldBalance:
+      type: number
+      format: float
+    payoutHistory:
+      type: array
+      items:
+        $ref: '#/ResalePayout'
+    monthlyStats:
+      type: array
+      items:
+        type: object
+        properties:
+          month:
+            type: string
+            format: date
+          itemsSold:
+            type: integer
+          earnings:
+            type: number
+            format: float
+    itemStats:
+      type: object
+      properties:
+        totalItemsSold:
+          type: integer
+        averageSellingPrice:
+          type: number
+          format: float
+        bestSellingCategory:
+          type: string
+
+ResalePayout:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    amount:
+      type: number
+      format: float
+    status:
+      type: string
+      enum: [pending, processing, completed, failed, cancelled]
+    paymentMethod:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [bank_transfer, paypal, stripe]
+        last4:
+          type: string
+        accountName:
+          type: string
+    requestedAt:
+      type: string
+      format: date-time
+    processedAt:
+      type: string
+      format: date-time
+    notes:
+      type: string 

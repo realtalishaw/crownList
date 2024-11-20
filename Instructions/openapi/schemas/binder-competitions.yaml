@@ -1,0 +1,26 @@
+Competition:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    type:
+      type: string
+      enum: [interview, talent, evening_gown, swimsuit, casual_wear, opening_number, onstage_question, other]
+    scoringPercentage:
+      type: number
+    isOfficial:
+      type: boolean
+    isParticipating:
+      type: boolean
+    # ... rest of Competition schema 

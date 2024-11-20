@@ -1,0 +1,194 @@
+PageantContestant:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    contestantNumber:
+      type: string
+    registrationStatus:
+      type: string
+      enum: [pending, approved, waitlist, withdrawn, disqualified]
+    registrationDate:
+      type: string
+      format: date-time
+    personalInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        division:
+          type: string
+        title:
+          type: string
+        platform:
+          type: string
+        hometown:
+          type: string
+    payments:
+      type: array
+      items:
+        type: object
+        properties:
+          feeId:
+            type: string
+            format: uuid
+          amount:
+            type: number
+            format: float
+          status:
+            type: string
+            enum: [pending, paid, partial, overdue]
+          dueDate:
+            type: string
+            format: date
+          paidAmount:
+            type: number
+            format: float
+          remainingAmount:
+            type: number
+            format: float
+    submissions:
+      type: array
+      items:
+        type: object
+        properties:
+          formId:
+            type: string
+            format: uuid
+          status:
+            type: string
+            enum: [not_started, in_progress, submitted, approved, rejected]
+          submittedAt:
+            type: string
+            format: date-time
+          reviewedAt:
+            type: string
+            format: date-time
+          reviewNotes:
+            type: string
+    documents:
+      type: array
+      items:
+        type: object
+        properties:
+          documentId:
+            type: string
+            format: uuid
+          status:
+            type: string
+            enum: [pending, submitted, approved, rejected]
+          fileUrl:
+            type: string
+            format: uri
+          submittedAt:
+            type: string
+            format: date-time
+          notes:
+            type: string
+    competitions:
+      type: array
+      items:
+        type: object
+        properties:
+          areaId:
+            type: string
+            format: uuid
+          status:
+            type: string
+            enum: [registered, withdrawn, completed]
+          score:
+            type: number
+            format: float
+          rank:
+            type: integer
+          notes:
+            type: string
+    notes:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          content:
+            type: string
+          createdBy:
+            type: string
+            format: uuid
+          createdAt:
+            type: string
+            format: date-time
+          isPrivate:
+            type: boolean
+
+ContestantSubmission:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    contestantId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [form, document, payment]
+    itemId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum: [pending, submitted, approved, rejected]
+    content:
+      type: object
+    files:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+          name:
+            type: string
+    submittedAt:
+      type: string
+      format: date-time
+    reviewedAt:
+      type: string
+      format: date-time
+    reviewedBy:
+      type: string
+      format: uuid
+    reviewNotes:
+      type: string
+    history:
+      type: array
+      items:
+        type: object
+        properties:
+          action:
+            type: string
+          timestamp:
+            type: string
+            format: date-time
+          userId:
+            type: string
+            format: uuid
+          notes:
+            type: string 

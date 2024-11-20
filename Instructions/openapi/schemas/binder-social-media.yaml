@@ -1,0 +1,113 @@
+SocialMediaAccount:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    platform:
+      type: string
+      enum: [instagram, tiktok, facebook]
+    accountName:
+      type: string
+    accountId:
+      type: string
+    isConnected:
+      type: boolean
+    lastSynced:
+      type: string
+      format: date-time
+    stats:
+      type: object
+      properties:
+        followers:
+          type: integer
+        following:
+          type: integer
+        totalPosts:
+          type: integer
+        engagement:
+          type: number
+          format: float
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+ScheduledPost:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    accountId:
+      type: string
+      format: uuid
+    content:
+      type: string
+    media:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [image, video]
+          thumbnail:
+            type: string
+            format: uri
+    scheduledFor:
+      type: string
+      format: date-time
+    status:
+      type: string
+      enum: [draft, scheduled, posted, failed]
+    platforms:
+      type: array
+      items:
+        type: string
+        enum: [instagram, tiktok, facebook]
+    hashtags:
+      type: array
+      items:
+        type: string
+    mentions:
+      type: array
+      items:
+        type: string
+    postType:
+      type: string
+      enum: [regular, story, reel]
+    analytics:
+      type: object
+      properties:
+        likes:
+          type: integer
+        comments:
+          type: integer
+        shares:
+          type: integer
+        views:
+          type: integer
+        reach:
+          type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - content
+    - scheduledFor
+    - platforms 

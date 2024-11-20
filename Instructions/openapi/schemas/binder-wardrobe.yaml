@@ -1,0 +1,32 @@
+WardrobeGroup:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    type:
+      type: string
+    eventId:
+      type: string
+      format: uuid
+    # ... rest of WardrobeGroup schema
+
+WardrobeItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    groupId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    category:
+      type: string
+    # ... rest of WardrobeItem schema 

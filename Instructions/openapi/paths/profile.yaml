@@ -1,0 +1,330 @@
+me:
+  get:
+    summary: Get current user's profile
+    tags:
+      - Profile
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved current user profile
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/users.yaml#/UserProfile'
+      '401':
+        description: Unauthorized
+      '404':
+        description: Profile not found
+
+  put:
+    summary: Update current user's profile
+    tags:
+      - Profile
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/users.yaml#/UserProfile'
+    responses:
+      '200':
+        description: Successfully updated profile
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/users.yaml#/UserProfile'
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+      '404':
+        description: Profile not found
+
+username:
+  get:
+    summary: Get user profile by username
+    tags:
+      - Profile
+    parameters:
+      - in: path
+        name: username
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved profile
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  $ref: '../schemas/users.yaml#/UserProfile'
+                media:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      type:
+                        type: string
+                        enum: [image, video]
+                      url:
+                        type: string
+                        format: uri
+                      thumbnailUrl:
+                        type: string
+                        format: uri
+                      caption:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                posts:
+                  type: array
+                  items:
+                    $ref: '../schemas/community.yaml#/ActivityPost'
+                isFollowing:
+                  type: boolean
+      '404':
+        description: Profile not found
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/Error'
+
+update-profile:
+  put:
+    summary: Update user profile
+    tags:
+      - Profile
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              basicInfo:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  username:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+                  phone:
+                    type: string
+                  dateOfBirth:
+                    type: string
+                    format: date
+                  location:
+                    type: object
+                    properties:
+                      city:
+                        type: string
+                      state:
+                        type: string
+                      country:
+                        type: string
+              profilePicture:
+                type: string
+                format: uri
+              headerImage:
+                type: string
+                format: uri
+              socialLinks:
+                type: object
+                properties:
+                  facebook:
+                    type: string
+                    format: uri
+                  instagram:
+                    type: string
+                    format: uri
+                  tiktok:
+                    type: string
+                    format: uri
+                  linkedin:
+                    type: string
+                    format: uri
+                  youtube:
+                    type: string
+                    format: uri
+                  twitter:
+                    type: string
+                    format: uri
+                  pinterest:
+                    type: string
+                    format: uri
+              contestantInfo:
+                type: object
+                properties:
+                  currentTitle:
+                    type: string
+                  platform:
+                    type: string
+                  bio:
+                    type: string
+                    maxLength: 2000
+                  measurements:
+                    type: object
+                    properties:
+                      height:
+                        type: string
+                      dress:
+                        type: string
+                      shoe:
+                        type: string
+                  talents:
+                    type: array
+                    items:
+                      type: string
+                  languages:
+                    type: array
+                    items:
+                      type: string
+                  education:
+                    type: object
+                    properties:
+                      school:
+                        type: string
+                      degree:
+                        type: string
+                      fieldOfStudy:
+                        type: string
+                      graduationYear:
+                        type: integer
+              privacy:
+                type: object
+                properties:
+                  isPublic:
+                    type: boolean
+                  showEmail:
+                    type: boolean
+                  showPhone:
+                    type: boolean
+                  showLocation:
+                    type: boolean
+                  showBirthday:
+                    type: boolean
+    responses:
+      '200':
+        description: Profile updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/users.yaml#/UserProfile'
+      '400':
+        description: Invalid input
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/Error'
+      '401':
+        description: Unauthorized
+      '404':
+        description: Profile not found
+
+update-profile-picture:
+  post:
+    summary: Update profile picture
+    tags:
+      - Profile
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Profile picture updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+
+update-header-image:
+  post:
+    summary: Update profile header image
+    tags:
+      - Profile
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Header image updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+
+connect-business:
+  post:
+    summary: Connect business to user profile
+    tags:
+      - Profile
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              businessId:
+                type: string
+                format: uuid
+              role:
+                type: string
+                enum: [owner, manager, staff]
+            required:
+              - businessId
+              - role
+    responses:
+      '200':
+        description: Business connected successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+      '404':
+        description: Business not found 

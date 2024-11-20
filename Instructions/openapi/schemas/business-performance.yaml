@@ -1,0 +1,144 @@
+PerformanceMetrics:
+  type: object
+  properties:
+    revenue:
+      type: object
+      properties:
+        total:
+          type: number
+          format: float
+        growth:
+          type: number
+          format: float
+        averagePerBooking:
+          type: number
+          format: float
+        projectedRevenue:
+          type: number
+          format: float
+    bookings:
+      type: object
+      properties:
+        total:
+          type: integer
+        growth:
+          type: number
+          format: float
+        completionRate:
+          type: number
+          format: float
+        cancellationRate:
+          type: number
+          format: float
+    clientMetrics:
+      type: object
+      properties:
+        totalClients:
+          type: integer
+        newClients:
+          type: integer
+        returningClients:
+          type: integer
+        retentionRate:
+          type: number
+          format: float
+        averageLifetimeValue:
+          type: number
+          format: float
+    serviceDistribution:
+      type: array
+      items:
+        type: object
+        properties:
+          serviceId:
+            type: string
+            format: uuid
+          serviceName:
+            type: string
+          bookings:
+            type: integer
+          revenue:
+            type: number
+            format: float
+          percentage:
+            type: number
+            format: float
+          growth:
+            type: number
+            format: float
+    timeAnalysis:
+      type: object
+      properties:
+        peakHours:
+          type: array
+          items:
+            type: object
+            properties:
+              hour:
+                type: integer
+              bookings:
+                type: integer
+        peakDays:
+          type: array
+          items:
+            type: object
+            properties:
+              day:
+                type: string
+              bookings:
+                type: integer
+    seasonalTrends:
+      type: array
+      items:
+        type: object
+        properties:
+          period:
+            type: string
+          bookings:
+            type: integer
+          revenue:
+            type: number
+            format: float
+
+ReportConfig:
+  type: object
+  properties:
+    type:
+      type: string
+      enum: [performance, analytics, custom]
+    format:
+      type: string
+      enum: [pdf, csv, excel]
+    dateRange:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    metrics:
+      type: array
+      items:
+        type: string
+        enum: [revenue, bookings, clients, services, time_analysis, seasonal_trends]
+    filters:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            type: string
+            format: uuid
+        excludeCancelled:
+          type: boolean
+    customization:
+      type: object
+      properties:
+        includeLogo:
+          type: boolean
+        includeCharts:
+          type: boolean
+        includeComparisons:
+          type: boolean 

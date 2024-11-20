@@ -1,0 +1,24 @@
+BinderPaperwork:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [application, contract, waiver, medical, photo_release, other]
+    status:
+      type: string
+      enum: [draft, pending_review, reviewed, approved, rejected, submitted]
+    dueDate:
+      type: string
+      format: date
+    reviewedBy:
+      type: string
+      format: uuid
+    # ... rest of BinderPaperwork schema 

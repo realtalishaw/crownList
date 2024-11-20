@@ -1,0 +1,96 @@
+Article:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    topicId:
+      type: string
+      format: uuid
+    title:
+      type: string
+      minLength: 3
+      maxLength: 200
+    content:
+      type: string
+      minLength: 10
+    slug:
+      type: string
+    excerpt:
+      type: string
+      maxLength: 500
+    tags:
+      type: array
+      items:
+        type: string
+    status:
+      type: string
+      enum: [draft, published, archived]
+      default: draft
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - title
+    - content
+    - topicId
+    - status
+
+ArticleCategory:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 2
+      maxLength: 100
+    description:
+      type: string
+      maxLength: 500
+    slug:
+      type: string
+    order:
+      type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+
+ArticleTopic:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    categoryId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 2
+      maxLength: 100
+    description:
+      type: string
+      maxLength: 500
+    slug:
+      type: string
+    order:
+      type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - categoryId

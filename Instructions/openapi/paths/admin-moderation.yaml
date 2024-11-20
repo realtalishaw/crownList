@@ -1,0 +1,102 @@
+moderation-overview:
+  get:
+    summary: Get content moderation overview
+    tags:
+      - Content Moderation
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved moderation overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/admin-moderation.yaml#/ContentModeration'
+
+reports:
+  get:
+    summary: Get reports
+    tags:
+      - Content Moderation
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, investigating, resolved, dismissed]
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: priority
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved reports
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/admin-moderation.yaml#/Report'
+
+report-details:
+  get:
+    summary: Get report details
+    tags:
+      - Content Moderation
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved report details
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/admin-moderation.yaml#/Report'
+
+handle-report:
+  put:
+    summary: Handle report
+    tags:
+      - Content Moderation
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [warning, suspend, delete, restore, dismiss]
+              notes:
+                type: string
+              notifyReporter:
+                type: boolean
+    responses:
+      '200':
+        description: Report handled successfully
+
+content-review:
+  post:
+    summary: Review content
+    tags:
+      - Content Moderation
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/admin-moderation.yaml#/ContentReview'
+    responses:
+      '200':
+        description: Content reviewed successfully 

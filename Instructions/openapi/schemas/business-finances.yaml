@@ -1,0 +1,134 @@
+BusinessWallet:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    stripeAccountId:
+      type: string
+    balance:
+      type: object
+      properties:
+        available:
+          type: number
+          format: float
+        pending:
+          type: number
+          format: float
+        reserved:
+          type: number
+          format: float
+        currency:
+          type: string
+          default: USD
+    payoutSchedule:
+      type: object
+      properties:
+        interval:
+          type: string
+          enum: [manual, daily, weekly, monthly]
+        weeklyAnchor:
+          type: string
+          enum: [monday, tuesday, wednesday, thursday, friday]
+        monthlyAnchor:
+          type: integer
+          minimum: 1
+          maximum: 31
+    status:
+      type: string
+      enum: [active, restricted, disabled]
+    lastPayout:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+        date:
+          type: string
+          format: date-time
+        status:
+          type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+FinancialTransaction:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [payment, payout, refund, fee, adjustment]
+    amount:
+      type: number
+      format: float
+    currency:
+      type: string
+      default: USD
+    status:
+      type: string
+      enum: [pending, completed, failed, cancelled]
+    source:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [booking, order, manual, system]
+        id:
+          type: string
+          format: uuid
+        description:
+          type: string
+    stripeTransactionId:
+      type: string
+    metadata:
+      type: object
+    createdAt:
+      type: string
+      format: date-time
+
+PayoutRequest:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    amount:
+      type: number
+      format: float
+    currency:
+      type: string
+      default: USD
+    status:
+      type: string
+      enum: [pending, processing, completed, failed]
+    destination:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [bank_account, debit_card]
+        last4:
+          type: string
+        bankName:
+          type: string
+    estimatedArrival:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time 

@@ -1,0 +1,31 @@
+packing-list:
+  get:
+    summary: Get packing list for a binder
+    tags:
+      - Binder Packing List
+    # ... rest of packing list endpoint
+
+packing-categories:
+  post:
+    summary: Add category to packing list
+    # ... rest of categories endpoint
+
+packing-category:
+  put:
+    summary: Update packing category
+    # ... rest of category endpoint
+
+packing-items:
+  post:
+    summary: Add item to packing list
+    # ... rest of items endpoint
+
+packing-item:
+  put:
+    summary: Update packing item
+    # ... rest of item endpoint
+
+packing-item-status:
+  put:
+    summary: Toggle packed status of item
+    # ... rest of status endpoint 

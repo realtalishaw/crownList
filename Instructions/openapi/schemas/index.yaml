@@ -1,0 +1,444 @@
+# Import all schema definitions
+Article:
+  $ref: './articles.yaml#/Article'
+ArticleCategory:
+  $ref: './articles.yaml#/ArticleCategory'
+ArticleTopic:
+  $ref: './articles.yaml#/ArticleTopic'
+
+Blog:
+  $ref: './blog.yaml#/Blog'
+BlogPost:
+  $ref: './blog.yaml#/BlogPost'
+BlogComment:
+  $ref: './blog.yaml#/BlogComment'
+BlogCategory:
+  $ref: './blog.yaml#/BlogCategory'
+
+# Business and Directory schemas
+Business:
+  $ref: './business.yaml#/Business'
+Service:
+  $ref: './business.yaml#/Service'
+BookingSettings:
+  $ref: './business.yaml#/BookingSettings'
+PageantFee:
+  $ref: './business.yaml#/PageantFee'
+PageantPrize:
+  $ref: './business.yaml#/PageantPrize'
+Scholarship:
+  $ref: './business.yaml#/Scholarship'
+BusinessReview:
+  $ref: './business.yaml#/BusinessReview'
+
+# Contestant schemas
+ContestantDetails:
+  $ref: './contestant.yaml#/ContestantDetails'
+ContestantDashboard:
+  $ref: './contestant.yaml#/ContestantDashboard'
+Wallet:
+  $ref: './contestant.yaml#/Wallet'
+PaymentMethod:
+  $ref: './contestant.yaml#/PaymentMethod'
+Transaction:
+  $ref: './contestant.yaml#/Transaction'
+Collection:
+  $ref: './contestant.yaml#/Collection'
+SavedItem:
+  $ref: './contestant.yaml#/SavedItem'
+
+CommunityGroup:
+  $ref: './community.yaml#/CommunityGroup'
+GroupMember:
+  $ref: './community.yaml#/GroupMember'
+GroupMedia:
+  $ref: './community.yaml#/GroupMedia'
+GroupFile:
+  $ref: './community.yaml#/GroupFile'
+ActivityPost:
+  $ref: './community.yaml#/ActivityPost'
+ActivityReaction:
+  $ref: './community.yaml#/ActivityReaction'
+ActivityComment:
+  $ref: './community.yaml#/ActivityComment'
+
+Event:
+  $ref: './events.yaml#/Event'
+EventSchedule:
+  $ref: './events.yaml#/EventSchedule'
+EventTicket:
+  $ref: './events.yaml#/EventTicket'
+EventPromotion:
+  $ref: './events.yaml#/EventPromotion'
+EventRegistration:
+  $ref: './events.yaml#/EventRegistration'
+
+UserProfile:
+  $ref: './users.yaml#/UserProfile'
+UserStatus:
+  $ref: './users.yaml#/UserStatus'
+
+# Shop-related schemas
+Product:
+  $ref: './products.yaml#/Product'
+ProductCategory:
+  $ref: './products.yaml#/ProductCategory'
+ProductStore:
+  $ref: './products.yaml#/ProductStore'
+
+Store:
+  $ref: './stores.yaml#/Store'
+StoreReview:
+  $ref: './stores.yaml#/StoreReview'
+
+# Cart and Order schemas
+Cart:
+  $ref: './cart.yaml#/Cart'
+CartItem:
+  $ref: './cart.yaml#/CartItem'
+
+Order:
+  $ref: './orders.yaml#/Order'
+OrderItem:
+  $ref: './orders.yaml#/OrderItem'
+StoreOrder:
+  $ref: './orders.yaml#/StoreOrder'
+Address:
+  $ref: './orders.yaml#/Address'
+
+Error:
+  $ref: './common.yaml#/Error'
+SuccessResponse:
+  $ref: './common.yaml#/SuccessResponse'
+
+# Settings schemas
+UserSettings:
+  $ref: './settings.yaml#/UserSettings'
+NotificationPreferences:
+  $ref: './settings.yaml#/NotificationPreferences'
+PrivacySettings:
+  $ref: './settings.yaml#/PrivacySettings'
+AccountSettings:
+  $ref: './settings.yaml#/AccountSettings'
+
+# Resale schemas
+ResaleShipment:
+  $ref: './resale.yaml#/ResaleShipment'
+ResaleItem:
+  $ref: './resale.yaml#/ResaleItem'
+ResaleOverview:
+  $ref: './resale.yaml#/ResaleOverview'
+ResaleEarnings:
+  $ref: './resale.yaml#/ResaleEarnings'
+ResalePayout:
+  $ref: './resale.yaml#/ResalePayout'
+
+# Shipping schemas
+ShippingLabel:
+  $ref: './shipping.yaml#/ShippingLabel'
+ResaleEstimate:
+  $ref: './shipping.yaml#/ResaleEstimate'
+
+# Wallet schemas
+Wallet:
+  $ref: './wallet.yaml#/Wallet'
+PaymentMethod:
+  $ref: './wallet.yaml#/PaymentMethod'
+Subscription:
+  $ref: './wallet.yaml#/Subscription'
+WalletTransaction:
+  $ref: './wallet.yaml#/WalletTransaction'
+
+# Favorites schemas
+FavoriteItem:
+  $ref: './favorites.yaml#/FavoriteItem'
+FavoriteCollection:
+  $ref: './favorites.yaml#/FavoriteCollection'
+
+# Binder schemas
+Binder:
+  $ref: './binders.yaml#/Binder'
+BinderTask:
+  $ref: './binder-sections.yaml#/BinderTask'
+BinderSchedule:
+  $ref: './binder-sections.yaml#/BinderSchedule'
+BinderDocument:
+  $ref: './binder-documents.yaml#/BinderDocument'
+BinderPaperwork:
+  $ref: './binder-paperwork.yaml#/BinderPaperwork'
+BinderPacking:
+  $ref: './binder-packing.yaml#/PackingList'
+BinderPackingCategory:
+  $ref: './binder-packing.yaml#/PackingCategory'
+BinderPackingItem:
+  $ref: './binder-packing.yaml#/PackingItem'
+BinderWardrobe:
+  $ref: './binder-sections.yaml#/BinderWardrobe'
+BinderAppearance:
+  $ref: './binder-sections.yaml#/BinderAppearance'
+BinderTravel:
+  $ref: './binder-sections.yaml#/BinderTravel'
+BinderPlatform:
+  $ref: './binder-sections.yaml#/BinderPlatform'
+BinderFinances:
+  $ref: './binder-sections.yaml#/BinderFinances'
+
+# Binder Appearances
+Appearance:
+  $ref: './binder-appearances.yaml#/Appearance'
+AppearanceBookingLink:
+  $ref: './binder-appearances.yaml#/AppearanceBookingLink'
+
+# Binder Trip Details
+TripDetails:
+  $ref: './binder-trip-details.yaml#/TripDetails'
+FlightDetail:
+  $ref: './binder-trip-details.yaml#/FlightDetail'
+HotelDetail:
+  $ref: './binder-trip-details.yaml#/HotelDetail'
+CarRentalDetail:
+  $ref: './binder-trip-details.yaml#/CarRentalDetail'
+
+# Binder Social Media
+SocialMediaAccount:
+  $ref: './binder-social-media.yaml#/SocialMediaAccount'
+ScheduledPost:
+  $ref: './binder-social-media.yaml#/ScheduledPost'
+
+# Binder Media Kit
+MediaKit:
+  $ref: './binder-media-kit.yaml#/MediaKit'
+MediaKitFile:
+  $ref: './binder-media-kit.yaml#/MediaKitFile'
+
+# Binder Website
+Website:
+  $ref: './binder-website.yaml#/Website'
+
+# Binder Platform Development
+Platform:
+  $ref: './binder-platform.yaml#/Platform'
+
+# Binder Sponsorships
+SponsorshipPackage:
+  $ref: './binder-sponsorships.yaml#/SponsorshipPackage'
+Sponsor:
+  $ref: './binder-sponsorships.yaml#/Sponsor'
+
+# Binder Fundraising
+Fundraiser:
+  $ref: './binder-fundraising.yaml#/Fundraiser'
+Donation:
+  $ref: './binder-fundraising.yaml#/Donation'
+
+# Ambassador Program
+AmbassadorProfile:
+  $ref: './ambassador.yaml#/AmbassadorProfile'
+AmbassadorTask:
+  $ref: './ambassador.yaml#/AmbassadorTask'
+AmbassadorTaskCompletion:
+  $ref: './ambassador.yaml#/AmbassadorTaskCompletion'
+
+# Ambassador Rewards
+AmbassadorReward:
+  $ref: './ambassador-rewards.yaml#/AmbassadorReward'
+RewardRedemption:
+  $ref: './ambassador-rewards.yaml#/RewardRedemption'
+
+# Ambassador Leaderboard
+LeaderboardEntry:
+  $ref: './ambassador-leaderboard.yaml#/LeaderboardEntry'
+LeaderboardPeriod:
+  $ref: './ambassador-leaderboard.yaml#/LeaderboardPeriod'
+
+# Ambassador Points
+PointTransaction:
+  $ref: './ambassador-points.yaml#/PointTransaction'
+PointsSummary:
+  $ref: './ambassador-points.yaml#/PointsSummary'
+
+# Messaging
+ChatChannel:
+  $ref: './messaging.yaml#/ChatChannel'
+ChatMessage:
+  $ref: './messaging.yaml#/ChatMessage'
+
+# Notifications
+Notification:
+  $ref: './notifications.yaml#/Notification'
+NotificationPreferences:
+  $ref: './notifications.yaml#/NotificationPreferences'
+
+# Business Dashboard
+BusinessDashboard:
+  $ref: './business-dashboard.yaml#/BusinessDashboard'
+
+# Business Listings
+BusinessListing:
+  $ref: './business-listings.yaml#/BusinessListing'
+
+# Business Bookings
+Booking:
+  $ref: './business-bookings.yaml#/Booking'
+
+# Business Calendar
+ServiceSchedule:
+  $ref: './business-calendar.yaml#/ServiceSchedule'
+AvailableSlot:
+  $ref: './business-calendar.yaml#/AvailableSlot'
+
+# Business Reviews
+Review:
+  $ref: './business-reviews.yaml#/Review'
+ReviewStats:
+  $ref: './business-reviews.yaml#/ReviewStats'
+
+# Business Analytics
+AnalyticsOverview:
+  $ref: './business-analytics.yaml#/AnalyticsOverview'
+RevenueAnalytics:
+  $ref: './business-analytics.yaml#/RevenueAnalytics'
+ServicePerformance:
+  $ref: './business-analytics.yaml#/ServicePerformance'
+
+# Business Performance
+PerformanceMetrics:
+  $ref: './business-performance.yaml#/PerformanceMetrics'
+ReportConfig:
+  $ref: './business-performance.yaml#/ReportConfig'
+
+# Business Finances
+BusinessWallet:
+  $ref: './business-finances.yaml#/BusinessWallet'
+FinancialTransaction:
+  $ref: './business-finances.yaml#/FinancialTransaction'
+PayoutRequest:
+  $ref: './business-finances.yaml#/PayoutRequest'
+
+# Business Invoicing
+Invoice:
+  $ref: './business-invoicing.yaml#/Invoice'
+
+# Business Finances Additional
+Payment:
+  $ref: './business-finances-additional.yaml#/Payment'
+FinancialReport:
+  $ref: './business-finances-additional.yaml#/FinancialReport'
+TaxDocument:
+  $ref: './business-finances-additional.yaml#/TaxDocument'
+
+# Business Promotions
+Promotion:
+  $ref: './business-promotions.yaml#/Promotion'
+PromotionRedemption:
+  $ref: './business-promotions.yaml#/PromotionRedemption'
+PromotionAnalytics:
+  $ref: './business-promotions.yaml#/PromotionAnalytics'
+
+# Business Events
+BusinessEvent:
+  $ref: './business-events.yaml#/BusinessEvent'
+
+# Business Event Details
+EventSchedule:
+  $ref: './business-event-details.yaml#/EventSchedule'
+EventTicket:
+  $ref: './business-event-details.yaml#/EventTicket'
+EventSponsor:
+  $ref: './business-event-details.yaml#/EventSponsor'
+
+# Business Settings
+BusinessSettings:
+  $ref: './business-settings.yaml#/BusinessSettings'
+
+# Director Dashboard
+DirectorDashboard:
+  $ref: './director-dashboard.yaml#/DirectorDashboard'
+
+# Pageant Management
+PageantEvent:
+  $ref: './pageant-management.yaml#/PageantEvent'
+PageantContestant:
+  $ref: './pageant-contestants.yaml#/PageantContestant'
+ContestantSubmission:
+  $ref: './pageant-contestants.yaml#/ContestantSubmission'
+
+# Pageant Judging & Management
+PageantEvent:
+  $ref: './pageant-management.yaml#/PageantEvent'
+PageantContestant:
+  $ref: './pageant-contestants.yaml#/PageantContestant'
+ContestantSubmission:
+  $ref: './pageant-contestants.yaml#/ContestantSubmission'
+
+# Contestant Portal
+ContestantPortal:
+  $ref: './pageant-contestants.yaml#/PageantContestant'
+
+# People's Choice
+PeoplesChoiceEvent:
+  $ref: './peoples-choice.yaml#/PeoplesChoiceEvent'
+VotingStats:
+  $ref: './peoples-choice.yaml#/VotingStats'
+
+# Staff Management
+StaffMember:
+  $ref: './staff-management.yaml#/StaffMember'
+StaffRole:
+  $ref: './staff-management.yaml#/StaffRole'
+
+# Pageant Finances
+PageantFinancials:
+  $ref: './pageant-finances.yaml#/PageantFinancials'
+PageantTransaction:
+  $ref: './pageant-finances.yaml#/PageantTransaction'
+
+# Pageant Communications
+CommunicationOverview:
+  $ref: './pageant-communications.yaml#/CommunicationOverview'
+PageantMessage:
+  $ref: './pageant-communications.yaml#/PageantMessage'
+MessageTemplate:
+  $ref: './pageant-communications.yaml#/MessageTemplate'
+
+# Support
+SupportTicket:
+  $ref: './support.yaml#/SupportTicket'
+
+# Public Voting
+PublicVotingEvent:
+  $ref: './public-voting.yaml#/PublicVotingEvent'
+VotingContestant:
+  $ref: './public-voting.yaml#/VotingContestant'
+VoteTransaction:
+  $ref: './public-voting.yaml#/VoteTransaction'
+
+# Admin Dashboard
+AdminDashboard:
+  $ref: './admin-dashboard.yaml#/AdminDashboard'
+
+# Admin User Management
+UserManagementOverview:
+  $ref: './admin-users.yaml#/UserManagementOverview'
+AdminUserList:
+  $ref: './admin-users.yaml#/AdminUserList'
+AdminUserDetail:
+  $ref: './admin-users.yaml#/AdminUserDetail'
+
+# Admin Business Management
+BusinessManagementOverview:
+  $ref: './admin-businesses.yaml#/BusinessManagementOverview'
+AdminBusinessList:
+  $ref: './admin-businesses.yaml#/AdminBusinessList'
+BusinessApplication:
+  $ref: './admin-businesses.yaml#/BusinessApplication'
+
+# Admin Content Moderation
+ContentModeration:
+  $ref: './admin-moderation.yaml#/ContentModeration'
+Report:
+  $ref: './admin-moderation.yaml#/Report'
+ContentReview:
+  $ref: './admin-moderation.yaml#/ContentReview'
+
+# [Rest of schemas remain the same...]

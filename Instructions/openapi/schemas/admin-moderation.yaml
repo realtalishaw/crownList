@@ -1,0 +1,120 @@
+ContentModeration:
+  type: object
+  properties:
+    overview:
+      type: object
+      properties:
+        pendingReviews:
+          type: integer
+        reportedContent:
+          type: integer
+        flaggedUsers:
+          type: integer
+        suspendedContent:
+          type: integer
+    reportsByType:
+      type: object
+      properties:
+        userReports:
+          type: integer
+        businessReports:
+          type: integer
+        reviewReports:
+          type: integer
+        commentReports:
+          type: integer
+        listingReports:
+          type: integer
+
+Report:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [user, business, review, comment, listing]
+    status:
+      type: string
+      enum: [pending, investigating, resolved, dismissed]
+    priority:
+      type: string
+      enum: [low, medium, high, urgent]
+    reportedContent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+        content:
+          type: string
+        url:
+          type: string
+    reportedBy:
+      type: string
+      format: uuid
+    reason:
+      type: string
+    description:
+      type: string
+    evidence:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+          url:
+            type: string
+    moderationActions:
+      type: array
+      items:
+        type: object
+        properties:
+          action:
+            type: string
+            enum: [warning, suspend, delete, restore]
+          timestamp:
+            type: string
+            format: date-time
+          moderator:
+            type: string
+            format: uuid
+          notes:
+            type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+ContentReview:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    contentType:
+      type: string
+      enum: [listing, review, comment, profile]
+    content:
+      type: object
+    flags:
+      type: array
+      items:
+        type: string
+    status:
+      type: string
+      enum: [pending, approved, rejected]
+    moderatorNotes:
+      type: string
+    reviewedBy:
+      type: string
+      format: uuid
+    reviewedAt:
+      type: string
+      format: date-time 

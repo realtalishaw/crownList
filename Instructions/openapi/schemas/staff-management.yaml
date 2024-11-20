@@ -1,0 +1,149 @@
+StaffMember:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    firstName:
+      type: string
+    lastName:
+      type: string
+    email:
+      type: string
+      format: email
+    roleId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum: [pending, active, inactive]
+    permissions:
+      type: object
+      properties:
+        events:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            create:
+              type: boolean
+              default: false
+            edit:
+              type: boolean
+              default: false
+            delete:
+              type: boolean
+              default: false
+        contestants:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            manage:
+              type: boolean
+              default: false
+        judging:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            edit:
+              type: boolean
+              default: false
+        finances:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            manage:
+              type: boolean
+              default: false
+    lastLogin:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - firstName
+    - lastName
+    - email
+    - roleId
+
+StaffRole:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    permissions:
+      type: object
+      properties:
+        events:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            create:
+              type: boolean
+              default: false
+            edit:
+              type: boolean
+              default: false
+            delete:
+              type: boolean
+              default: false
+        contestants:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            manage:
+              type: boolean
+              default: false
+        judging:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            edit:
+              type: boolean
+              default: false
+        finances:
+          type: object
+          properties:
+            view:
+              type: boolean
+              default: false
+            manage:
+              type: boolean
+              default: false
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - permissions 

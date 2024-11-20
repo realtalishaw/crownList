@@ -1,0 +1,177 @@
+PageantEvent:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    directorId:
+      type: string
+      format: uuid
+    basicInfo:
+      type: object
+      properties:
+        title:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        location:
+          type: object
+          properties:
+            venue:
+              type: string
+            address:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+    registrationSettings:
+      type: object
+      properties:
+        openDate:
+          type: string
+          format: date
+        closeDate:
+          type: string
+          format: date
+        maxContestants:
+          type: integer
+        currentContestants:
+          type: integer
+        waitlistEnabled:
+          type: boolean
+    fees:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          name:
+            type: string
+          amount:
+            type: number
+            format: float
+          dueDate:
+            type: string
+            format: date
+          isRequired:
+            type: boolean
+          allowPartialPayment:
+            type: boolean
+          minimumDeposit:
+            type: number
+            format: float
+    areasOfCompetition:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          name:
+            type: string
+          description:
+            type: string
+          isRequired:
+            type: boolean
+          percentage:
+            type: number
+          fee:
+            type: number
+            format: float
+          formId:
+            type: string
+            format: uuid
+    documents:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          type:
+            type: string
+            enum: [handbook, rules, waiver, contract, other]
+          file:
+            type: string
+            format: uri
+          isRequired:
+            type: boolean
+          dueDate:
+            type: string
+            format: date
+    forms:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          type:
+            type: string
+            enum: [registration, competition, interview, other]
+          fields:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                type:
+                  string
+                label:
+                  string
+                required:
+                  boolean
+                options:
+                  type: array
+                  items:
+                    type: string
+          dueDate:
+            type: string
+            format: date
+          isRequired:
+            type: boolean
+    schedule:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          type:
+            type: string
+            enum: [competition, rehearsal, meal, appearance, other]
+          startTime:
+            type: string
+            format: date-time
+          endTime:
+            type: string
+            format: date-time
+          location:
+            type: string
+          description:
+            type: string
+          isRequired:
+            type: boolean
+          attire:
+            type: string
+    status:
+      type: string
+      enum: [draft, published, in_progress, completed, cancelled] 

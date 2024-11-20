@@ -1,0 +1,133 @@
+Business:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 2
+      maxLength: 100
+    logo:
+      type: string
+      format: uri
+    headerImage:
+      type: string
+      format: uri
+    isVerified:
+      type: boolean
+      default: false
+    isFeatured:
+      type: boolean
+      default: false
+    rating:
+      type: number
+      format: float
+      minimum: 0
+      maximum: 5
+    reviewCount:
+      type: integer
+      default: 0
+    lastActive:
+      type: string
+      format: date-time
+    price:
+      type: string
+    ages:
+      type: string
+    category:
+      $ref: '#/Category'
+    tags:
+      type: array
+      items:
+        type: string
+    phone:
+      type: string
+    email:
+      type: string
+      format: email
+    website:
+      type: string
+      format: uri
+    images:
+      type: array
+      items:
+        type: string
+        format: uri
+    shortDescription:
+      type: string
+      maxLength: 500
+    socialLinks:
+      type: array
+      items:
+        $ref: '#/SocialLink'
+    userId:
+      type: string
+      format: uuid
+    username:
+      type: string
+    following:
+      type: array
+      items:
+        type: string
+        format: uuid
+    followers:
+      type: array
+      items:
+        type: string
+        format: uuid
+    ctaButtonText:
+      type: string
+    ctaButtonLink:
+      type: string
+    hqLocation:
+      type: string
+    profileInfo:
+      type: object
+    likes:
+      type: integer
+      default: 0
+  required:
+    - name
+    - category
+
+Category:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    icon:
+      type: string
+    slug:
+      type: string
+    order:
+      type: integer
+    parentId:
+      type: string
+      format: uuid
+    isActive:
+      type: boolean
+      default: true
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+
+SocialLink:
+  type: object
+  properties:
+    platform:
+      type: string
+      enum: [facebook, instagram, twitter, linkedin, youtube, tiktok]
+    url:
+      type: string
+      format: uri

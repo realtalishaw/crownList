@@ -1,0 +1,42 @@
+PackingList:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    categories:
+      type: array
+      items:
+        $ref: '#/PackingCategory'
+    # ... rest of PackingList schema
+
+PackingCategory:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    items:
+      type: array
+      items:
+        $ref: '#/PackingItem'
+    # ... rest of PackingCategory schema
+
+PackingItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    isPacked:
+      type: boolean
+    # ... rest of PackingItem schema 

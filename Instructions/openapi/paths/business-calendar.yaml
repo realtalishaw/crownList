@@ -1,0 +1,180 @@
+service-schedules:
+  get:
+    summary: Get service schedules
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved service schedules
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-calendar.yaml#/ServiceSchedule'
+
+  post:
+    summary: Create service schedule
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-calendar.yaml#/ServiceSchedule'
+    responses:
+      '201':
+        description: Service schedule created successfully
+
+service-schedule:
+  get:
+    summary: Get service schedule details
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved service schedule
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-calendar.yaml#/ServiceSchedule'
+
+  put:
+    summary: Update service schedule
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-calendar.yaml#/ServiceSchedule'
+    responses:
+      '200':
+        description: Service schedule updated successfully
+
+  delete:
+    summary: Delete service schedule
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Service schedule deleted successfully
+
+available-slots:
+  get:
+    summary: Get available slots
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: serviceId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: startDate
+        required: true
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        required: true
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved available slots
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dates:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        format: date
+                      slots:
+                        type: array
+                        items:
+                          $ref: '../schemas/business-calendar.yaml#/AvailableSlot'
+
+block-dates:
+  post:
+    summary: Block date range
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              startDate:
+                type: string
+                format: date
+              endDate:
+                type: string
+                format: date
+              reason:
+                type: string
+    responses:
+      '200':
+        description: Dates blocked successfully
+
+custom-availability:
+  post:
+    summary: Set custom availability for date
+    tags:
+      - Business Calendar
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              slots:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTime:
+                      type: string
+                      format: time
+                    endTime:
+                      type: string
+                      format: time
+                    isAvailable:
+                      type: boolean
+    responses:
+      '200':
+        description: Custom availability set successfully 

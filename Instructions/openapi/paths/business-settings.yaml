@@ -1,0 +1,115 @@
+settings:
+  get:
+    summary: Get business settings
+    tags:
+      - Business Settings
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved settings
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-settings.yaml#/BusinessSettings'
+
+notification-preferences:
+  put:
+    summary: Update notification preferences
+    tags:
+      - Business Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              notificationPreferences:
+                type: object
+    responses:
+      '200':
+        description: Notification preferences updated successfully
+
+business-hours:
+  put:
+    summary: Update business hours
+    tags:
+      - Business Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              businessHours:
+                type: object
+    responses:
+      '200':
+        description: Business hours updated successfully
+
+payment-settings:
+  put:
+    summary: Update payment settings
+    tags:
+      - Business Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paymentSettings:
+                type: object
+    responses:
+      '200':
+        description: Payment settings updated successfully
+
+connect-stripe:
+  post:
+    summary: Connect Stripe account
+    tags:
+      - Business Settings
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully initiated Stripe Connect
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                connectUrl:
+                  type: string
+                  format: uri
+
+delete-account:
+  delete:
+    summary: Delete business account
+    tags:
+      - Business Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              confirmationPhrase:
+                type: string
+              reason:
+                type: string
+    responses:
+      '200':
+        description: Account deleted successfully 

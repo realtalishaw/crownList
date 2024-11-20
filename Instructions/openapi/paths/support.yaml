@@ -1,0 +1,129 @@
+support-tickets:
+  get:
+    summary: Get user's support tickets
+    tags:
+      - Support
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [open, in_progress, resolved, closed]
+      - in: query
+        name: category
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved support tickets
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/support.yaml#/SupportTicket'
+
+  post:
+    summary: Create new support ticket
+    tags:
+      - Support
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/support.yaml#/SupportTicket'
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Support ticket created successfully
+
+support-ticket:
+  get:
+    summary: Get support ticket details
+    tags:
+      - Support
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved support ticket
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/support.yaml#/SupportTicket'
+
+  put:
+    summary: Update support ticket
+    tags:
+      - Support
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/support.yaml#/SupportTicket'
+    responses:
+      '200':
+        description: Support ticket updated successfully
+
+ticket-message:
+  post:
+    summary: Add message to support ticket
+    tags:
+      - Support
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Message added successfully
+
+ticket-status:
+  put:
+    summary: Update ticket status
+    tags:
+      - Support
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [open, in_progress, resolved, closed]
+              note:
+                type: string
+    responses:
+      '200':
+        description: Status updated successfully 

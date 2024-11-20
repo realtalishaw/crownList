@@ -1,0 +1,113 @@
+DirectorDashboard:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    directorId:
+      type: string
+      format: uuid
+    overview:
+      type: object
+      properties:
+        activePageants:
+          type: integer
+        totalContestants:
+          type: integer
+        upcomingEvents:
+          type: integer
+        pendingApplications:
+          type: integer
+        totalRevenue:
+          type: number
+          format: float
+    pageantStats:
+      type: array
+      items:
+        type: object
+        properties:
+          pageantId:
+            type: string
+            format: uuid
+          title:
+            type: string
+          startDate:
+            type: string
+            format: date
+          contestantCount:
+            type: integer
+          applicationCount:
+            type: integer
+          status:
+            type: string
+            enum: [upcoming, in_progress, completed]
+    recentActivity:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [application_submitted, application_reviewed, contestant_registered, payment_received, document_uploaded]
+          timestamp:
+            type: string
+            format: date-time
+          pageantId:
+            type: string
+            format: uuid
+          pageantTitle:
+            type: string
+          contestantId:
+            type: string
+            format: uuid
+          contestantName:
+            type: string
+          details:
+            type: object
+    pendingTasks:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [review_application, approve_document, confirm_payment]
+          dueDate:
+            type: string
+            format: date
+          pageantId:
+            type: string
+            format: uuid
+          contestantId:
+            type: string
+            format: uuid
+          priority:
+            type: string
+            enum: [high, medium, low]
+    upcomingDeadlines:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          date:
+            type: string
+            format: date
+          pageantId:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [application, document, payment, rehearsal]
+          contestantsAffected:
+            type: integer 

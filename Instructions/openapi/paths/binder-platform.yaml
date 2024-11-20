@@ -1,0 +1,180 @@
+platform:
+  get:
+    summary: Get platform details
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved platform
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-platform.yaml#/Platform'
+
+  post:
+    summary: Create platform
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-platform.yaml#/Platform'
+    responses:
+      '201':
+        description: Platform created successfully
+
+  put:
+    summary: Update platform
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-platform.yaml#/Platform'
+    responses:
+      '200':
+        description: Platform updated successfully
+
+  delete:
+    summary: Delete platform
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Platform deleted successfully
+
+platform-goals:
+  post:
+    summary: Add platform goal
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              timeline:
+                type: string
+              metrics:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    target:
+                      type: number
+                    unit:
+                      type: string
+    responses:
+      '201':
+        description: Goal added successfully
+
+platform-initiatives:
+  post:
+    summary: Add platform initiative
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              startDate:
+                type: string
+                format: date
+              endDate:
+                type: string
+                format: date
+    responses:
+      '201':
+        description: Initiative added successfully
+
+platform-resources:
+  post:
+    summary: Add platform resource
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              url:
+                type: string
+              notes:
+                type: string
+    responses:
+      '201':
+        description: Resource added successfully
+
+platform-partnerships:
+  post:
+    summary: Add platform partnership
+    tags:
+      - Platform Development
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              organizationName:
+                type: string
+              contactPerson:
+                type: string
+              email:
+                type: string
+              phone:
+                type: string
+              notes:
+                type: string
+    responses:
+      '201':
+        description: Partnership added successfully 

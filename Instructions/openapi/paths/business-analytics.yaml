@@ -1,0 +1,101 @@
+analytics-overview:
+  get:
+    summary: Get analytics overview
+    tags:
+      - Business Analytics
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+          enum: [day, week, month, year]
+        default: month
+    responses:
+      '200':
+        description: Successfully retrieved analytics overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-analytics.yaml#/AnalyticsOverview'
+
+revenue-analytics:
+  get:
+    summary: Get revenue analytics
+    tags:
+      - Business Analytics
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: groupBy
+        schema:
+          type: string
+          enum: [day, week, month]
+        default: month
+      - in: query
+        name: includeComparison
+        schema:
+          type: boolean
+        default: true
+    responses:
+      '200':
+        description: Successfully retrieved revenue analytics
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-analytics.yaml#/RevenueAnalytics'
+
+service-performance:
+  get:
+    summary: Get service performance analytics
+    tags:
+      - Business Analytics
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: serviceId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: groupBy
+        schema:
+          type: string
+          enum: [day, week, month]
+        default: month
+    responses:
+      '200':
+        description: Successfully retrieved service performance analytics
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-analytics.yaml#/ServicePerformance' 

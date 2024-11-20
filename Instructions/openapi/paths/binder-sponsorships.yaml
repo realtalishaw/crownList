@@ -1,0 +1,221 @@
+sponsorship-packages:
+  get:
+    summary: Get sponsorship packages
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, active, archived]
+    responses:
+      '200':
+        description: Successfully retrieved sponsorship packages
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sponsorships.yaml#/SponsorshipPackage'
+
+  post:
+    summary: Create sponsorship package
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sponsorships.yaml#/SponsorshipPackage'
+    responses:
+      '201':
+        description: Package created successfully
+
+sponsorship-package:
+  get:
+    summary: Get sponsorship package details
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved package
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sponsorships.yaml#/SponsorshipPackage'
+
+  put:
+    summary: Update sponsorship package
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sponsorships.yaml#/SponsorshipPackage'
+    responses:
+      '200':
+        description: Package updated successfully
+
+  delete:
+    summary: Delete sponsorship package
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Package deleted successfully
+
+sponsors:
+  get:
+    summary: Get sponsors
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [potential, contacted, negotiating, confirmed, declined]
+      - in: query
+        name: level
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved sponsors
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sponsorships.yaml#/Sponsor'
+
+  post:
+    summary: Create new sponsor
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sponsorships.yaml#/Sponsor'
+    responses:
+      '201':
+        description: Sponsor created successfully
+
+sponsor:
+  get:
+    summary: Get sponsor details
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved sponsor
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sponsorships.yaml#/Sponsor'
+
+  put:
+    summary: Update sponsor
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sponsorships.yaml#/Sponsor'
+    responses:
+      '200':
+        description: Sponsor updated successfully
+
+  delete:
+    summary: Delete sponsor
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Sponsor deleted successfully
+
+sponsor-followup:
+  post:
+    summary: Add sponsor follow-up
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [email, call, meeting, other]
+              notes:
+                type: string
+              nextSteps:
+                type: string
+              reminder:
+                type: string
+                format: date-time
+    responses:
+      '201':
+        description: Follow-up added successfully
+
+sponsor-documents:
+  post:
+    summary: Upload sponsor documents
+    tags:
+      - Sponsorships
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [contract, logo, media, other]
+              file:
+                type: string
+                format: binary
+    responses:
+      '201':
+        description: Document uploaded successfully 

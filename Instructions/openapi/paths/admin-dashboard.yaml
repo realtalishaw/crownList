@@ -1,0 +1,129 @@
+admin-overview:
+  get:
+    summary: Get admin dashboard overview
+    tags:
+      - Admin Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved admin overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/admin-dashboard.yaml#/AdminDashboard'
+
+platform-activity:
+  get:
+    summary: Get platform activity metrics
+    tags:
+      - Admin Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: period
+        schema:
+          type: string
+          enum: [day, week, month, year]
+        default: week
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved platform activity
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                  metrics:
+                    type: object
+
+user-statistics:
+  get:
+    summary: Get detailed user statistics
+    tags:
+      - Admin Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: userType
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved user statistics
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                byType:
+                  type: object
+                byStatus:
+                  type: object
+                trends:
+                  type: array
+
+recent-activity:
+  get:
+    summary: Get recent platform activity
+    tags:
+      - Admin Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved recent activity
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  timestamp:
+                    type: string
+                  details:
+                    type: object 

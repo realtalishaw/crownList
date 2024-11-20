@@ -1,0 +1,90 @@
+rewards:
+  get:
+    summary: Get available rewards
+    tags:
+      - Ambassador Rewards
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum: [digital, physical, coaching, elite]
+      - in: query
+        name: level
+        schema:
+          type: string
+          enum: [rising_star, shining_star, superstar, crown_elite]
+    responses:
+      '200':
+        description: Successfully retrieved rewards
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/ambassador-rewards.yaml#/AmbassadorReward'
+
+reward-redemption:
+  post:
+    summary: Redeem reward
+    tags:
+      - Ambassador Rewards
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              rewardId:
+                type: string
+                format: uuid
+              shippingAddress:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  street:
+                    type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  zipCode:
+                    type: string
+                  country:
+                    type: string
+    responses:
+      '201':
+        description: Reward redemption successful
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/ambassador-rewards.yaml#/RewardRedemption'
+
+redemption-history:
+  get:
+    summary: Get reward redemption history
+    tags:
+      - Ambassador Rewards
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, processing, fulfilled, cancelled]
+    responses:
+      '200':
+        description: Successfully retrieved redemption history
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/ambassador-rewards.yaml#/RewardRedemption' 

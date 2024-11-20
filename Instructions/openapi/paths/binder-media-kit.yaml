@@ -1,0 +1,147 @@
+media-kits:
+  get:
+    summary: Get media kits
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, published, archived]
+    responses:
+      '200':
+        description: Successfully retrieved media kits
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-media-kit.yaml#/MediaKit'
+
+  post:
+    summary: Create new media kit
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-media-kit.yaml#/MediaKit'
+    responses:
+      '201':
+        description: Media kit created successfully
+
+media-kit:
+  get:
+    summary: Get media kit details
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved media kit
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-media-kit.yaml#/MediaKit'
+
+  put:
+    summary: Update media kit
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-media-kit.yaml#/MediaKit'
+    responses:
+      '200':
+        description: Media kit updated successfully
+
+  delete:
+    summary: Delete media kit
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Media kit deleted successfully
+
+generate-file:
+  post:
+    summary: Generate media kit file
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [pdf, presentation, one_pager, full_kit]
+              template:
+                type: string
+                description: Optional template ID to use
+    responses:
+      '200':
+        description: File generated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-media-kit.yaml#/MediaKitFile'
+
+media-kit-files:
+  get:
+    summary: Get media kit files
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [pdf, presentation, one_pager, full_kit]
+    responses:
+      '200':
+        description: Successfully retrieved media kit files
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-media-kit.yaml#/MediaKitFile'
+
+media-kit-file:
+  delete:
+    summary: Delete media kit file
+    tags:
+      - Media Kit
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: File deleted successfully 

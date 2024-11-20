@@ -1,0 +1,159 @@
+Website:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    domain:
+      type: string
+    status:
+      type: string
+      enum: [draft, published, archived]
+    theme:
+      type: string
+    settings:
+      type: object
+      properties:
+        colors:
+          type: object
+          properties:
+            primary:
+              type: string
+            secondary:
+              type: string
+            accent:
+              type: string
+        fonts:
+          type: object
+          properties:
+            heading:
+              type: string
+            body:
+              type: string
+    content:
+      type: object
+      properties:
+        hero:
+          type: object
+          properties:
+            title:
+              type: string
+            subtitle:
+              type: string
+            image:
+              type: string
+              format: uri
+        about:
+          type: object
+          properties:
+            bio:
+              type: string
+            photo:
+              type: string
+              format: uri
+        platform:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            initiatives:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  image:
+                    type: string
+                    format: uri
+        gallery:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+              caption:
+                type: string
+        appearances:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              date:
+                type: string
+                format: date
+              description:
+                type: string
+              image:
+                type: string
+                format: uri
+        contact:
+          type: object
+          properties:
+            email:
+              type: string
+            socialLinks:
+              type: array
+              items:
+                type: object
+                properties:
+                  platform:
+                    type: string
+                  url:
+                    type: string
+    analytics:
+      type: object
+      properties:
+        totalViews:
+          type: integer
+        uniqueVisitors:
+          type: integer
+        averageTimeOnSite:
+          type: integer
+        topPages:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+              views:
+                type: integer
+        visitorLocations:
+          type: array
+          items:
+            type: object
+            properties:
+              location:
+                type: string
+              count:
+                type: integer
+        deviceTypes:
+          type: object
+          properties:
+            desktop:
+              type: integer
+            mobile:
+              type: integer
+            tablet:
+              type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - content 

@@ -1,0 +1,21 @@
+binder-paperwork:
+  get:
+    summary: Get all paperwork for a binder
+    tags:
+      - Binder Paperwork
+    # ... rest of paperwork endpoint
+
+paperwork:
+  get:
+    summary: Get specific paperwork
+    # ... rest of paperwork endpoint
+
+paperwork-review:
+  post:
+    summary: Submit paperwork for review
+    # ... rest of review endpoint
+
+paperwork-file:
+  put:
+    summary: Update paperwork file
+    # ... rest of file endpoint 

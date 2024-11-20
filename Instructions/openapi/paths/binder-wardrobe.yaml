@@ -1,0 +1,26 @@
+wardrobe-groups:
+  get:
+    summary: Get all wardrobe groups for a binder
+    tags:
+      - Binder Wardrobe
+    # ... rest of wardrobe groups endpoint
+
+wardrobe-group:
+  get:
+    summary: Get specific wardrobe group
+    # ... rest of wardrobe group endpoint
+
+wardrobe-items:
+  get:
+    summary: Get all wardrobe items in a group
+    # ... rest of wardrobe items endpoint
+
+wardrobe-item:
+  get:
+    summary: Get specific wardrobe item
+    # ... rest of wardrobe item endpoint
+
+wardrobe-item-photos:
+  post:
+    summary: Add photos to wardrobe item
+    # ... rest of photos endpoint 

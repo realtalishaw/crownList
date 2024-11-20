@@ -1,0 +1,1209 @@
+BinderTask:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    description:
+      type: string
+    category:
+      type: string
+      enum: [paperwork, wardrobe, practice, general]
+    priority:
+      type: string
+      enum: [high, medium, low]
+    status:
+      type: string
+      enum: [pending, in_progress, completed, overdue]
+    dueDate:
+      type: string
+      format: date
+    completedAt:
+      type: string
+      format: date-time
+    assignedTo:
+      type: string
+      format: uuid
+    reminderDate:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+BinderSchedule:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [practice, coaching, photoshoot, appearance, competition, other]
+    title:
+      type: string
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    location:
+      type: string
+    notes:
+      type: string
+    participants:
+      type: array
+      items:
+        type: string
+        format: uuid
+    reminders:
+      type: array
+      items:
+        type: object
+        properties:
+          time:
+            type: string
+            format: date-time
+          type:
+            type: string
+            enum: [email, push, sms]
+
+BinderDocument:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [contract, application, photo, bio, resume, other]
+    url:
+      type: string
+      format: uri
+    status:
+      type: string
+      enum: [pending, submitted, approved, rejected]
+    dueDate:
+      type: string
+      format: date
+    notes:
+      type: string
+    version:
+      type: integer
+    fileSize:
+      type: integer
+    fileType:
+      type: string
+
+BinderWardrobe:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    category:
+      type: string
+      enum: [interview, opening, swimsuit, evening_gown, talent, casual]
+    items:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          brand:
+            type: string
+          size:
+            type: string
+          color:
+            type: string
+          status:
+            type: string
+            enum: [needed, ordered, alterations, ready]
+          cost:
+            type: number
+          photos:
+            type: array
+            items:
+              type: string
+              format: uri
+          notes:
+            type: string
+
+BinderAppearance:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [community_service, media, charity, school_visit, parade, photoshoot, other]
+    status:
+      type: string
+      enum: [requested, confirmed, completed, cancelled]
+    date:
+      type: string
+      format: date
+    startTime:
+      type: string
+      format: time
+    endTime:
+      type: string
+      format: time
+    location:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+    organizerContact:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    description:
+      type: string
+    requirements:
+      type: array
+      items:
+        type: string
+    wardrobe:
+      type: array
+      items:
+        type: object
+        properties:
+          itemId:
+            type: string
+            format: uuid
+          notes:
+            type: string
+    bookingDetails:
+      type: object
+      properties:
+        fee:
+          type: number
+          format: float
+        isPaid:
+          type: boolean
+        paymentDue:
+          type: string
+          format: date
+        contract:
+          type: string
+          format: uri
+    photos:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          caption:
+            type: string
+          uploadedAt:
+            type: string
+            format: date-time
+    socialMedia:
+      type: array
+      items:
+        type: object
+        properties:
+          platform:
+            type: string
+            enum: [instagram, facebook, twitter, other]
+          postUrl:
+            type: string
+            format: uri
+          engagement:
+            type: object
+            properties:
+              likes:
+                type: integer
+              comments:
+                type: integer
+              shares:
+                type: integer
+    notes:
+      type: string
+    impact:
+      type: object
+      properties:
+        peopleReached:
+          type: integer
+        volunteerHours:
+          type: integer
+        fundsRaised:
+          type: number
+          format: float
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - title
+    - type
+    - date
+
+BinderTravel:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [flight, hotel, car, other]
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    confirmationNumber:
+      type: string
+    provider:
+      type: string
+    cost:
+      type: number
+    details:
+      type: object
+      properties:
+        flight:
+          type: object
+          properties:
+            airline:
+              type: string
+            flightNumber:
+              type: string
+            departure:
+              type: string
+            arrival:
+              type: string
+        hotel:
+          type: object
+          properties:
+            name:
+              type: string
+            address:
+              type: string
+            roomType:
+              type: string
+        car:
+          type: object
+          properties:
+            company:
+              type: string
+            carType:
+              type: string
+            pickupLocation:
+              type: string
+            dropoffLocation:
+              type: string
+
+BinderPlatform:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    cause:
+      type: string
+    mission:
+      type: string
+    goals:
+      type: array
+      items:
+        type: string
+    activities:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          date:
+            type: string
+            format: date
+          description:
+            type: string
+          impact:
+            type: string
+    materials:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+          url:
+            type: string
+            format: uri
+
+BinderFinances:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    budget:
+      type: number
+    expenses:
+      type: array
+      items:
+        type: object
+        properties:
+          category:
+            type: string
+            enum: [wardrobe, travel, entry_fee, coaching, other]
+          amount:
+            type: number
+          date:
+            type: string
+            format: date
+          description:
+            type: string
+          receipt:
+            type: string
+            format: uri
+    sponsorships:
+      type: array
+      items:
+        type: object
+        properties:
+          sponsor:
+            type: string
+          amount:
+            type: number
+          type:
+            type: string
+            enum: [monetary, product, service]
+          status:
+            type: string
+            enum: [pending, confirmed, received]
+
+BinderPaperwork:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [application, contract, waiver, medical, photo_release, other]
+    status:
+      type: string
+      enum: [draft, pending_review, reviewed, approved, rejected, submitted]
+    dueDate:
+      type: string
+      format: date
+    submittedDate:
+      type: string
+      format: date-time
+    reviewedBy:
+      type: string
+      format: uuid
+      description: ID of staff member who reviewed
+    lastReviewedAt:
+      type: string
+      format: date-time
+    reviewNotes:
+      type: string
+    version:
+      type: integer
+    fileUrl:
+      type: string
+      format: uri
+    metadata:
+      type: object
+      properties:
+        pageCount:
+          type: integer
+        fileSize:
+          type: integer
+        fileType:
+          type: string
+    history:
+      type: array
+      items:
+        type: object
+        properties:
+          action:
+            type: string
+            enum: [created, updated, reviewed, approved, rejected, submitted]
+          timestamp:
+            type: string
+            format: date-time
+          userId:
+            type: string
+            format: uuid
+          notes:
+            type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - title
+    - type
+    - status
+
+WardrobeGroup:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    type:
+      type: string
+      enum: [competition, appearance, rehearsal, other]
+    eventId:
+      type: string
+      format: uuid
+      description: Connected event from schedule
+    description:
+      type: string
+    notes:
+      type: string
+    items:
+      type: array
+      items:
+        $ref: '#/WardrobeItem'
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - name
+    - type
+
+WardrobeItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    groupId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    category:
+      type: string
+      enum: [dress, gown, swimsuit, activewear, shoes, jewelry, accessories]
+    status:
+      type: string
+      enum: [needed, ordered, alterations, ready, backup]
+    details:
+      type: object
+      properties:
+        brand:
+          type: string
+        size:
+          type: string
+        color:
+          type: string
+        material:
+          type: string
+        measurements:
+          type: object
+          properties:
+            bust:
+              type: string
+            waist:
+              type: string
+            hips:
+              type: string
+            length:
+              type: string
+    cost:
+      type: number
+      format: float
+    purchaseDate:
+      type: string
+      format: date
+    purchaseLocation:
+      type: string
+    alterationNeeds:
+      type: string
+    alterationDueDate:
+      type: string
+      format: date
+    photos:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [main, detail, alteration, reference]
+    notes:
+      type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - groupId
+    - name
+    - category
+    - status
+
+Schedule:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    isOfficial:
+      type: boolean
+      description: Whether this is the official pageant schedule
+    createdBy:
+      type: string
+      format: uuid
+    permissions:
+      type: object
+      properties:
+        canEdit:
+          type: boolean
+        canShare:
+          type: boolean
+        isPublic:
+          type: boolean
+    dates:
+      type: array
+      items:
+        $ref: '#/ScheduleDay'
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - name
+
+ScheduleDay:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    scheduleId:
+      type: string
+      format: uuid
+    date:
+      type: string
+      format: date
+    events:
+      type: array
+      items:
+        $ref: '#/ScheduleEvent'
+
+ScheduleEvent:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    dayId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [orientation, rehearsal, competition, interview, photoshoot, meal, other]
+    startTime:
+      type: string
+      format: time
+    endTime:
+      type: string
+      format: time
+    location:
+      type: object
+      properties:
+        room:
+          type: string
+        building:
+          type: string
+        floor:
+          type: string
+    description:
+      type: string
+    requirements:
+      type: array
+      items:
+        type: string
+    dress:
+      type: string
+      format: uuid
+      description: Reference to wardrobe item
+    isRequired:
+      type: boolean
+      default: true
+    officialNotes:
+      type: string
+      description: Notes from pageant director
+    personalNotes:
+      type: string
+      description: Contestant's private notes
+    isInPersonalSchedule:
+      type: boolean
+      default: true
+      description: Whether contestant has this in their personal schedule
+    reminders:
+      type: array
+      items:
+        type: object
+        properties:
+          time:
+            type: string
+            format: date-time
+          type:
+            type: string
+            enum: [email, push, sms]
+    status:
+      type: string
+      enum: [scheduled, in_progress, completed, cancelled]
+  required:
+    - title
+    - startTime
+    - endTime
+
+PackingList:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    categories:
+      type: array
+      items:
+        $ref: '#/PackingCategory'
+    progress:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+        packedItems:
+          type: integer
+        percentage:
+          type: number
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - name
+
+PackingCategory:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    items:
+      type: array
+      items:
+        $ref: '#/PackingItem'
+    order:
+      type: integer
+  required:
+    - name
+
+PackingItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    quantity:
+      type: integer
+      default: 1
+    isPacked:
+      type: boolean
+      default: false
+    isRequired:
+      type: boolean
+      default: true
+    notes:
+      type: string
+    wardrobeItemId:
+      type: string
+      format: uuid
+      description: Optional reference to wardrobe item
+    checkedAt:
+      type: string
+      format: date-time
+    order:
+      type: integer
+  required:
+    - name
+
+Competition:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+      description: Optional - if connected to official pageant
+    name:
+      type: string
+    description:
+      type: string
+    type:
+      type: string
+      enum: [interview, talent, evening_gown, swimsuit, casual_wear, opening_number, onstage_question, other]
+    scoringPercentage:
+      type: number
+      format: float
+      minimum: 0
+      maximum: 100
+    isOfficial:
+      type: boolean
+      description: Whether this is from official pageant schedule
+    isParticipating:
+      type: boolean
+      default: true
+      description: Whether contestant is competing in this competition
+    isRequired:
+      type: boolean
+      default: true
+    status:
+      type: string
+      enum: [upcoming, completed, cancelled]
+    wardrobeItems:
+      type: array
+      items:
+        type: object
+        properties:
+          itemId:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [primary, backup]
+    details:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+          format: time
+        location:
+          type: string
+        duration:
+          type: integer
+          description: Duration in minutes
+        order:
+          type: integer
+          description: Performance/appearance order
+    requirements:
+      type: array
+      items:
+        type: string
+    judging:
+      type: object
+      properties:
+        criteria:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              points:
+                type: integer
+              description:
+                type: string
+        totalPoints:
+          type: integer
+    notes:
+      type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - type
+    - scoringPercentage
+
+TripDetails:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    overview:
+      type: object
+      properties:
+        arrivalDate:
+          type: string
+          format: date
+        departureDate:
+          type: string
+          format: date
+        totalCost:
+          type: number
+          format: float
+        notes:
+          type: string
+    flights:
+      type: array
+      items:
+        $ref: '#/FlightDetail'
+    hotel:
+      $ref: '#/HotelDetail'
+    carRental:
+      $ref: '#/CarRentalDetail'
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+FlightDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [departure, return]
+    airline:
+      type: string
+    flightNumber:
+      type: string
+    confirmationNumber:
+      type: string
+    departureAirport:
+      type: string
+    arrivalAirport:
+      type: string
+    departureDate:
+      type: string
+      format: date
+    departureTime:
+      type: string
+      format: time
+    arrivalDate:
+      type: string
+      format: date
+    arrivalTime:
+      type: string
+      format: time
+    seatAssignment:
+      type: string
+    cost:
+      type: number
+      format: float
+    checkInReminder:
+      type: boolean
+      default: true
+    notes:
+      type: string
+    attachments:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [boarding_pass, receipt, other]
+  required:
+    - airline
+    - flightNumber
+    - departureAirport
+    - arrivalAirport
+    - departureDate
+    - departureTime
+
+HotelDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    hotelName:
+      type: string
+    confirmationNumber:
+      type: string
+    checkInDate:
+      type: string
+      format: date
+    checkInTime:
+      type: string
+      format: time
+    checkOutDate:
+      type: string
+      format: date
+    checkOutTime:
+      type: string
+      format: time
+    address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+    roomType:
+      type: string
+    roomNumber:
+      type: string
+    cost:
+      type: number
+      format: float
+    phoneNumber:
+      type: string
+    notes:
+      type: string
+    attachments:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [reservation, receipt, other]
+  required:
+    - hotelName
+    - checkInDate
+    - checkOutDate
+
+CarRentalDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    company:
+      type: string
+    confirmationNumber:
+      type: string
+    pickupDate:
+      type: string
+      format: date
+    pickupTime:
+      type: string
+      format: time
+    pickupLocation:
+      type: string
+    returnDate:
+      type: string
+      format: date
+    returnTime:
+      type: string
+      format: time
+    returnLocation:
+      type: string
+    carType:
+      type: string
+    cost:
+      type: number
+      format: float
+    insuranceInfo:
+      type: string
+    notes:
+      type: string
+    attachments:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [reservation, receipt, insurance, other]
+  required:
+    - company
+    - pickupDate
+    - returnDate
+
+AppearanceBookingLink:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    description:
+      type: string
+    availabilitySchedule:
+      type: array
+      items:
+        type: object
+        properties:
+          dayOfWeek:
+            type: integer
+            minimum: 0
+            maximum: 6
+          startTime:
+            type: string
+            format: time
+          endTime:
+            type: string
+            format: time
+    fees:
+      type: object
+      properties:
+        hourlyRate:
+          type: number
+        minimumHours:
+          type: integer
+        travelFee:
+          type: number
+    requirements:
+      type: string
+    isActive:
+      type: boolean
+      default: true
+    expiresAt:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - title

@@ -1,0 +1,253 @@
+judges:
+  get:
+    summary: Get all judges for a pageant
+    tags:
+      - Pageant Judging
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved judges
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  status:
+                    type: string
+                    enum: [invited, active, inactive]
+                  assignedAreas:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+
+  post:
+    summary: Add judge to pageant
+    tags:
+      - Pageant Judging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              name:
+                type: string
+              assignedAreas:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+    responses:
+      '201':
+        description: Judge added successfully
+
+scoring-sheets:
+  get:
+    summary: Get scoring sheets for competition area
+    tags:
+      - Pageant Judging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: areaId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved scoring sheets
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  contestantId:
+                    type: string
+                  scores:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        criteriaId:
+                          type: string
+                        score:
+                          type: number
+                        notes:
+                          type: string
+
+live-scoring:
+  post:
+    summary: Submit live scores
+    tags:
+      - Pageant Judging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              contestantId:
+                type: string
+              areaId:
+                type: string
+              scores:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    criteriaId:
+                      type: string
+                    score:
+                      type: number
+                    notes:
+                      type: string
+    responses:
+      '200':
+        description: Scores submitted successfully
+
+aggregate-scores:
+  get:
+    summary: Get real-time aggregated scores
+    tags:
+      - Pageant Judging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: areaId
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved aggregated scores
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  contestantId:
+                    type: string
+                  totalScore:
+                    type: number
+                  averageScore:
+                    type: number
+                  rank:
+                    type: integer
+                  breakdown:
+                    type: object
+
+awards:
+  post:
+    summary: Create award/placement
+    tags:
+      - Pageant Judging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              contestantId:
+                type: string
+              type:
+                type: string
+                enum: [placement, special_award]
+              description:
+                type: string
+    responses:
+      '201':
+        description: Award created successfully
+
+contestant-management:
+  post:
+    summary: Import contestants
+    tags:
+      - Contestant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+              createPortalAccess:
+                type: boolean
+                default: true
+    responses:
+      '200':
+        description: Contestants imported successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imported:
+                  type: integer
+                failed:
+                  type: integer
+                errors:
+                  type: array
+
+  get:
+    summary: Export contestants
+    tags:
+      - Contestant Management
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum: [csv, excel]
+        default: excel
+      - in: query
+        name: includeDetails
+        schema:
+          type: string
+          enum: [basic, full, custom]
+        default: basic
+    responses:
+      '200':
+        description: Contestants exported successfully
+        content:
+          application/vnd.ms-excel:
+            schema:
+              type: string
+              format: binary 

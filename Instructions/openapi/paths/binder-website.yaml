@@ -1,0 +1,142 @@
+website:
+  get:
+    summary: Get website details
+    tags:
+      - Website
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved website
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-website.yaml#/Website'
+
+  post:
+    summary: Create website
+    tags:
+      - Website
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-website.yaml#/Website'
+    responses:
+      '201':
+        description: Website created successfully
+
+  put:
+    summary: Update website
+    tags:
+      - Website
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-website.yaml#/Website'
+    responses:
+      '200':
+        description: Website updated successfully
+
+  delete:
+    summary: Delete website
+    tags:
+      - Website
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Website deleted successfully
+
+website-analytics:
+  get:
+    summary: Get website analytics
+    tags:
+      - Website
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: metric
+        schema:
+          type: string
+          enum: [views, visitors, time_on_site, locations, devices]
+    responses:
+      '200':
+        description: Successfully retrieved analytics
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analytics:
+                  type: object
+                  properties:
+                    totalViews:
+                      type: integer
+                    uniqueVisitors:
+                      type: integer
+                    averageTimeOnSite:
+                      type: integer
+                    topPages:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          path:
+                            type: string
+                          views:
+                            type: integer
+                    visitorLocations:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          location:
+                            type: string
+                          count:
+                            type: integer
+                    deviceTypes:
+                      type: object
+                      properties:
+                        desktop:
+                          type: integer
+                        mobile:
+                          type: integer
+                        tablet:
+                          type: integer
+
+website-publish:
+  post:
+    summary: Publish website
+    tags:
+      - Website
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Website published successfully

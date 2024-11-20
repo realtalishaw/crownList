@@ -1,0 +1,21 @@
+binder-documents:
+  get:
+    summary: Get all documents for a binder
+    tags:
+      - Binder Documents
+    # ... rest of documents endpoint
+
+binder-document:
+  get:
+    summary: Get specific document
+    # ... rest of document endpoint
+
+document-file:
+  put:
+    summary: Update document file
+    # ... rest of file endpoint
+
+document-status:
+  put:
+    summary: Update document status
+    # ... rest of status endpoint 

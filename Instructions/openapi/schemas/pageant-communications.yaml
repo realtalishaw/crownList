@@ -1,0 +1,142 @@
+CommunicationOverview:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    stats:
+      type: object
+      properties:
+        totalMessagesSent:
+          type: integer
+        averageOpenRate:
+          type: number
+          format: float
+        draftMessages:
+          type: integer
+        emailsSent:
+          type: integer
+        pushNotificationsSent:
+          type: integer
+        lastSentAt:
+          type: string
+          format: date-time
+
+PageantMessage:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [email, push_notification]
+    subject:
+      type: string
+    content:
+      type: string
+    htmlContent:
+      type: string
+    audience:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [all, event, category, specific]
+        eventId:
+          type: string
+          format: uuid
+        category:
+          type: string
+        contestantIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    status:
+      type: string
+      enum: [draft, scheduled, sent, failed]
+    scheduledFor:
+      type: string
+      format: date-time
+    sentAt:
+      type: string
+      format: date-time
+    metrics:
+      type: object
+      properties:
+        recipients:
+          type: integer
+        opens:
+          type: integer
+        uniqueOpens:
+          type: integer
+        clicks:
+          type: integer
+        uniqueClicks:
+          type: integer
+    templateId:
+      type: string
+      format: uuid
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - type
+    - subject
+    - content
+    - audience
+
+MessageTemplate:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    type:
+      type: string
+      enum: [email, push_notification]
+    subject:
+      type: string
+    content:
+      type: string
+    htmlContent:
+      type: string
+    variables:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          required:
+            type: boolean
+    category:
+      type: string
+      enum: [welcome, reminder, announcement, other]
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - type
+    - subject
+    - content 

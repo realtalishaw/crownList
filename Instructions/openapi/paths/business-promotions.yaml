@@ -1,0 +1,164 @@
+promotions:
+  get:
+    summary: Get all promotions
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, active, scheduled, expired, paused]
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [startDate, endDate, redemptions]
+        default: startDate
+    responses:
+      '200':
+        description: Successfully retrieved promotions
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business-promotions.yaml#/Promotion'
+                summary:
+                  type: object
+                  properties:
+                    activePromotions:
+                      type: integer
+                    scheduledPromotions:
+                      type: integer
+                    totalRedemptions:
+                      type: integer
+                    totalDiscountAmount:
+                      type: number
+                      format: float
+
+  post:
+    summary: Create new promotion
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-promotions.yaml#/Promotion'
+    responses:
+      '201':
+        description: Promotion created successfully
+
+promotion:
+  get:
+    summary: Get promotion details
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved promotion
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-promotions.yaml#/Promotion'
+
+  put:
+    summary: Update promotion
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-promotions.yaml#/Promotion'
+    responses:
+      '200':
+        description: Promotion updated successfully
+
+  delete:
+    summary: Delete promotion
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Promotion deleted successfully
+
+promotion-status:
+  put:
+    summary: Update promotion status
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [active, paused, expired]
+    responses:
+      '200':
+        description: Status updated successfully
+
+promotion-redemptions:
+  get:
+    summary: Get promotion redemptions
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved redemptions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-promotions.yaml#/PromotionRedemption'
+
+promotion-analytics:
+  get:
+    summary: Get promotion analytics
+    tags:
+      - Business Promotions
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved analytics
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-promotions.yaml#/PromotionAnalytics' 

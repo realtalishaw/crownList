@@ -1,42 +1,40 @@
 ## Main Pages (Public)
-- [x] `/` -> `HomePage`
-- [x] `/about` -> `AboutPage`
-- [x] `/contact` -> `ContactPage`
-- [x] `/media-kit` -> `MediaKitPage`
-- [x] `/privacy-policy` -> `PrivacyPolicyPage`
-- [x] `/terms-conditions` -> `TermsOfServicePage`
-- [x] `/faqs` -> `FAQPage`
-- [x] `/help` -> `HelpCenterPage`
+- [ ] `/` -> `HomePage`
+- [ ] `/about` -> `AboutPage`
+- [ ] `/contact` -> `ContactPage`
+- [ ] `/media-kit` -> `MediaKitPage`
+- [ ] `/privacy-policy` -> `PrivacyPolicyPage`
+- [ ] `/terms-conditions` -> `TermsOfServicePage`
+- [ ] `/faqs` -> `FAQPage`
+- [ ] `/help` -> `HelpCenterPage`
 - [ ] `/help/search` -> `HelpSearchResultsPage`
 - [ ] `/help/[categoryId]` -> `HelpCategoryPage`
 - [ ] `/help/[categoryId]/[topicId]` -> `HelpTopicPage` 
-
-## Business Pages (Public)
-- [x] `/for-directors` -> `DirectorsLandingPage`
-- [x] `/for-businesses` -> `BusinessLandingPage`
+- [ ] `/for-directors` -> `DirectorsLandingPage`
+- [ ] `/for-businesses` -> `BusinessLandingPage`
 
 ## Authentication Routes
-- [x] `/auth/login` -> `LoginPage`
-- [x] `/auth/register` -> `RegisterPage`
-- [x] `/auth/reset-password` -> `ResetPasswordPage`
+- [ ] `/auth/login` -> `LoginPage`
+- [ ] `/auth/register` -> `RegisterPage`
+- [ ] `/auth/reset-password` -> `ResetPasswordPage`
 
 
 ## Resource Center (Public)
-- [x] `/resources` -> `ResourcesHomePage`
+- [ ] `/resources` -> `ResourcesHomePage`
 - [ ] `/resources/[categoryId]` -> `ResourceCategoryPage`
-- [x] `/resources/[resourceId]` -> `ResourceDetailPage`
-- [x] `/resources/search` -> `ResourceSearchResultsPage`
+- [ ] `/resources/[resourceId]` -> `ResourceDetailPage`
+- [ ] `/resources/search` -> `ResourceSearchResultsPage`
 
 ## Events (Public)
-- [x] `/events` -> `EventsPage`
-- [x] `/events/[eventId]` -> `EventDetailPage`
-- [x] `/events/calendar` -> `EventCalendarPage`
-- [x] `/events/categories/[categoryId]` -> `EventCategoryPage`
+- [ ] `/events` -> `EventsPage`
+- [ ] `/events/[eventId]` -> `EventDetailPage`
+- [ ] `/events/calendar` -> `EventCalendarPage`
+- [ ] `/events/categories/[categoryId]` -> `EventCategoryPage`
 
 ## Blog (Public)
-- [x] `/blog` -> `BlogPage`
-- [x] `/blog/[postId]` -> `BlogPostPage`
-- [x] `/blog/categories` -> `BlogCategoriesPage`
+- [ ] `/blog` -> `BlogPage`
+- [ ] `/blog/[postId]` -> `BlogPostPage`
+- [ ] `/blog/categories` -> `BlogCategoriesPage`
 
 
 ## Community (Public)
@@ -51,8 +49,8 @@
 
 
 ## Shop (Public)
-- [x] `/shop` -> `ShopHomePage`
-- [x] `/shop/[productId]` -> `ProductDetailPage`
+- [ ] `/shop` -> `ShopHomePage`
+- [ ] `/shop/[productId]` -> `ProductDetailPage`
 - [ ] `/shop/categories/[categoryId]` -> `ShopCategoryPage`
 - [ ] `/shop/search` -> `ShopSearchResultsPage`
 - [ ] `/shop/cart` -> `ShoppingCartPage`
@@ -66,17 +64,17 @@
 - [ ] `/sell/earnings` -> `EarningsPage`
 
 ## Directory (Public)
-- [x] `/directory` -> `DirectoryHomePage`
-- [x] `/directory/search` -> `SearchResultsPage`
-- [x] `/directory/categories/[categoryId]` -> `CategoryPage`
-- [x] `/directory/businesses/[businessId]` -> `BusinessProfilePage`
+- [ ] `/directory` -> `DirectoryHomePage`
+- [ ] `/directory/search` -> `SearchResultsPage`
+- [ ] `/directory/categories/[categoryId]` -> `CategoryPage`
+- [ ] `/directory/businesses/[businessId]` -> `BusinessProfilePage`
 
 
 ## Contestant Routes (Authenticated)
-- [x] `/contestant/dashboard` -> `ContestantDashboardPage`
+- [ ] `/contestant/dashboard` -> `ContestantDashboardPage`
 - [ ] `/contestant/dashboard/wallet` -> `ContestantWalletPage`
 - [ ] `/contestant/dashboard/favorites` -> `ContestantFavoritesPage`
-- [x] `/contestant/profile/edit` -> `EditProfilePage`
+- [ ] `/contestant/profile/edit` -> `EditProfilePage`
 
 
 ### Contestant Resale Management
@@ -87,38 +85,35 @@
 - [ ] `/contestant/dashboard/resale/analytics` -> `ResaleAnalyticsPage`
 
 ### Digital Pageant Binder
-- [x] `/contestant/dashboard/binder` -> `DigitalBinderHomePage`
-- [x] `/contestant/dashboard/binder/[binderId]` -> `BinderPage`
-- [x] `/contestant/dashboard/binder/[binderId]/documents` -> `DocumentsPage`
+- [ ] `/contestant/dashboard/binder` -> `DigitalBinderHomePage`
+- [ ] `/contestant/dashboard/binder/[binderId]` -> `BinderPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/documents` -> `DocumentsPage`
 - [ ] `/contestant/dashboard/binder/[binderId]/paperwork` -> `PaperworkPage`
-- [x] `/contestant/dashboard/binder/[binderId]/wardrobe` -> `WardrobePage`
-- [x] `/contestant/dashboard/binder/[binderId]/appearances` -> `AppearancesPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/wardrobe` -> `WardrobePage`
+- [ ] `/contestant/dashboard/binder/[binderId]/appearances` -> `AppearancesPage`
 - [ ] `/contestant/dashboard/binder/[binderId]/schedule` -> `SchedulePage`
 - [ ] `/contestant/dashboard/binder/[binderId]/packing-list` -> `PackingListPage`
 - [ ] `/contestant/dashboard/binder/[binderId]/competitions` -> `CompetitionsPage`
 - [ ] `/contestant/dashboard/binder/[binderId]/trip-details` -> `TripDetailsPage`
 
 ### Brand & Platform
-- [x] `/contestant/dashboard/binder/[binderId]/brand` -> `BrandHomePage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand` -> `BrandHomePage`
 
 # Personal Branding
-- [x] `/contestant/dashboard/binder/[binderId]/brand/social` -> `SocialMediaManagerPage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/media-kit` -> `MediaKitPage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/website` -> `TitleholderWebsitePage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/website/edit` -> `WebsiteEditorPage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/website/preview` -> `WebsitePreviewPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand/social` -> `SocialMediaManagerPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand/media-kit` -> `MediaKitPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand/website` -> `TitleholderWebsitePage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand/website/edit` -> `WebsiteEditorPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand/website/preview` -> `WebsitePreviewPage`
 
 # Social Impact
-- [x] `/contestant/dashboard/binder/[binderId]/brand/platform` -> `SocialImpactPage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/platform/cause` -> `CauseManagementPage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/platform/initiatives` -> `InitiativesPage`
-- [x] `/contestant/dashboard/binder/[binderId]/brand/platform/impact` -> `ImpactMetricsPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/brand/platform` -> `PlatformDevelopmentPage`
 
 ### Financial Management
-- [x] `/contestant/dashboard/binder/[binderId]/finances` -> `FinancialManagementPage`
-- [x] `/contestant/dashboard/binder/[binderId]/finances/expenses` -> `ExpensesPage`
-- [x] `/contestant/dashboard/binder/[binderId]/finances/sponsorships` -> `SponsorshipsPage`
-- [x] `/contestant/dashboard/binder/[binderId]/finances/fundraising` -> `FundraisingPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/finances` -> `FinancialManagementPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/finances/expenses` -> `ExpensesPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/finances/sponsorships` -> `SponsorshipsPage`
+- [ ] `/contestant/dashboard/binder/[binderId]/finances/fundraising` -> `FundraisingPage`
 
 ### Ambassador Program
 - [ ] `/contestant/dashboard/ambassador` -> `AmbassadorPage`
@@ -130,246 +125,302 @@
 - [ ] `/contestant/dashboard/ambassador/leaderboard` -> `AmbassadorLeaderboardPage`
 
 ### Communication
-- [x] `/contestant/messages` -> `MessagesPage`
-- [x] `/contestant/messages/[conversationId]` -> `ConversationPage`
-- [x] `/contestant/notifications` -> `NotificationsPage`
-- [x] `/contestant/settings` -> `SettingsPage`
+- [ ] `/contestant/messages` -> `MessagesPage`
+- [ ] `/contestant/messages/[conversationId]` -> `ConversationPage`
+- [ ] `/contestant/notifications` -> `NotificationsPage`
+- [ ] `/contestant/settings` -> `SettingsPage`
 
 ## Business Routes (Authenticated)
-- [x] `/business/dashboard` -> `BusinessDashboardPage`
-- [x] `/business/dashboard/profile` -> `BusinessProfilePage`
-- [x] `/business/dashboard/profile/edit` -> `EditBusinessProfilePage`
+- [ ] `/business/dashboard` -> `BusinessDashboardPage`
+- [ ] `/business/dashboard/profile/edit` -> `EditBusinessProfilePage`
 
 ### Listings Management
-- [x] `/business/dashboard/listings` -> `ListingsManagementPage`
-- [x] `/business/dashboard/listings/new` -> `CreateListingPage`
-- [x] `/business/dashboard/listings/[listingId]/edit` -> `EditListingPage`
+- [ ] `/business/dashboard/listings` -> `ListingsManagementPage`
+- [ ] `/business/dashboard/listings/new` -> `CreateListingPage`
+- [ ] `/business/dashboard/listings/[listingId]/edit` -> `EditListingPage`
 
 ### Bookings & Calendar
-- [x] `/business/dashboard/bookings` -> `BookingsPage`
-- [x] `/business/dashboard/bookings/[bookingId]` -> `BookingDetailPage`
-- [x] `/business/dashboard/calendar` -> `AvailabilityCalendarPage`
+- [ ] `/business/dashboard/bookings` -> `BookingsPage`
+- [ ] `/business/dashboard/bookings/[bookingId]` -> `BookingDetailPage`
+- [ ] `/business/dashboard/calendar` -> `AvailabilityCalendarPage`
 
 ### Reviews
-- [x] `/business/dashboard/reviews` -> `ReviewsManagementPage`
-- [x] `/business/dashboard/reviews/[reviewId]` -> `ReviewDetailPage`
+- [ ] `/business/dashboard/reviews` -> `ReviewsManagementPage`
+- [ ] `/business/dashboard/reviews/[reviewId]` -> `ReviewDetailPage`
 
 ### Analytics
-- [x] `/business/dashboard/analytics` -> `AnalyticsPage`
-- [x] `/business/dashboard/analytics/performance` -> `PerformanceMetricsPage`
-- [x] `/business/dashboard/analytics/competitors` -> `CompetitorAnalysisPage`
+- [ ] `/business/dashboard/analytics` -> `AnalyticsPage`
+- [ ] `/business/dashboard/analytics/performance` -> `PerformanceMetricsPage`
+- [ ] `/business/dashboard/analytics/competitors` -> `CompetitorAnalysisPage`
 
 ### Finances
-- [x] `/business/dashboard/finances` -> `BusinessFinancesPage`
-- [x] `/business/dashboard/finances/invoices` -> `InvoicesPage`
-- [x] `/business/dashboard/finances/payments` -> `PaymentsPage`
+- [ ] `/business/dashboard/finances` -> `BusinessFinancesPage`
+- [ ] `/business/dashboard/finances/invoices` -> `InvoicesPage`
+- [ ] `/business/dashboard/finances/payments` -> `PaymentsPage`
 - [ ] `/business/dashboard/finances/reports` -> `FinancialReportsPage`
 - [ ] `/business/dashboard/finances/tax-documents` -> `TaxDocumentsPage`
 
 ### Promotions
-- [x] `/business/dashboard/promotions` -> `PromotionsPage`
-- [x] `/business/dashboard/promotions/new` -> `CreatePromotionPage`
+- [ ] `/business/dashboard/promotions` -> `PromotionsPage`
+- [ ] `/business/dashboard/promotions/new` -> `CreatePromotionPage`
 - [ ] `/business/dashboard/promotions/[promotionId]/edit` -> `EditPromotionPage`
 - [ ] `/business/dashboard/promotions/analytics` -> `PromotionAnalyticsPage`
 
+### Business Event Management
+- [ ] `/business/events` -> `BusinessEventManagementPage`
+- [ ] `/business/events/new` -> `BusinessCreateEventPage`
+- [ ] `/business/events/[eventId]/edit` -> `BusinessEditEventPage`
+- [ ] `/business/events/[eventId]/schedule` -> `BusinessEventSchedulePage`
+- [ ] `/business/events/[eventId]/tickets` -> `BusinessEventTicketsPage`
+- [ ] `/business/events/[eventId]/sponsors` -> `BusinessEventSponsorsPage`
+- [ ] `/business/events/[eventId]/vendors` -> `BusinessEventVendorsPage`
+
 ### Settings
-- [x] `/business/dashboard/settings` -> `BusinessSettingsPage`
+- [ ] `/business/dashboard/settings` -> `BusinessSettingsPage`
 - [ ] `/business/dashboard/settings/team` -> `TeamManagementPage`
 - [ ] `/business/dashboard/settings/integrations` -> `IntegrationsPage`
 - [ ] `/business/dashboard/settings/billing` -> `BillingSettingsPage`
 
 ### Retailer Resale Program
 - [ ] `/business/dashboard/resale` -> `RetailerResaleOverviewPage`
-- [ ] `/business/dashboard/resale/inventory` -> `ResaleInventoryPage`
 - [ ] `/business/dashboard/resale/listings` -> `ResaleListingsPage`
 - [ ] `/business/dashboard/resale/listings/new` -> `CreateResaleListingPage`
-- [ ] `/business/dashboard/resale/listings/[listingId]/edit` -> `EditResaleListingPage`
-- [ ] `/business/dashboard/resale/orders` -> `ResaleOrdersPage`
 - [ ] `/business/dashboard/resale/payouts` -> `ResalePayoutsPage`
 - [ ] `/business/dashboard/resale/analytics` -> `RetailerResaleAnalyticsPage`
 
 
 ## Director Routes (Authenticated)
-- [x] `/director/dashboard` -> `DirectorDashboardPage`
+- [ ] `/director/dashboard` -> `DirectorDashboardPage`
 
 ### Event Management
-- [x] `/director/events` -> `EventManagementPage`
-- [x] `/director/events/new` -> `CreateEventPage`
-- [x] `/director/events/[eventId]/edit` -> `EditEventPage`
-- [x] `/director/events/[eventId]/schedule` -> `EventSchedulePage`
+- [ ] `/director/events` -> `EventManagementPage`
+- [ ] `/director/events/new` -> `CreateEventPage`
+- [ ] `/director/events/[eventId]/edit` -> `EditEventPage`
+- [ ] `/director/events/[eventId]/schedule` -> `EventSchedulePage`
 - [ ] `/director/events/[eventId]/tickets` -> `EventTicketsPage`
 - [ ] `/director/events/[eventId]/sponsors` -> `EventSponsorsPage`
 - [ ] `/director/events/[eventId]/vendors` -> `EventVendorsPage`
 
 ### Contestant Management
-- [x] `/director/contestants` -> `ContestantManagementPage`
-- [x] `/director/contestants/[contestantId]` -> `ContestantDetailPage`
+- [ ] `/director/contestants` -> `ContestantManagementPage`
+- [ ] `/director/contestants/[contestantId]` -> `ContestantDetailPage`
 - [ ] `/director/contestants/import` -> `ImportContestantsPage`
-- [ ] `/director/contestants/export` -> `ExportContestantsPage`
+- [ ] `/director/contestants/edit/[contestantId]` -> `EditContestantPage`
 
 ### Judging Management
-- [x] `/director/judging` -> `JudgingManagementPage`
-- [x] `/director/judging/[eventId]` -> `EventScoringPage`
-- [x] `/director/judging/[eventId]/results` -> `ScoringResultsPage`
+- [ ] `/director/judging` -> `JudgingManagementPage`
+- [ ] `/director/judging/[eventId]` -> `EventScoringPage`
+- [ ] `/director/judging/[eventId]/results` -> `ScoringResultsPage`
 - [ ] `/director/judging/judges` -> `JudgesManagementPage`
-- [ ] `/director/judging/criteria` -> `ScoringCriteriaPage`
+
 
 ### People's Choice
-- [x] `/director/peoples-choice` -> `PeoplesChoiceManagementPage`
-- [x] `/director/peoples-choice/new` -> `CreatePeoplesChoicePage`
-- [x] `/director/peoples-choice/[eventId]/contestants` -> `ManageContestantsPage`
+- [ ] `/director/peoples-choice` -> `PeoplesChoiceManagementPage`
+- [ ] `/director/peoples-choice/new` -> `CreatePeoplesChoicePage`
+- [ ] `/director/peoples-choice/[eventId]/contestants` -> `ManageContestantsPage`
 - [ ] `/director/peoples-choice/[eventId]/analytics` -> `VotingAnalyticsPage`
 - [ ] `/director/peoples-choice/[eventId]/settings` -> `VotingSettingsPage`
 
 ### Staff Management
-- [x] `/director/staff` -> `StaffManagementPage`
-- [x] `/director/staff/new` -> `AddStaffMemberPage`
-- [x] `/director/staff/[staffId]/edit` -> `EditStaffMemberPage`
-- [x] `/director/staff/roles` -> `RoleManagementPage`
-- [ ] `/director/staff/schedule` -> `StaffSchedulePage`
-- [ ] `/director/staff/training` -> `StaffTrainingPage`
+- [ ] `/director/staff` -> `StaffManagementPage`
+- [ ] `/director/staff/new` -> `AddStaffMemberPage`
+- [ ] `/director/staff/[staffId]/edit` -> `EditStaffMemberPage`
+- [ ] `/director/staff/roles` -> `RoleManagementPage`
 
 ### Finances
-- [x] `/director/finances` -> `DirectorFinancesPage`
-- [x] `/director/finances/reports` -> `FinancialReportsPage`
-- [ ] `/director/finances/budgets` -> `BudgetManagementPage`
-- [ ] `/director/finances/sponsorships` -> `SponsorshipManagementPage`
-- [ ] `/director/finances/expenses` -> `ExpenseManagementPage`
+- [ ] `/director/finances` -> `DirectorFinancesPage`
+- [ ] `/director/finances/reports` -> `FinancialReportsPage`
+
 
 ### Communications
-- [x] `/director/communications` -> `CommunicationsPage`
-- [x] `/director/communications/bulk` -> `BulkMessagingPage`
+- [ ] `/director/communications` -> `CommunicationsPage`
+- [ ] `/director/communications/bulk` -> `BulkMessagingPage`
 - [ ] `/director/communications/templates` -> `MessageTemplatesPage`
 - [ ] `/director/communications/announcements` -> `AnnouncementsPage`
-- [ ] `/director/communications/analytics` -> `CommunicationAnalyticsPage`
+
 
 ### Settings & Support
-- [x] `/director/settings` -> `DirectorSettingsPage`
-- [x] `/director/support` -> `DirectorSupportPage`
-- [ ] `/director/settings/branding` -> `BrandingSettingsPage`
-- [ ] `/director/settings/integrations` -> `SystemIntegrationsPage`
+- [ ] `/director/settings` -> `DirectorSettingsPage`
+- [ ] `/director/support` -> `DirectorSupportPage`
 
 ## Public Voting Routes
-- [x] `/vote` -> `VotingHomePage`
-- [x] `/vote/[eventId]` -> `VotingEventPage`
-- [x] `/vote/[eventId]/contestant/[contestantId]` -> `ContestantVotingPage`
-- [ ] `/vote/[eventId]/leaderboard` -> `VotingLeaderboardPage`
-- [ ] `/vote/[eventId]/rules` -> `VotingRulesPage`
+- [ ] `/vote` -> `VotingHomePage`
+- [ ] `/vote/[eventId]` -> `VotingEventPage`
+- [ ] `/vote/[eventId]/contestant/[contestantId]` -> `ContestantVotingPage`
+
 
 ## Admin Routes (Authenticated)
-- [x] `/admin/dashboard` -> `AdminDashboardPage`
-- [x] `/admin/users` -> `AdminUsersPage`
-- [x] `/admin/users/[userId]` -> `AdminUserPage`
-- [x] `/admin/businesses` -> `AdminBusinessesPage`
-- [x] `/admin/businesses/pending` -> `PendingBusinessesPage`
-- [ ] `/admin/businesses/[businessId]` -> `AdminBusinessPage`
+- [ ] `/admin/dashboard` -> `AdminDashboardPage`
+- [ ] `/admin/users` -> `AdminUsersPage`
+- [ ] `/admin/users/[userId]` -> `AdminUserPage`
+- [ ] `/admin/businesses` -> `AdminBusinessesPage`
+- [ ] `/admin/businesses/pending` -> `PendingBusinessesPage`
+- [ ] `/admin/businesses/[businessId]` -> `AdminBusinessDetailsPage`
+- [ ] `/admin/buinssesses/[businessId]/reviews` -> `AdminBusinessReviewsPage`
 
 ## Maintenance Routes
-- [x] `/404` -> `NotFoundPage`
-- [x] `/500` -> `ServerErrorPage`
-- [x] `/403` -> `ForbiddenPage`
-- [x] `/maintenance` -> `MaintenancePage`
+- [ ] `/404` -> `NotFoundPage`
+- [ ] `/500` -> `ServerErrorPage`
+- [ ] `/403` -> `ForbiddenPage`
+- [ ] `/maintenance` -> `MaintenancePage`
 
 
 ## API Routes
-### Authentication & Users
-- [ ] `/api/auth/login` -> `POST` Login endpoint
-- [ ] `/api/auth/register` -> `POST` Register new user
-- [ ] `/api/auth/verify` -> `POST` Verify email
-- [ ] `/api/auth/reset-password` -> `POST` Reset password
-- [ ] `/api/auth/refresh` -> `POST` Refresh access token
 
-- [ ] `/api/users/me` -> `GET` Current user profile
-- [ ] `/api/users/[userId]` -> `GET/PUT/DELETE` User operations
-- [ ] `/api/users/settings` -> `GET/PUT` User settings
-- [ ] `/api/users/notifications` -> `GET/PUT` Notification preferences
+### Admin Routes
+- `/api/admin/overview` -> `GET` Get admin dashboard overview
+- `/api/admin/platform-activity` -> `GET` Get platform activity metrics
+- `/api/admin/user-statistics` -> `GET` Get detailed user statistics
+- `/api/admin/recent-activity` -> `GET` Get recent activity
+- `/api/admin/moderation-overview` -> `GET` Get content moderation overview
+- `/api/admin/user-management` -> `GET` Get user management overview
 
-### Business & Listings
-- [ ] `/api/businesses/register` -> `POST` Register business
-- [ ] `/api/businesses/[businessId]` -> `GET/PUT/DELETE` Business operations
-- [ ] `/api/businesses/search` -> `GET` Search businesses
-- [ ] `/api/businesses/categories` -> `GET` Business categories
+### Ambassador Program Routes
+- `/api/ambassador/leaderboard` -> `GET` Get leaderboard rankings
+- `/api/ambassador/rank` -> `GET` Get ambassador's current ranking
+- `/api/ambassador/points-summary` -> `GET` Get ambassador points summary
+- `/api/ambassador/points-history` -> `GET` Get points transaction history
+- `/api/ambassador/points-adjustment` -> `POST` Create manual points adjustment
+- `/api/ambassador/rewards` -> `GET` Get available rewards
+- `/api/ambassador/reward-redemption` -> `POST` Redeem reward
+- `/api/ambassador/redemption-history` -> `GET` Get reward redemption history
 
-- [ ] `/api/listings/create` -> `POST` Create listing
-- [ ] `/api/listings/[listingId]` -> `GET/PUT/DELETE` Listing operations
-- [ ] `/api/listings/search` -> `GET` Search listings
-- [ ] `/api/listings/featured` -> `GET` Featured listings
+### Analytics Routes
+- `/api/analytics/overview` -> `GET` Get analytics overview
+- `/api/analytics/revenue` -> `GET` Get revenue analytics
+- `/api/analytics/service-performance` -> `GET` Get service performance analytics
 
-### Events & Bookings
-- [ ] `/api/events/create` -> `POST` Create event
-- [ ] `/api/events/[eventId]` -> `GET/PUT/DELETE` Event operations
-- [ ] `/api/events/search` -> `GET` Search events
-- [ ] `/api/events/categories` -> `GET` Event categories
+### Business Routes
+- `/api/business/dashboard` -> `GET` Get business dashboard
+- `/api/business/management/overview` -> `GET` Get business management overview
+- `/api/business/applications/pending` -> `GET` Get pending business applications
+- `/api/business/application/review` -> `PUT` Review business application
+- `/api/business/verification` -> `POST` Add verification note
 
-- [ ] `/api/bookings/create` -> `POST` Create booking
-- [ ] `/api/bookings/[bookingId]` -> `GET/PUT/DELETE` Booking operations
-- [ ] `/api/bookings/history` -> `GET` Booking history
+### Bookings Routes
+- `/api/bookings` -> `GET/POST` Manage bookings
+- `/api/bookings/[bookingId]` -> `GET/PUT` Get/Update booking details
+- `/api/bookings/reschedule` -> `POST` Reschedule booking
+- `/api/bookings/cancel` -> `POST` Cancel booking
+- `/api/bookings/reminder` -> `POST` Send booking reminder
 
-### Communication
-- [ ] `/api/messages/send` -> `POST` Send message
-- [ ] `/api/messages/[messageId]` -> `GET/DELETE` Message operations
-- [ ] `/api/messages/threads` -> `GET` Message threads
-- [ ] `/api/messages/unread` -> `GET` Unread messages
+### Calendar Routes
+- `/api/calendar/service-schedules` -> `GET/POST` Manage service schedules
+- `/api/calendar/slots` -> `GET` Get available slots
+- `/api/calendar/block-dates` -> `POST` Block date range
+- `/api/calendar/custom-availability` -> `POST` Set custom availability
 
-- [ ] `/api/notifications/send` -> `POST` Send notification
-- [ ] `/api/notifications/[notificationId]` -> `GET/DELETE` Notification operations
-- [ ] `/api/notifications/unread` -> `GET` Unread notifications
+### Communications Routes
+- `/api/communications/overview` -> `GET` Get communications overview
+- `/api/communications/messages` -> `GET/POST` Manage messages
+- `/api/communications/templates` -> `GET` Get message templates
 
-### Reviews & Analytics
-- [ ] `/api/reviews/create` -> `POST` Create review
-- [ ] `/api/reviews/[reviewId]` -> `GET/PUT/DELETE` Review operations
-- [ ] `/api/reviews/business/[businessId]` -> `GET` Business reviews
+### Directory Routes
+- `/api/directory` -> `GET` Get directory listings
+- `/api/directory/search` -> `GET` Search directory
+- `/api/directory/user/[username]` -> `GET` Get user profile by username
 
-- [ ] `/api/analytics/dashboard` -> `GET` Dashboard analytics
-- [ ] `/api/analytics/reports` -> `GET` Generate reports
-- [ ] `/api/analytics/metrics` -> `GET` Key metrics
+### Events Routes
+- `/api/events` -> `GET/POST` Manage events
+- `/api/events/[eventId]` -> `GET/PUT/DELETE` Event operations
+- `/api/events/schedule` -> `GET/POST` Manage event schedule
+- `/api/events/tickets` -> `GET/POST` Manage event tickets
+- `/api/events/sponsors` -> `GET/POST` Manage event sponsors
 
-### Files & Payments
-- [ ] `/api/files/upload` -> `POST` Upload file
-- [ ] `/api/files/[fileId]` -> `GET/DELETE` File operations
-- [ ] `/api/files/download/[fileId]` -> `GET` Download file
+### Financial Routes
+- `/api/finances/reports` -> `GET/POST` Generate financial reports
+- `/api/finances/transactions` -> `GET` Get transactions
+- `/api/finances/invoices` -> `GET/POST` Manage invoices
+- `/api/finances/payments` -> `GET/POST` Manage payments
+- `/api/finances/tax-documents` -> `GET` Get tax documents
 
-- [ ] `/api/payments/create` -> `POST` Create payment
-- [ ] `/api/payments/[paymentId]` -> `GET` Payment status
-- [ ] `/api/payments/history` -> `GET` Payment history
-- [ ] `/api/payments/refund` -> `POST` Process refund
+### Judging Routes
+- `/api/judging/scoring` -> `POST` Record competition scores
+- `/api/judging/results` -> `GET` Get competition results
+- `/api/judging/awards` -> `POST` Create award/placement
 
-### Shop
-- [ ] `/api/shop/products` -> `GET` Shop products
-- [ ] `/api/shop/products/[productId]` -> `GET` Shop product details
-- [ ] `/api/shop/cart` -> `GET` Shop cart
-- [ ] `/api/shop/checkout` -> `POST` Shop checkout  
-- [ ] `/api/shop/wishlist` -> `GET` Shop wishlist
-- [ ] `/api/shop/orders` -> `GET` Shop orders
-- [ ] `/api/shop/orders/[orderId]` -> `GET` Shop order details
-- [ ] `/api/shop/shipping` -> `GET` Shop shipping options
-- [ ] `/api/shop/tracking` -> `GET` Shop tracking information
-- [ ] `/api/shop/resale/locations` -> `GET` Resale locations
-- [ ] `/api/shop/resale/items` -> `GET` Resale items
-- [ ] `/api/shop/resale/tracking` -> `GET` Track resale status
-- [ ] `/api/shop/resale/listings` -> `GET` Resale listings
+### Listings Routes
+- `/api/listings` -> `GET/POST` Manage business listings
+- `/api/listings/[listingId]` -> `GET/PUT/DELETE` Listing operations
+- `/api/listings/media` -> `POST` Add media to listing
+- `/api/listings/stats` -> `GET` Get listing statistics
 
+### Marketplace Routes
+- `/api/marketplace/products` -> `GET/POST` Manage products
+- `/api/marketplace/categories` -> `GET` Get product categories
+- `/api/marketplace/cart` -> `GET/POST/PUT` Manage shopping cart
+- `/api/marketplace/orders` -> `GET/POST` Manage orders
 
-### Resale Program (Contestant)
-- [ ] `/api/contestant/resale/items` -> `GET/POST` Manage resale items
-- [ ] `/api/contestant/resale/shipping` -> `POST` Generate shipping label
-- [ ] `/api/contestant/resale/earnings` -> `GET` View earnings
+### Pageant Management Routes
+- `/api/pageant/contestants` -> `GET/POST` Manage contestants
+- `/api/pageant/competition/areas` -> `GET/POST` Manage competition areas
+- `/api/pageant/documents` -> `GET/POST` Manage pageant documents
+- `/api/pageant/finances` -> `GET` Get pageant financial overview
 
-### Resale (Business)
-- [ ] `/api/business/resale/inventory` -> `GET/POST/PUT` Inventory management
-- [ ] `/api/business/resale/shipping` -> `POST` Generate shipping label
-- [ ] `/api/business/resale/listings` -> `GET/POST/PUT/DELETE` Listing operations
-- [ ] `/api/business/resale/orders` -> `GET/PUT` Order management
-- [ ] `/api/business/resale/payouts` -> `GET` Payout information
-- [ ] `/api/business/resale/analytics` -> `GET` Business resale metrics
+### People's Choice Routes
+- `/api/peoples-choice/overview` -> `GET` Get people's choice overview
+- `/api/peoples-choice/events` -> `GET` Get voting events
+- `/api/peoples-choice/contestants` -> `GET` Get contestants for voting
+- `/api/peoples-choice/vote` -> `POST` Purchase votes
 
-### Ambassador Program
-- [ ] `/api/ambassador/register` -> `POST` Register as ambassador
-- [ ] `/api/ambassador/profile` -> `GET/PUT` Ambassador profile operations
-- [ ] `/api/ambassador/tasks` -> `GET` Available tasks
-- [ ] `/api/ambassador/tasks/complete` -> `POST` Mark task as complete
-- [ ] `/api/ambassador/points` -> `GET` Point balance and history
-- [ ] `/api/ambassador/rewards` -> `GET` Reward catalog
-- [ ] `/api/ambassador/rewards/redeem` -> `POST` Redeem reward
-- [ ] `/api/ambassador/analytics` -> `GET` Ambassador performance metrics
-- [ ] `/api/ambassador/leaderboard` -> `GET` Leaderboard
+### Promotions Routes
+- `/api/promotions` -> `GET/POST` Manage promotions
+- `/api/promotions/[promotionId]` -> `GET/PUT/DELETE` Promotion operations
+- `/api/promotions/analytics` -> `GET` Get promotion analytics
+
+### Resale Program Routes
+- `/api/resale/overview` -> `GET` Get resale overview
+- `/api/resale/items` -> `GET/POST` Manage resale items
+- `/api/resale/shipments` -> `GET/POST` Manage shipments
+- `/api/resale/earnings` -> `GET` View earnings
+- `/api/resale/analytics` -> `GET` Get resale analytics
+
+### Reviews Routes
+- `/api/reviews` -> `GET/POST` Manage reviews
+- `/api/reviews/[reviewId]` -> `GET/PUT/DELETE` Review operations
+- `/api/reviews/response` -> `POST` Respond to review
+- `/api/reviews/stats` -> `GET` Get review statistics
+
+### Settings Routes
+- `/api/settings/notifications` -> `GET/PUT` Manage notification preferences
+- `/api/settings/privacy` -> `GET/PUT` Manage privacy settings
+- `/api/settings/account` -> `GET/PUT` Manage account settings
+- `/api/settings/business` -> `GET/PUT` Manage business settings
+
+### Staff Management Routes
+- `/api/staff/overview` -> `GET` Get staff management overview
+- `/api/staff/members` -> `GET/POST` Manage staff members
+- `/api/staff/roles` -> `GET/POST` Manage staff roles
+
+### Support Routes
+- `/api/support/tickets` -> `GET/POST` Manage support tickets
+- `/api/support/ticket/[ticketId]` -> `GET/PUT` Ticket operations
+- `/api/support/ticket/message` -> `POST` Add message to ticket
+
+### User Routes
+- `/api/users/profile` -> `GET/PUT` Manage user profile
+- `/api/users/settings` -> `GET/PUT` Manage user settings
+- `/api/users/notifications` -> `GET/PUT` Manage notifications
+
+### Wallet Routes
+- `/api/wallet` -> `GET` Get wallet information
+- `/api/wallet/transactions` -> `GET` Get wallet transactions
+- `/api/wallet/payment-methods` -> `GET/POST` Manage payment methods
+- `/api/wallet/subscriptions` -> `GET/POST` Manage subscriptions
+
+### Website Routes
+- `/api/website` -> `GET/POST/PUT/DELETE` Manage website
+- `/api/website/analytics` -> `GET` Get website analytics
+- `/api/website/publish` -> `POST` Publish website
+
+### Authentication Routes
+- `/api/auth/login` -> `POST` Login endpoint
+- `/api/auth/register` -> `POST` Register new user
+- `/api/auth/verify` -> `POST` Verify email
+- `/api/auth/reset-password` -> `POST` Reset password
+
+### File Management Routes
+- `/api/files/upload` -> `POST` Upload file
+- `/api/files/[fileId]` -> `GET/DELETE` File operations
+- `/api/files/download/[fileId]` -> `GET` Download file
+

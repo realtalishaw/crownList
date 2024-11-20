@@ -1,0 +1,120 @@
+Notification:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: 
+        - message
+        - mention
+        - task_completed
+        - points_earned
+        - reward_redeemed
+        - booking_confirmed
+        - order_status
+        - document_approved
+        - new_follower
+        - event_reminder
+        - system
+    title:
+      type: string
+    message:
+      type: string
+    priority:
+      type: string
+      enum: [low, medium, high]
+    status:
+      type: string
+      enum: [unread, read, archived]
+    data:
+      type: object
+      description: Additional context-specific data
+      properties:
+        entityType:
+          type: string
+          enum: [message, task, order, event, document, user, reward]
+        entityId:
+          type: string
+          format: uuid
+        action:
+          type: string
+        metadata:
+          type: object
+    link:
+      type: string
+      format: uri
+    icon:
+      type: string
+    readAt:
+      type: string
+      format: date-time
+    expiresAt:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - type
+    - message
+
+NotificationPreferences:
+  type: object
+  properties:
+    userId:
+      type: string
+      format: uuid
+    channels:
+      type: object
+      properties:
+        inApp:
+          type: boolean
+          default: true
+        email:
+          type: boolean
+          default: true
+        push:
+          type: boolean
+          default: true
+    preferences:
+      type: object
+      properties:
+        messages:
+          type: boolean
+          default: true
+        mentions:
+          type: boolean
+          default: true
+        taskUpdates:
+          type: boolean
+          default: true
+        pointsEarned:
+          type: boolean
+          default: true
+        rewards:
+          type: boolean
+          default: true
+        bookings:
+          type: boolean
+          default: true
+        orders:
+          type: boolean
+          default: true
+        documents:
+          type: boolean
+          default: true
+        followers:
+          type: boolean
+          default: true
+        events:
+          type: boolean
+          default: true
+        system:
+          type: boolean
+          default: true 

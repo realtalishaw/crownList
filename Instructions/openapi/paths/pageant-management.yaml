@@ -1,0 +1,227 @@
+pageant-contestants:
+  get:
+    summary: Get all contestants for a pageant
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: pageantId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, approved, waitlist, withdrawn, disqualified]
+      - in: query
+        name: division
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved contestants
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-contestants.yaml#/PageantContestant'
+
+  post:
+    summary: Register new contestant
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-contestants.yaml#/PageantContestant'
+    responses:
+      '201':
+        description: Contestant registered successfully
+
+contestant:
+  get:
+    summary: Get contestant details
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved contestant
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/pageant-contestants.yaml#/PageantContestant'
+
+  put:
+    summary: Update contestant information
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-contestants.yaml#/PageantContestant'
+    responses:
+      '200':
+        description: Contestant updated successfully
+
+contestant-status:
+  put:
+    summary: Update contestant status
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [pending, approved, waitlist, withdrawn, disqualified]
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Status updated successfully
+
+contestant-submissions:
+  get:
+    summary: Get contestant submissions
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [form, document, payment]
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, submitted, approved, rejected]
+    responses:
+      '200':
+        description: Successfully retrieved submissions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-contestants.yaml#/ContestantSubmission'
+
+  post:
+    summary: Create new submission
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/pageant-contestants.yaml#/ContestantSubmission'
+              files:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Submission created successfully
+
+review-submission:
+  put:
+    summary: Review contestant submission
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [approved, rejected]
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Submission reviewed successfully
+
+contestant-payments:
+  get:
+    summary: Get contestant payments
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved payments
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  feeId:
+                    type: string
+                  amount:
+                    type: number
+                  status:
+                    type: string
+
+record-payment:
+  post:
+    summary: Record contestant payment
+    tags:
+      - Pageant Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              feeId:
+                type: string
+              amount:
+                type: number
+              paymentMethod:
+                type: string
+              notes:
+                type: string
+    responses:
+      '201':
+        description: Payment recorded successfully 

@@ -1,0 +1,98 @@
+AmbassadorReward:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    category:
+      type: string
+      enum: [digital, physical, coaching, elite]
+    title:
+      type: string
+    description:
+      type: string
+    pointsRequired:
+      type: integer
+    image:
+      type: string
+      format: uri
+    quantity:
+      type: integer
+      description: Available quantity, null if unlimited
+    levelRequired:
+      type: string
+      enum: [rising_star, shining_star, superstar, crown_elite]
+    isActive:
+      type: boolean
+      default: true
+    terms:
+      type: string
+    expiryDate:
+      type: string
+      format: date
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - category
+    - title
+    - pointsRequired
+
+RewardRedemption:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    ambassadorId:
+      type: string
+      format: uuid
+    rewardId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum: [pending, processing, fulfilled, cancelled]
+    pointsSpent:
+      type: integer
+    shippingAddress:
+      type: object
+      properties:
+        name:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+    fulfillmentDetails:
+      type: object
+      properties:
+        method:
+          type: string
+          enum: [digital, shipping, in_person, virtual]
+        trackingNumber:
+          type: string
+        scheduledDate:
+          type: string
+          format: date-time
+        notes:
+          type: string
+    redeemedAt:
+      type: string
+      format: date-time
+    fulfilledAt:
+      type: string
+      format: date-time
+  required:
+    - ambassadorId
+    - rewardId
+    - pointsSpent 

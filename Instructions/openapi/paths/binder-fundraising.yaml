@@ -1,0 +1,195 @@
+fundraisers:
+  get:
+    summary: Get fundraisers
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, active, paused, completed, archived]
+    responses:
+      '200':
+        description: Successfully retrieved fundraisers
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-fundraising.yaml#/Fundraiser'
+
+  post:
+    summary: Create fundraiser
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/binder-fundraising.yaml#/Fundraiser'
+              coverImage:
+                type: string
+                format: binary
+    responses:
+      '201':
+        description: Fundraiser created successfully
+
+fundraiser:
+  get:
+    summary: Get fundraiser details
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved fundraiser
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-fundraising.yaml#/Fundraiser'
+
+  put:
+    summary: Update fundraiser
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-fundraising.yaml#/Fundraiser'
+    responses:
+      '200':
+        description: Fundraiser updated successfully
+
+  delete:
+    summary: Delete fundraiser
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Fundraiser deleted successfully
+
+fundraiser-status:
+  put:
+    summary: Update fundraiser status
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [draft, active, paused, completed, archived]
+    responses:
+      '200':
+        description: Status updated successfully
+
+fundraiser-updates:
+  post:
+    summary: Add fundraiser update
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+              media:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Update added successfully
+
+donations:
+  get:
+    summary: Get donations for fundraiser
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, completed, failed, refunded]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved donations
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-fundraising.yaml#/Donation'
+                summary:
+                  type: object
+                  properties:
+                    total:
+                      type: number
+                      format: float
+                    count:
+                      type: integer
+                    average:
+                      type: number
+                      format: float
+
+thank-donor:
+  post:
+    summary: Mark donor as thanked
+    tags:
+      - Fundraising
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Donor marked as thanked successfully

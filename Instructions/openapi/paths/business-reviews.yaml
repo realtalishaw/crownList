@@ -1,0 +1,210 @@
+reviews:
+  get:
+    summary: Get business reviews
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, published, flagged, removed]
+      - in: query
+        name: hasResponse
+        schema:
+          type: boolean
+      - in: query
+        name: rating
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 5
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [date, rating, helpful]
+        default: date
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved reviews
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business-reviews.yaml#/Review'
+                stats:
+                  $ref: '../schemas/business-reviews.yaml#/ReviewStats'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+review:
+  get:
+    summary: Get review details
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved review
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-reviews.yaml#/Review'
+
+  put:
+    summary: Update review status
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [published, flagged, removed]
+    responses:
+      '200':
+        description: Review status updated successfully
+
+review-response:
+  post:
+    summary: Respond to review
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response:
+                type: string
+    responses:
+      '200':
+        description: Response added successfully
+
+review-stats:
+  get:
+    summary: Get review statistics
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+          enum: [week, month, year, all]
+        default: all
+    responses:
+      '200':
+        description: Successfully retrieved review statistics
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-reviews.yaml#/ReviewStats'
+
+review-response-update:
+  put:
+    summary: Update review response
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response:
+                type: string
+    responses:
+      '200':
+        description: Response updated successfully
+
+review-response-delete:
+  delete:
+    summary: Delete review response
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Response deleted successfully
+
+review-detail:
+  get:
+    summary: Get detailed review information
+    tags:
+      - Business Reviews
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved detailed review information
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '../schemas/business-reviews.yaml#/Review'
+                - type: object
+                  properties:
+                    reviewerHistory:
+                      type: object
+                      properties:
+                        totalReviews:
+                          type: integer
+                        averageRating:
+                          type: number
+                          format: float
+                        previousReviews:
+                          type: array
+                          items:
+                            $ref: '../schemas/business-reviews.yaml#/Review'
+                    responseHistory:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          response:
+                            type: string
+                          respondedAt:
+                            type: string
+                            format: date-time
+                          respondedBy:
+                            type: string
+                            format: uuid 

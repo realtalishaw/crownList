@@ -1,0 +1,142 @@
+performance-metrics:
+  get:
+    summary: Get detailed performance metrics
+    tags:
+      - Business Performance
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: compareWithPrevious
+        schema:
+          type: boolean
+        default: true
+    responses:
+      '200':
+        description: Successfully retrieved performance metrics
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-performance.yaml#/PerformanceMetrics'
+
+client-retention:
+  get:
+    summary: Get client retention analysis
+    tags:
+      - Business Performance
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+          enum: [month, quarter, year]
+        default: month
+    responses:
+      '200':
+        description: Successfully retrieved client retention analysis
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                retentionRate:
+                  type: number
+                  format: float
+                retentionTrend:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      period:
+                        type: string
+                      rate:
+                        type: number
+                        format: float
+                clientSegments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      segment:
+                        type: string
+                      count:
+                        type: integer
+                      retentionRate:
+                        type: number
+                        format: float
+
+generate-report:
+  post:
+    summary: Generate performance or analytics report
+    tags:
+      - Business Performance
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-performance.yaml#/ReportConfig'
+    responses:
+      '200':
+        description: Report generated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reportId:
+                  type: string
+                  format: uuid
+                downloadUrl:
+                  type: string
+                  format: uri
+                expiresAt:
+                  type: string
+                  format: date-time
+
+download-report:
+  get:
+    summary: Download generated report
+    tags:
+      - Business Performance
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: reportId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Report file
+        content:
+          application/pdf:
+            schema:
+              type: string
+              format: binary
+          application/vnd.ms-excel:
+            schema:
+              type: string
+              format: binary
+          text/csv:
+            schema:
+              type: string
+              format: binary 

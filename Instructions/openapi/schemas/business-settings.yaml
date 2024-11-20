@@ -1,0 +1,117 @@
+BusinessSettings:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    notificationPreferences:
+      type: object
+      properties:
+        bookings:
+          type: boolean
+          default: true
+        reviews:
+          type: boolean
+          default: true
+        marketing:
+          type: boolean
+          default: true
+        channels:
+          type: object
+          properties:
+            email:
+              type: boolean
+              default: true
+            sms:
+              type: boolean
+              default: false
+            push:
+              type: boolean
+              default: true
+    businessHours:
+      type: object
+      properties:
+        isAlwaysOpen:
+          type: boolean
+          default: false
+        regularHours:
+          type: array
+          items:
+            type: object
+            properties:
+              dayOfWeek:
+                type: integer
+                minimum: 0
+                maximum: 6
+              isOpen:
+                type: boolean
+                default: true
+              openTime:
+                type: string
+                format: time
+              closeTime:
+                type: string
+                format: time
+              breaks:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    startTime:
+                      type: string
+                      format: time
+                    endTime:
+                      type: string
+                      format: time
+        specialHours:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              isClosed:
+                type: boolean
+              openTime:
+                type: string
+                format: time
+              closeTime:
+                type: string
+                format: time
+              note:
+                type: string
+    paymentSettings:
+      type: object
+      properties:
+        stripeAccountId:
+          type: string
+        isStripeConnected:
+          type: boolean
+        defaultCurrency:
+          type: string
+          default: USD
+        acceptedPaymentMethods:
+          type: array
+          items:
+            type: string
+            enum: [card, bank_transfer]
+    subscription:
+      type: object
+      properties:
+        planId:
+          type: string
+        status:
+          type: string
+          enum: [active, past_due, canceled, incomplete]
+        currentPeriodEnd:
+          type: string
+          format: date-time
+        cancelAtPeriodEnd:
+          type: boolean
+    updatedAt:
+      type: string
+      format: date-time 

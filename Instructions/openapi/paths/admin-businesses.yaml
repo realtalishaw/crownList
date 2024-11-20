@@ -1,0 +1,115 @@
+business-management:
+  get:
+    summary: Get business management overview
+    tags:
+      - Admin Businesses
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved business management overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/admin-businesses.yaml#/BusinessManagementOverview'
+
+businesses:
+  get:
+    summary: Get business list
+    tags:
+      - Admin Businesses
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [active, under_review, suspended]
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [name, dateJoined, rating]
+        default: dateJoined
+    responses:
+      '200':
+        description: Successfully retrieved businesses
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/admin-businesses.yaml#/AdminBusinessList'
+
+pending-applications:
+  get:
+    summary: Get pending business applications
+    tags:
+      - Admin Businesses
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved pending applications
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/admin-businesses.yaml#/BusinessApplication'
+
+review-application:
+  put:
+    summary: Review business application
+    tags:
+      - Admin Businesses
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              decision:
+                type: string
+                enum: [approve, reject]
+              reason:
+                type: string
+              verificationNotes:
+                type: string
+    responses:
+      '200':
+        description: Application review completed successfully
+
+business-verification:
+  post:
+    summary: Add verification note
+    tags:
+      - Admin Businesses
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              note:
+                type: string
+              documentType:
+                type: string
+    responses:
+      '201':
+        description: Verification note added successfully 

@@ -1,0 +1,218 @@
+wallet:
+  get:
+    summary: Get user's wallet information
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved wallet information
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/wallet.yaml#/Wallet'
+
+payment-methods:
+  get:
+    summary: Get user's payment methods
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved payment methods
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/wallet.yaml#/PaymentMethod'
+
+  post:
+    summary: Add new payment method
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              stripePaymentMethodId:
+                type: string
+              isDefault:
+                type: boolean
+            required:
+              - stripePaymentMethodId
+    responses:
+      '201':
+        description: Payment method added successfully
+
+payment-method:
+  put:
+    summary: Update payment method (e.g., set as default)
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              isDefault:
+                type: boolean
+            required:
+              - isDefault
+    responses:
+      '200':
+        description: Payment method updated successfully
+
+  delete:
+    summary: Remove payment method
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Payment method removed successfully
+
+transactions:
+  get:
+    summary: Get wallet transactions
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [payment, refund, deposit, withdrawal, subscription_charge, resale_earning]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved transactions
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/wallet.yaml#/WalletTransaction'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+subscriptions:
+  get:
+    summary: Get user's subscriptions
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved subscriptions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/wallet.yaml#/Subscription'
+
+  post:
+    summary: Create new subscription
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              planId:
+                type: string
+              paymentMethodId:
+                type: string
+            required:
+              - planId
+              - paymentMethodId
+    responses:
+      '201':
+        description: Subscription created successfully
+
+subscription:
+  put:
+    summary: Update subscription
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paymentMethodId:
+                type: string
+              cancelAtPeriodEnd:
+                type: boolean
+    responses:
+      '200':
+        description: Subscription updated successfully
+
+  delete:
+    summary: Cancel subscription
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: immediately
+        schema:
+          type: boolean
+          default: false
+        description: Cancel immediately or at period end
+    responses:
+      '200':
+        description: Subscription cancelled successfully 

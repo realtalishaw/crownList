@@ -1,0 +1,120 @@
+directory:
+  get:
+    summary: Get public community members directory
+    tags:
+      - Community
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search by name, username, or title
+      - in: query
+        name: role
+        schema:
+          type: string
+          enum:
+            - contestant
+            - director
+            - business
+            - parent
+            - supporter
+            - judge
+        description: Filter by user role
+      - in: query
+        name: location
+        schema:
+          type: string
+        description: Filter by location
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            - newest
+            - followers
+            - alphabetical
+            - title
+          default: alphabetical
+        description: Sort order for results
+      - in: query
+        name: hasTitle
+        schema:
+          type: boolean
+        description: Filter users who have a pageant title
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        description: Results per page
+    responses:
+      '200':
+        description: Successfully retrieved directory members
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/community.yaml#/PublicProfile'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+                filters:
+                  type: object
+                  properties:
+                    availableRoles:
+                      type: array
+                      items:
+                        type: string
+                    availableLocations:
+                      type: array
+                      items:
+                        type: string
+      '400':
+        description: Invalid query parameters
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/Error'
+
+directory-user:
+  get:
+    summary: Get public profile details for a specific user
+    tags:
+      - Community
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved profile
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/community.yaml#/PublicProfile'
+      '404':
+        description: Profile not found or private
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/Error' 

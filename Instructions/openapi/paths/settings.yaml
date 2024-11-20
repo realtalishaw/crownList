@@ -1,0 +1,91 @@
+settings:
+  get:
+    summary: Get user settings
+    tags:
+      - Settings
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved user settings
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/settings.yaml#/UserSettings'
+      '401':
+        description: Unauthorized
+
+update-notifications:
+  put:
+    summary: Update notification preferences
+    tags:
+      - Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/settings.yaml#/NotificationPreferences'
+    responses:
+      '200':
+        description: Notification preferences updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/settings.yaml#/NotificationPreferences'
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+update-privacy:
+  put:
+    summary: Update privacy settings
+    tags:
+      - Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/settings.yaml#/PrivacySettings'
+    responses:
+      '200':
+        description: Privacy settings updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/settings.yaml#/PrivacySettings'
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+update-account:
+  put:
+    summary: Update account settings
+    tags:
+      - Settings
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/settings.yaml#/AccountSettings'
+    responses:
+      '200':
+        description: Account settings updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/settings.yaml#/AccountSettings'
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized 

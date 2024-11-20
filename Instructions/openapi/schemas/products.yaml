@@ -1,0 +1,160 @@
+Product:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    title:
+      type: string
+      minLength: 3
+      maxLength: 200
+    slug:
+      type: string
+    description:
+      type: string
+      maxLength: 2000
+    shortDescription:
+      type: string
+      maxLength: 500
+    brand:
+      type: string
+    condition:
+      type: string
+      enum:
+        - new
+        - like-new
+        - excellent
+        - good
+        - fair
+    attributes:
+      type: object
+      properties:
+        colors:
+          type: array
+          items:
+            type: string
+        sizes:
+          type: array
+          items:
+            type: string
+        # Other dynamic attributes can be added here
+    categories:
+      type: array
+      items:
+        $ref: '#/ProductCategory'
+    tags:
+      type: array
+      items:
+        type: string
+    images:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          alt:
+            type: string
+          isPrimary:
+            type: boolean
+    stores:
+      type: array
+      items:
+        $ref: '#/ProductStore'
+    basePrice:
+      type: number
+      format: float
+      description: Lowest price across all stores
+    status:
+      type: string
+      enum:
+        - active
+        - draft
+        - archived
+        - out-of-stock
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - title
+    - description
+    - condition
+    - basePrice
+    - status
+
+ProductCategory:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    slug:
+      type: string
+    description:
+      type: string
+    parentId:
+      type: string
+      format: uuid
+      description: For nested categories
+    image:
+      type: string
+      format: uri
+    order:
+      type: integer
+  required:
+    - name
+
+ProductStore:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    productId:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    price:
+      type: number
+      format: float
+    salePrice:
+      type: number
+      format: float
+    inventory:
+      type: integer
+      minimum: 0
+    shippingInfo:
+      type: object
+      properties:
+        isAvailable:
+          type: boolean
+        price:
+          type: number
+          format: float
+        estimatedDays:
+          type: string
+    status:
+      type: string
+      enum:
+        - active
+        - out-of-stock
+        - discontinued
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - productId
+    - businessId
+    - price
+    - status 

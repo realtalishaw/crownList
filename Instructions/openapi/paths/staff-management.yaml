@@ -1,0 +1,166 @@
+staff-overview:
+  get:
+    summary: Get staff management overview
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved overview
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activeStaff:
+                  type: integer
+                customRoles:
+                  type: integer
+                pendingInvites:
+                  type: integer
+
+staff-members:
+  get:
+    summary: Get all staff members
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, active, inactive]
+      - in: query
+        name: roleId
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved staff members
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/staff-management.yaml#/StaffMember'
+
+  post:
+    summary: Invite new staff member
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/staff-management.yaml#/StaffMember'
+    responses:
+      '201':
+        description: Staff invitation sent successfully
+
+staff-member:
+  get:
+    summary: Get staff member details
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved staff member
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/staff-management.yaml#/StaffMember'
+
+  put:
+    summary: Update staff member
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/staff-management.yaml#/StaffMember'
+    responses:
+      '200':
+        description: Staff member updated successfully
+
+  delete:
+    summary: Remove staff member
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Staff member removed successfully
+
+staff-roles:
+  get:
+    summary: Get all staff roles
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved roles
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/staff-management.yaml#/StaffRole'
+
+  post:
+    summary: Create new role
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/staff-management.yaml#/StaffRole'
+    responses:
+      '201':
+        description: Role created successfully
+
+staff-role:
+  put:
+    summary: Update role
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/staff-management.yaml#/StaffRole'
+    responses:
+      '200':
+        description: Role updated successfully
+
+  delete:
+    summary: Delete role
+    tags:
+      - Staff Management
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Role deleted successfully 

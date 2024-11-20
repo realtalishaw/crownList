@@ -1,0 +1,26 @@
+appearances:
+  get:
+    summary: Get appearances for a binder
+    tags:
+      - Binder Appearances
+    # ... rest of appearances endpoint
+
+appearance:
+  get:
+    summary: Get appearance details
+    # ... rest of appearance endpoint
+
+appearance-photos:
+  post:
+    summary: Add photos to appearance
+    # ... rest of photos endpoint
+
+booking-links:
+  get:
+    summary: Get booking links
+    # ... rest of booking links endpoint
+
+booking-link:
+  put:
+    summary: Update booking link
+    # ... rest of booking link endpoint 

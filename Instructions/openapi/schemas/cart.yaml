@@ -1,0 +1,60 @@
+Cart:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    items:
+      type: array
+      items:
+        $ref: '#/CartItem'
+    subtotal:
+      type: number
+      format: float
+    total:
+      type: number
+      format: float
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+CartItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    cartId:
+      type: string
+      format: uuid
+    productId:
+      type: string
+      format: uuid
+    storeId:
+      type: string
+      format: uuid
+    quantity:
+      type: integer
+      minimum: 1
+    price:
+      type: number
+      format: float
+    attributes:
+      type: object
+      properties:
+        color:
+          type: string
+        size:
+          type: string
+        # Other product-specific attributes
+  required:
+    - productId
+    - storeId
+    - quantity
+    - price 

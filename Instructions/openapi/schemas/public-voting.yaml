@@ -1,0 +1,119 @@
+PublicVotingEvent:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    pageantName:
+      type: string
+    status:
+      type: string
+      enum: [active, upcoming, ended]
+    votingPeriod:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+    pricing:
+      type: object
+      properties:
+        singleVotePrice:
+          type: number
+          format: float
+        bundles:
+          type: array
+          items:
+            type: object
+            properties:
+              votes:
+                type: integer
+              price:
+                type: number
+                format: float
+              savings:
+                type: number
+                format: float
+    stats:
+      type: object
+      properties:
+        totalContestants:
+          type: integer
+        totalVotes:
+          type: integer
+        topContestants:
+          type: array
+          items:
+            $ref: '#/VotingContestant'
+
+VotingContestant:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    title:
+      type: string
+    photo:
+      type: string
+      format: uri
+    bio:
+      type: string
+    platform:
+      type: string
+    votes:
+      type: integer
+    rank:
+      type: integer
+    socialLinks:
+      type: object
+      properties:
+        instagram:
+          type: string
+        facebook:
+          type: string
+        tiktok:
+          type: string
+    gallery:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          caption:
+            type: string
+
+VoteTransaction:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    contestantId:
+      type: string
+      format: uuid
+    numberOfVotes:
+      type: integer
+    amount:
+      type: number
+      format: float
+    paymentStatus:
+      type: string
+      enum: [pending, completed, failed]
+    paymentMethod:
+      type: string
+    transactionId:
+      type: string
+    createdAt:
+      type: string
+      format: date-time 

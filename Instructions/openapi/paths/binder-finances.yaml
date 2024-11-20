@@ -1,0 +1,190 @@
+budget:
+  get:
+    summary: Get budget overview
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved budget overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-finances.yaml#/BudgetOverview'
+
+  put:
+    summary: Update budget settings
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              totalBudget:
+                type: number
+                format: float
+    responses:
+      '200':
+        description: Budget settings updated successfully
+
+expenses:
+  get:
+    summary: Get expenses
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [planned, pending, paid, overdue]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [date, amount, name, status]
+        default: date
+    responses:
+      '200':
+        description: Successfully retrieved expenses
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-finances.yaml#/Expense'
+                summary:
+                  type: object
+                  properties:
+                    total:
+                      type: number
+                      format: float
+                    count:
+                      type: integer
+                    byCategory:
+                      type: object
+                      additionalProperties:
+                        type: number
+                        format: float
+
+  post:
+    summary: Create new expense
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/binder-finances.yaml#/Expense'
+              receipts:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Expense created successfully
+
+expense:
+  get:
+    summary: Get expense details
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved expense
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-finances.yaml#/Expense'
+
+  put:
+    summary: Update expense
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-finances.yaml#/Expense'
+    responses:
+      '200':
+        description: Expense updated successfully
+
+  delete:
+    summary: Delete expense
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Expense deleted successfully
+
+expense-receipts:
+  post:
+    summary: Add receipts to expense
+    tags:
+      - Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              receipts:
+                type: array
+                items:
+                  type: string
+                  format: binary
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Receipts added successfully 

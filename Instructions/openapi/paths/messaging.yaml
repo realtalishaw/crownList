@@ -1,0 +1,382 @@
+channels:
+  get:
+    summary: Get user's chat channels
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [direct, group]
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [active, archived, muted]
+    responses:
+      '200':
+        description: Successfully retrieved channels
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/messaging.yaml#/ChatChannel'
+
+  post:
+    summary: Create new chat channel
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [direct, group]
+              name:
+                type: string
+              members:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+              metadata:
+                type: object
+              settings:
+                type: object
+    responses:
+      '201':
+        description: Channel created successfully
+
+channel:
+  get:
+    summary: Get channel details
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved channel
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/messaging.yaml#/ChatChannel'
+
+  put:
+    summary: Update channel settings
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              image:
+                type: string
+              settings:
+                type: object
+              metadata:
+                type: object
+    responses:
+      '200':
+        description: Channel updated successfully
+
+channel-members:
+  post:
+    summary: Add members to channel
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              members:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      type: string
+                      format: uuid
+                    role:
+                      type: string
+                      enum: [admin, moderator, member]
+    responses:
+      '200':
+        description: Members added successfully
+
+  delete:
+    summary: Remove member from channel
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Member removed successfully
+
+messages:
+  get:
+    summary: Get channel messages
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 50
+      - in: query
+        name: before
+        schema:
+          type: string
+          format: date-time
+    responses:
+      '200':
+        description: Successfully retrieved messages
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/messaging.yaml#/ChatMessage'
+
+  post:
+    summary: Send message
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+              mentions:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+              parentId:
+                type: string
+                format: uuid
+    responses:
+      '201':
+        description: Message sent successfully
+
+message:
+  put:
+    summary: Update message
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+    responses:
+      '200':
+        description: Message updated successfully
+
+  delete:
+    summary: Delete message
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Message deleted successfully
+
+message-reaction:
+  post:
+    summary: Add reaction to message
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+    responses:
+      '200':
+        description: Reaction added successfully
+
+conversations:
+  get:
+    summary: Get user's conversations
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [active, archived]
+      - in: query
+        name: unread
+        schema:
+          type: boolean
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved conversations
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      channelId:
+                        type: string
+                        format: uuid
+                      participant:
+                        $ref: '../schemas/users.yaml#/UserProfile'
+                      lastMessage:
+                        $ref: '../schemas/messaging.yaml#/ChatMessage'
+                      unreadCount:
+                        type: integer
+                      lastActivity:
+                        type: string
+                        format: date-time
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+conversation:
+  get:
+    summary: Get specific conversation with user
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: before
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 50
+    responses:
+      '200':
+        description: Successfully retrieved conversation
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                channel:
+                  $ref: '../schemas/messaging.yaml#/ChatChannel'
+                messages:
+                  type: array
+                  items:
+                    $ref: '../schemas/messaging.yaml#/ChatMessage'
+                participant:
+                  $ref: '../schemas/users.yaml#/UserProfile'
+
+  post:
+    summary: Send message in conversation
+    tags:
+      - Messaging
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Message sent successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/messaging.yaml#/ChatMessage'

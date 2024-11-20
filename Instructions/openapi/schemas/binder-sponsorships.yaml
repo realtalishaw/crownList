@@ -1,0 +1,131 @@
+SponsorshipPackage:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    levels:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          amount:
+            type: number
+            format: float
+          benefits:
+            type: array
+            items:
+              type: string
+          maxSponsors:
+            type: integer
+          currentSponsors:
+            type: integer
+    status:
+      type: string
+      enum: [draft, active, archived]
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - levels
+
+Sponsor:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    businessName:
+      type: string
+    contactPerson:
+      type: string
+    email:
+      type: string
+      format: email
+    phone:
+      type: string
+    status:
+      type: string
+      enum: [potential, contacted, negotiating, confirmed, declined]
+    level:
+      type: string
+    amount:
+      type: number
+      format: float
+    notes:
+      type: string
+    followUps:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+            format: date-time
+          type:
+            type: string
+            enum: [email, call, meeting, other]
+          notes:
+            type: string
+          nextSteps:
+            type: string
+          reminder:
+            type: string
+            format: date-time
+    obligations:
+      type: array
+      items:
+        type: object
+        properties:
+          description:
+            type: string
+          dueDate:
+            type: string
+            format: date
+          status:
+            type: string
+            enum: [pending, completed, overdue]
+          completedDate:
+            type: string
+            format: date
+          notes:
+            type: string
+    documents:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum: [contract, logo, media, other]
+          url:
+            type: string
+            format: uri
+          uploadedAt:
+            type: string
+            format: date-time
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - businessName
+    - status 

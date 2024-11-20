@@ -1,0 +1,124 @@
+BusinessDashboard:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    overview:
+      type: object
+      properties:
+        totalClients:
+          type: integer
+        activeClients:
+          type: integer
+        totalRevenue:
+          type: number
+          format: float
+        monthlyRevenue:
+          type: number
+          format: float
+        averageRating:
+          type: number
+          format: float
+        totalReviews:
+          type: integer
+        totalBookings:
+          type: integer
+        upcomingBookings:
+          type: integer
+    revenueStats:
+      type: object
+      properties:
+        daily:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              amount:
+                type: number
+                format: float
+        monthly:
+          type: array
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                format: date
+              amount:
+                type: number
+                format: float
+    recentActivity:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [booking, review, message, order, payment]
+          timestamp:
+            type: string
+            format: date-time
+          data:
+            type: object
+            description: Activity-specific data
+          user:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              avatar:
+                type: string
+                format: uri
+    upcomingBookings:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          clientId:
+            type: string
+            format: uuid
+          clientName:
+            type: string
+          service:
+            type: string
+          dateTime:
+            type: string
+            format: date-time
+          status:
+            type: string
+            enum: [confirmed, pending, cancelled]
+          amount:
+            type: number
+            format: float
+    quickActions:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          type:
+            type: string
+            enum: [approve_booking, respond_review, message_client, update_service]
+          priority:
+            type: string
+            enum: [high, medium, low]
+          data:
+            type: object
+            description: Action-specific data 

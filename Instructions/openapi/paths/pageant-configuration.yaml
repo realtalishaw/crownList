@@ -1,0 +1,213 @@
+pageant-forms:
+  get:
+    summary: Get all forms for a pageant
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: pageantId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [registration, competition, interview, other]
+    responses:
+      '200':
+        description: Successfully retrieved forms
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/forms/items'
+
+  post:
+    summary: Create new form
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/forms/items'
+    responses:
+      '201':
+        description: Form created successfully
+
+pageant-fees:
+  get:
+    summary: Get all fees for a pageant
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved fees
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/fees/items'
+
+  post:
+    summary: Create new fee
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/fees/items'
+    responses:
+      '201':
+        description: Fee created successfully
+
+competition-areas:
+  get:
+    summary: Get competition areas
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved competition areas
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/areasOfCompetition/items'
+
+  post:
+    summary: Create competition area
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/areasOfCompetition/items'
+    responses:
+      '201':
+        description: Competition area created successfully
+
+pageant-documents:
+  get:
+    summary: Get pageant documents
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [handbook, rules, waiver, contract, other]
+    responses:
+      '200':
+        description: Successfully retrieved documents
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/documents/items'
+
+  post:
+    summary: Upload pageant document
+    tags:
+      - Pageant Configuration
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/pageant-management.yaml#/PageantEvent/properties/documents/items'
+              file:
+                type: string
+                format: binary
+    responses:
+      '201':
+        description: Document uploaded successfully
+
+competition-scoring:
+  post:
+    summary: Record competition scores
+    tags:
+      - Pageant Competition
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              areaId:
+                type: string
+                format: uuid
+              contestantId:
+                type: string
+                format: uuid
+              score:
+                type: number
+              notes:
+                type: string
+    responses:
+      '201':
+        description: Scores recorded successfully
+
+competition-results:
+  get:
+    summary: Get competition results
+    tags:
+      - Pageant Competition
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: areaId
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved results
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  contestantId:
+                    type: string
+                  score:
+                    type: number
+                  rank:
+                    type: integer 

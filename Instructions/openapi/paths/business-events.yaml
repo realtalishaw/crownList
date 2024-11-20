@@ -1,0 +1,160 @@
+events:
+  get:
+    summary: Get business events
+    tags:
+      - Business Events
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [general, pageant]
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, published, cancelled, completed]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [date, title, status]
+        default: date
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved events
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business-events.yaml#/BusinessEvent'
+                summary:
+                  type: object
+                  properties:
+                    totalEvents:
+                      type: integer
+                    upcomingEvents:
+                      type: integer
+                    totalRegistrations:
+                      type: integer
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+  post:
+    summary: Create new event
+    tags:
+      - Business Events
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/business-events.yaml#/BusinessEvent'
+              coverImage:
+                type: string
+                format: binary
+              images:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Event created successfully
+
+event:
+  get:
+    summary: Get event details
+    tags:
+      - Business Events
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved event
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-events.yaml#/BusinessEvent'
+
+  put:
+    summary: Update event
+    tags:
+      - Business Events
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-events.yaml#/BusinessEvent'
+    responses:
+      '200':
+        description: Event updated successfully
+
+  delete:
+    summary: Delete event
+    tags:
+      - Business Events
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Event deleted successfully
+
+event-status:
+  put:
+    summary: Update event status
+    tags:
+      - Business Events
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [draft, published, cancelled, completed]
+    responses:
+      '200':
+        description: Status updated successfully 

@@ -1,0 +1,259 @@
+Event:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 3
+      maxLength: 200
+    description:
+      type: string
+    startDate:
+      type: string
+      format: date
+    endDate:
+      type: string
+      format: date
+    startTime:
+      type: string
+      format: time
+    endTime:
+      type: string
+      format: time
+    timeZone:
+      type: string
+    location:
+      type: object
+      properties:
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+        isTBA:
+          type: boolean
+          default: false
+    category:
+      type: string
+      enum:
+        - pageant
+        - workshop
+        - photoshoot
+        - appearance
+        - fundraiser
+        - other
+    type:
+      type: string
+      enum:
+        - in-person
+        - virtual
+        - hybrid
+    headerImage:
+      type: string
+      format: uri
+    status:
+      type: string
+      enum:
+        - draft
+        - published
+        - cancelled
+        - completed
+    capacity:
+      type: integer
+      minimum: 1
+    isPageant:
+      type: boolean
+      description: Indicates if this is a pageant event
+    pageantDetails:
+      type: object
+      properties:
+        division:
+          type: string
+        ageGroup:
+          type: string
+        preliminaryDeadline:
+          type: string
+          format: date
+        finalDeadline:
+          type: string
+          format: date
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - businessId
+    - name
+    - startDate
+    - endDate
+    - category
+    - type
+
+EventSchedule:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    date:
+      type: string
+      format: date
+    items:
+      type: array
+      items:
+        type: object
+        properties:
+          time:
+            type: string
+            format: time
+          title:
+            type: string
+          description:
+            type: string
+          location:
+            type: string
+          duration:
+            type: integer
+            description: Duration in minutes
+
+EventTicket:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    price:
+      type: number
+      format: float
+    quantity:
+      type: integer
+    quantityRemaining:
+      type: integer
+    saleStartDate:
+      type: string
+      format: date-time
+    saleEndDate:
+      type: string
+      format: date-time
+    type:
+      type: string
+      enum:
+        - general
+        - vip
+        - early-bird
+        - contestant
+        - spectator
+    status:
+      type: string
+      enum:
+        - active
+        - sold-out
+        - sale-ended
+        - not-started
+
+EventPromotion:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    code:
+      type: string
+    type:
+      type: string
+      enum:
+        - percentage
+        - fixed
+        - free
+    value:
+      type: number
+    maxUses:
+      type: integer
+    usedCount:
+      type: integer
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    status:
+      type: string
+      enum:
+        - active
+        - expired
+        - depleted
+
+EventRegistration:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    ticketId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum:
+        - pending
+        - confirmed
+        - cancelled
+    type:
+      type: string
+      enum:
+        - contestant
+        - spectator
+    contestantDetails:
+      type: object
+      properties:
+        division:
+          type: string
+        number:
+          type: string
+        paperworkStatus:
+          type: string
+          enum:
+            - not-started
+            - in-progress
+            - completed
+        binderId:
+          type: string
+          format: uuid
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time

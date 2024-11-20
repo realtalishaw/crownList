@@ -1,0 +1,159 @@
+Promotion:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    description:
+      type: string
+    code:
+      type: string
+    discountType:
+      type: string
+      enum: [percentage, fixed_amount]
+    discountValue:
+      type: number
+      format: float
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    status:
+      type: string
+      enum: [draft, active, scheduled, expired, paused]
+    maxRedemptions:
+      type: integer
+      description: null for unlimited
+    perUserLimit:
+      type: integer
+      description: null for unlimited
+    currentRedemptions:
+      type: integer
+      default: 0
+    termsConditions:
+      type: string
+    applicableTo:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            type: string
+            format: uuid
+        minimumPurchase:
+          type: number
+          format: float
+    restrictions:
+      type: object
+      properties:
+        newCustomersOnly:
+          type: boolean
+        excludedDates:
+          type: array
+          items:
+            type: string
+            format: date
+    metadata:
+      type: object
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - title
+    - discountType
+    - discountValue
+    - startDate
+    - endDate
+
+PromotionRedemption:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    promotionId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    orderId:
+      type: string
+      format: uuid
+    discountAmount:
+      type: number
+      format: float
+    originalAmount:
+      type: number
+      format: float
+    finalAmount:
+      type: number
+      format: float
+    redeemedAt:
+      type: string
+      format: date-time
+
+PromotionAnalytics:
+  type: object
+  properties:
+    promotionId:
+      type: string
+      format: uuid
+    overview:
+      type: object
+      properties:
+        totalRedemptions:
+          type: integer
+        uniqueUsers:
+          type: integer
+        totalDiscountAmount:
+          type: number
+          format: float
+        averageDiscountPerUse:
+          type: number
+          format: float
+        conversionRate:
+          type: number
+          format: float
+    timeAnalysis:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+            format: date
+          redemptions:
+            type: integer
+          discountAmount:
+            type: number
+            format: float
+    userSegments:
+      type: object
+      properties:
+        newCustomers:
+          type: integer
+        returningCustomers:
+          type: integer
+    impact:
+      type: object
+      properties:
+        revenueImpact:
+          type: number
+          format: float
+        averageOrderValue:
+          type: number
+          format: float
+        customerRetention:
+          type: number
+          format: float 

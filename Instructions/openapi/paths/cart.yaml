@@ -1,0 +1,76 @@
+cart:
+  get:
+    summary: Get user's cart
+    tags:
+      - Cart
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved cart
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/cart.yaml#/Cart'
+
+cart-items:
+  post:
+    summary: Add item to cart
+    tags:
+      - Cart
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/cart.yaml#/CartItem'
+    responses:
+      '200':
+        description: Item added to cart successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/cart.yaml#/Cart'
+
+cart-item:
+  put:
+    summary: Update cart item quantity
+    tags:
+      - Cart
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              quantity:
+                type: integer
+                minimum: 1
+            required:
+              - quantity
+    responses:
+      '200':
+        description: Cart item updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/cart.yaml#/Cart'
+
+  delete:
+    summary: Remove item from cart
+    tags:
+      - Cart
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Item removed from cart successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/cart.yaml#/Cart' 

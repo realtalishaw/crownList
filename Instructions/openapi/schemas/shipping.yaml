@@ -1,0 +1,156 @@
+ShippingLabel:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [label, pickup, dropoff]
+    status:
+      type: string
+      enum: [pending, generated, used, expired, cancelled]
+    labelUrl:
+      type: string
+      format: uri
+      description: URL to download shipping label PDF
+    trackingNumber:
+      type: string
+    carrier:
+      type: string
+    pickupDetails:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        timeWindow:
+          type: string
+          enum: [morning, afternoon, evening]
+        instructions:
+          type: string
+    dropoffLocation:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          $ref: '../schemas/orders.yaml#/Address'
+        hours:
+          type: object
+          properties:
+            monday:
+              type: string
+            tuesday:
+              type: string
+            wednesday:
+              type: string
+            thursday:
+              type: string
+            friday:
+              type: string
+            saturday:
+              type: string
+            sunday:
+              type: string
+    packageDetails:
+      type: object
+      properties:
+        itemCount:
+          type: integer
+        weight:
+          type: number
+        dimensions:
+          type: object
+          properties:
+            length:
+              type: number
+            width:
+              type: number
+            height:
+              type: number
+    expiresAt:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+
+ResaleEstimate:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    itemDetails:
+      type: object
+      properties:
+        brand:
+          type: string
+        styleNumber:
+          type: string
+        purchaseDate:
+          type: string
+          format: date
+        purchasePrice:
+          type: number
+          format: float
+        condition:
+          type: string
+          enum: [new_with_tags, like_new, gently_used, well_worn]
+        repairs:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [missing_beads, broken_zipper, torn_seam, other]
+              description:
+                type: string
+        cleaning:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [stain, discoloration, smell, other]
+              description:
+                type: string
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+              type:
+                type: string
+                enum: [front, back, detail, damage]
+    estimate:
+      type: object
+      properties:
+        estimatedValue:
+          type: number
+          format: float
+        estimatedCommission:
+          type: number
+          format: float
+        confidence:
+          type: string
+          enum: [high, medium, low]
+        notes:
+          type: string
+    createdAt:
+      type: string
+      format: date-time 

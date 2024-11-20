@@ -1,0 +1,249 @@
+portal-access:
+  get:
+    summary: Get contestant portal access and overview
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: pageantId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved portal access
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contestantInfo:
+                  $ref: '../schemas/pageant-contestants.yaml#/PageantContestant'
+                progress:
+                  type: object
+                  properties:
+                    completedItems:
+                      type: integer
+                    totalItems:
+                      type: integer
+                    percentage:
+                      type: number
+                    missingItems:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          name:
+                            type: string
+                          dueDate:
+                            type: string
+                            format: date
+
+portal-schedule:
+  get:
+    summary: Get contestant schedule
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved schedule
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  eventId:
+                    type: string
+                  title:
+                    type: string
+                  startTime:
+                    type: string
+                    format: date-time
+                  endTime:
+                    type: string
+                    format: date-time
+                  location:
+                    type: string
+                  requirements:
+                    type: array
+                    items:
+                      type: string
+                  wardrobe:
+                    type: string
+
+portal-documents:
+  get:
+    summary: Get required documents and status
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved documents
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  dueDate:
+                    type: string
+                    format: date
+                  status:
+                    type: string
+                    enum: [pending, submitted, approved, rejected]
+
+  post:
+    summary: Submit document
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              documentId:
+                type: string
+              file:
+                type: string
+                format: binary
+              notes:
+                type: string
+    responses:
+      '201':
+        description: Document submitted successfully
+
+portal-fees:
+  get:
+    summary: Get fee information and payment status
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved fees
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                totalAmount:
+                  type: number
+                paidAmount:
+                  type: number
+                remainingAmount:
+                  type: number
+                fees:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      amount:
+                        type: number
+                      dueDate:
+                        type: string
+                        format: date
+                      status:
+                        type: string
+                        enum: [pending, paid, overdue]
+
+portal-competitions:
+  get:
+    summary: Get competition information
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved competition information
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  requirements:
+                    type: array
+                    items:
+                      type: string
+                  wardrobe:
+                    type: string
+                  score:
+                    type: number
+                  rank:
+                    type: integer
+                  feedback:
+                    type: string
+
+portal-progress:
+  get:
+    summary: Get personal progress tracking
+    tags:
+      - Contestant Portal
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved progress
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                overallProgress:
+                  type: number
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      completed:
+                        type: integer
+                      total:
+                        type: integer
+                      percentage:
+                        type: number
+                nextDeadlines:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      item:
+                        type: string
+                      dueDate:
+                        type: string
+                        format: date 

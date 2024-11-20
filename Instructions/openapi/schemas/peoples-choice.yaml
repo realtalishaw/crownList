@@ -1,0 +1,119 @@
+PeoplesChoiceEvent:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    pageantId:
+      type: string
+      format: uuid
+    status:
+      type: string
+      enum: [draft, active, ended, cancelled]
+    votingPeriod:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+    settings:
+      type: object
+      properties:
+        paidVoting:
+          type: boolean
+          default: false
+        votePrice:
+          type: number
+          format: float
+        voteBundles:
+          type: array
+          items:
+            type: object
+            properties:
+              quantity:
+                type: integer
+              price:
+                type: number
+                format: float
+              discount:
+                type: number
+                format: float
+        dailyVoteLimit:
+          type: integer
+          description: null for unlimited
+        showVoteCount:
+          type: boolean
+          default: true
+        showTop3:
+          type: boolean
+          default: true
+    stats:
+      type: object
+      properties:
+        totalContestants:
+          type: integer
+        totalVotes:
+          type: integer
+        totalRevenue:
+          type: number
+          format: float
+        votesLastDay:
+          type: integer
+    contestants:
+      type: array
+      items:
+        type: object
+        properties:
+          contestantId:
+            type: string
+            format: uuid
+          name:
+            type: string
+          photo:
+            type: string
+            format: uri
+          votes:
+            type: integer
+          rank:
+            type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - pageantId
+    - votingPeriod
+
+VotingStats:
+  type: object
+  properties:
+    totalEvents:
+      type: integer
+    activeEvents:
+      type: integer
+    totalVotes:
+      type: integer
+    totalRevenue:
+      type: number
+      format: float
+    recentActivity:
+      type: array
+      items:
+        type: object
+        properties:
+          eventId:
+            type: string
+            format: uuid
+          action:
+            type: string
+            enum: [vote_cast, bundle_purchased]
+          amount:
+            type: number
+          timestamp:
+            type: string
+            format: date-time 

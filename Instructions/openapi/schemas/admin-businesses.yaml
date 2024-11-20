@@ -1,0 +1,112 @@
+BusinessManagementOverview:
+  type: object
+  properties:
+    totalBusinesses:
+      type: integer
+    activeBusinesses:
+      type: integer
+    verifiedBusinesses:
+      type: integer
+    suspendedBusinesses:
+      type: integer
+    averageRating:
+      type: number
+      format: float
+    applications:
+      type: object
+      properties:
+        pending:
+          type: integer
+        approved:
+          type: integer
+        rejected:
+          type: integer
+    businessesByCategory:
+      type: object
+      additionalProperties:
+        type: integer
+
+AdminBusinessList:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    dateJoined:
+      type: string
+      format: date-time
+    category:
+      type: string
+    location:
+      type: object
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+    status:
+      type: string
+      enum: [active, under_review, suspended]
+    rating:
+      type: number
+      format: float
+    totalReviews:
+      type: integer
+
+BusinessApplication:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    submittedAt:
+      type: string
+      format: date-time
+    status:
+      type: string
+      enum: [pending, approved, rejected]
+    requiredDocuments:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+          name:
+            type: string
+          status:
+            type: string
+            enum: [missing, submitted, verified]
+          url:
+            type: string
+            format: uri
+          submittedAt:
+            type: string
+            format: date-time
+    verificationNotes:
+      type: array
+      items:
+        type: object
+        properties:
+          note:
+            type: string
+          addedBy:
+            type: string
+          timestamp:
+            type: string
+            format: date-time
+    reviewedBy:
+      type: string
+      format: uuid
+    reviewedAt:
+      type: string
+      format: date-time
+    decisionReason:
+      type: string 

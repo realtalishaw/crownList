@@ -1,0 +1,199 @@
+MediaKit:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    version:
+      type: string
+    lastGenerated:
+      type: string
+      format: date-time
+    status:
+      type: string
+      enum: [draft, published, archived]
+    basicInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        tagline:
+          type: string
+        bio:
+          type: string
+        location:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    photos:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [headshot, full_length, action, crown_shot]
+          isPrimary:
+            type: boolean
+    socialMedia:
+      type: array
+      items:
+        type: object
+        properties:
+          platform:
+            type: string
+          handle:
+            type: string
+          url:
+            type: string
+          followers:
+            type: integer
+    achievements:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          organization:
+            type: string
+          date:
+            type: string
+            format: date
+          description:
+            type: string
+    platform:
+      type: object
+      properties:
+        cause:
+          type: string
+        description:
+          type: string
+        impact:
+          type: array
+          items:
+            type: object
+            properties:
+              metric:
+                type: string
+              value:
+                type: string
+    appearances:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          date:
+            type: string
+            format: date
+          description:
+            type: string
+          photos:
+            type: array
+            items:
+              type: string
+              format: uri
+    pressFeatures:
+      type: array
+      items:
+        type: object
+        properties:
+          outlet:
+            type: string
+          title:
+            type: string
+          date:
+            type: string
+            format: date
+          url:
+            type: string
+            format: uri
+    brandCollaborations:
+      type: array
+      items:
+        type: object
+        properties:
+          brand:
+            type: string
+          description:
+            type: string
+          date:
+            type: string
+            format: date
+    demographics:
+      type: object
+      properties:
+        ageRange:
+          type: string
+        gender:
+          type: object
+          properties:
+            male:
+              type: number
+            female:
+              type: number
+            other:
+              type: number
+        topLocations:
+          type: array
+          items:
+            type: object
+            properties:
+              location:
+                type: string
+              percentage:
+                type: number
+    files:
+      type: array
+      items:
+        $ref: '#/MediaKitFile'
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - basicInfo
+
+MediaKitFile:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    mediaKitId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [pdf, presentation, one_pager, full_kit]
+    url:
+      type: string
+      format: uri
+    version:
+      type: string
+    size:
+      type: integer
+    downloads:
+      type: integer
+    generatedAt:
+      type: string
+      format: date-time
+  required:
+    - mediaKitId
+    - type
+    - url 

@@ -1,0 +1,128 @@
+UserSettings:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    notifications:
+      $ref: '#/NotificationPreferences'
+    privacy:
+      $ref: '#/PrivacySettings'
+    account:
+      $ref: '#/AccountSettings'
+    updatedAt:
+      type: string
+      format: date-time
+
+NotificationPreferences:
+  type: object
+  properties:
+    email:
+      type: object
+      properties:
+        marketing:
+          type: boolean
+          default: true
+        newMessages:
+          type: boolean
+          default: true
+        orderUpdates:
+          type: boolean
+          default: true
+        eventReminders:
+          type: boolean
+          default: true
+        bookingReminders:
+          type: boolean
+          default: true
+        communityUpdates:
+          type: boolean
+          default: true
+    push:
+      type: object
+      properties:
+        newMessages:
+          type: boolean
+          default: true
+        orderUpdates:
+          type: boolean
+          default: true
+        eventReminders:
+          type: boolean
+          default: true
+        bookingReminders:
+          type: boolean
+          default: true
+        communityUpdates:
+          type: boolean
+          default: true
+    sms:
+      type: object
+      properties:
+        orderUpdates:
+          type: boolean
+          default: false
+        eventReminders:
+          type: boolean
+          default: false
+        bookingReminders:
+          type: boolean
+          default: false
+
+PrivacySettings:
+  type: object
+  properties:
+    profileVisibility:
+      type: string
+      enum: [public, private, friends]
+      default: public
+    showEmail:
+      type: boolean
+      default: false
+    showPhone:
+      type: boolean
+      default: false
+    showLocation:
+      type: boolean
+      default: true
+    showBirthday:
+      type: boolean
+      default: false
+    allowMessagesFrom:
+      type: string
+      enum: [everyone, followers, none]
+      default: everyone
+    allowTagging:
+      type: boolean
+      default: true
+    showActivityStatus:
+      type: boolean
+      default: true
+
+AccountSettings:
+  type: object
+  properties:
+    timezone:
+      type: string
+      default: UTC
+    language:
+      type: string
+      default: en
+    currency:
+      type: string
+      default: USD
+    dateFormat:
+      type: string
+      enum: [MM/DD/YYYY, DD/MM/YYYY, YYYY-MM-DD]
+      default: MM/DD/YYYY
+    timeFormat:
+      type: string
+      enum: [12h, 24h]
+      default: 12h
+    emailFrequency:
+      type: string
+      enum: [immediate, daily, weekly, never]
+      default: immediate

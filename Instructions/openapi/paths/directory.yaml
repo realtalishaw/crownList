@@ -1,0 +1,520 @@
+directory:
+  get:
+    summary: Get business directory listings
+    tags:
+      - Directory
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query for business name or tagline
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+            - service
+            - product
+            - pageant
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: tags
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - in: query
+        name: featured
+        schema:
+          type: boolean
+        description: Filter featured businesses only
+      - in: query
+        name: minRating
+        schema:
+          type: number
+          minimum: 0
+          maximum: 5
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            - featured
+            - rating
+            - newest
+            - active
+            - name
+        default: featured
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved directory listings
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business.yaml#/Business'
+                featured:
+                  type: array
+                  items:
+                    $ref: '../schemas/business.yaml#/Business'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+                filters:
+                  type: object
+                  properties:
+                    categories:
+                      type: array
+                      items:
+                        type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+
+directory-categories:
+  get:
+    summary: Get available directory categories and tags
+    tags:
+      - Directory
+    responses:
+      '200':
+        description: Successfully retrieved categories and tags
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      count:
+                        type: integer
+                tags:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        type: integer
+
+directory-search:
+  get:
+    summary: Search business directory
+    tags:
+      - Directory
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query for business name, tagline, or description
+      - in: query
+        name: location
+        schema:
+          type: string
+        description: Location to search near (city, state, or zip)
+      - in: query
+        name: radius
+        schema:
+          type: integer
+          default: 50
+        description: Search radius in miles
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+            - service
+            - product
+            - pageant
+      - in: query
+        name: categories
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - in: query
+        name: tags
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - in: query
+        name: priceRange
+        schema:
+          type: string
+          enum: [low, medium, high]
+      - in: query
+        name: minRating
+        schema:
+          type: number
+          minimum: 0
+          maximum: 5
+      - in: query
+        name: availability
+        schema:
+          type: string
+          enum: [available, busy, all]
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            - relevance
+            - rating
+            - distance
+            - price_low
+            - price_high
+            - most_reviewed
+        default: relevance
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully searched directory
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business.yaml#/Business'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+                searchMetadata:
+                  type: object
+                  properties:
+                    query:
+                      type: string
+                    location:
+                      type: string
+                    radius:
+                      type: integer
+                    appliedFilters:
+                      type: object
+                    suggestedFilters:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          value:
+                            type: string
+                          count:
+                            type: integer
+
+directory-category:
+  get:
+    summary: Get businesses by category
+    tags:
+      - Directory
+    parameters:
+      - in: path
+        name: categoryId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            - featured
+            - rating
+            - newest
+            - active
+            - name
+        default: featured
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved businesses in category
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    businessCount:
+                      type: integer
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/business.yaml#/Business'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+directory-business:
+  get:
+    summary: Get detailed business profile
+    tags:
+      - Directory
+    parameters:
+      - in: path
+        name: businessId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved business profile
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '../schemas/business.yaml#/Business'
+                - type: object
+                  properties:
+                    reviews:
+                      type: array
+                      items:
+                        $ref: '../schemas/business.yaml#/BusinessReview'
+                    services:
+                      type: array
+                      items:
+                        $ref: '../schemas/business.yaml#/Service'
+                    gallery:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          type:
+                            type: string
+                            enum: [image, video]
+                          caption:
+                            type: string
+                    hours:
+                      type: object
+                      properties:
+                        monday:
+                          type: string
+                        tuesday:
+                          type: string
+                        wednesday:
+                          type: string
+                        thursday:
+                          type: string
+                        friday:
+                          type: string
+                        saturday:
+                          type: string
+                        sunday:
+                          type: string
+                    faqs:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question:
+                            type: string
+                          answer:
+                            type: string
+                    awards:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          year:
+                            type: integer
+                          description:
+                            type: string
+      '404':
+        description: Business not found
+
+categories:
+  get:
+    summary: Get all categories
+    tags:
+      - Directory
+    parameters:
+      - in: query
+        name: parentId
+        schema:
+          type: string
+          format: uuid
+        description: Filter by parent category
+    responses:
+      '200':
+        description: Successfully retrieved categories
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business.yaml#/Category'
+
+  post:
+    summary: Create new category
+    tags:
+      - Directory
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business.yaml#/Category'
+    responses:
+      '201':
+        description: Category created successfully
+
+category:
+  get:
+    summary: Get category by ID
+    tags:
+      - Directory
+    responses:
+      '200':
+        description: Successfully retrieved category
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business.yaml#/Category'
+
+  put:
+    summary: Update category
+    tags:
+      - Directory
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business.yaml#/Category'
+    responses:
+      '200':
+        description: Category updated successfully
+
+  delete:
+    summary: Delete category
+    tags:
+      - Directory
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Category deleted successfully
+
+businesses:
+  post:
+    summary: Create new business
+    tags:
+      - Directory
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business.yaml#/Business'
+    responses:
+      '201':
+        description: Business created successfully
+
+business:
+  put:
+    summary: Update business
+    tags:
+      - Directory
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business.yaml#/Business'
+    responses:
+      '200':
+        description: Business updated successfully
+
+  delete:
+    summary: Delete business
+    tags:
+      - Directory
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Business deleted successfully

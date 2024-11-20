@@ -1,0 +1,80 @@
+FavoriteItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    itemType:
+      type: string
+      enum: [product, business, event]
+    itemId:
+      type: string
+      format: uuid
+    collectionId:
+      type: string
+      format: uuid
+      description: Optional - for organizing favorites into collections
+    notes:
+      type: string
+      maxLength: 500
+    itemData:
+      type: object
+      description: Denormalized item data for quick access
+      properties:
+        title:
+          type: string
+        image:
+          type: string
+          format: uri
+        price:
+          type: number
+          format: float
+        description:
+          type: string
+        url:
+          type: string
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - itemType
+    - itemId
+
+FavoriteCollection:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 1
+      maxLength: 100
+    description:
+      type: string
+      maxLength: 500
+    coverImage:
+      type: string
+      format: uri
+    itemCount:
+      type: integer
+      default: 0
+    isDefault:
+      type: boolean
+      default: false
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - name 

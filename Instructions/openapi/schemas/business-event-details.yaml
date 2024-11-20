@@ -1,0 +1,138 @@
+EventSchedule:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    items:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          description:
+            type: string
+          startTime:
+            type: string
+            format: date-time
+          endTime:
+            type: string
+            format: date-time
+          location:
+            type: string
+          type:
+            type: string
+            enum: [session, break, activity, other]
+          speakers:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                role:
+                  type: string
+                bio:
+                  type: string
+          isRequired:
+            type: boolean
+            default: true
+          notes:
+            type: string
+
+EventTicket:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    price:
+      type: number
+      format: float
+    quantity:
+      type: integer
+    soldCount:
+      type: integer
+      default: 0
+    perPersonLimit:
+      type: integer
+    saleStartDate:
+      type: string
+      format: date-time
+    saleEndDate:
+      type: string
+      format: date-time
+    benefits:
+      type: array
+      items:
+        type: string
+    isRefundable:
+      type: boolean
+      default: false
+    refundPolicy:
+      type: string
+    status:
+      type: string
+      enum: [draft, on_sale, sold_out, sale_ended]
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+EventSponsor:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    eventId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    logo:
+      type: string
+      format: uri
+    website:
+      type: string
+      format: uri
+    level:
+      type: string
+      enum: [platinum, gold, silver, bronze, other]
+    description:
+      type: string
+    contribution:
+      type: string
+    socialLinks:
+      type: object
+      properties:
+        facebook:
+          type: string
+          format: uri
+        instagram:
+          type: string
+          format: uri
+        twitter:
+          type: string
+          format: uri
+    displayOrder:
+      type: integer
+    isVisible:
+      type: boolean
+      default: true 

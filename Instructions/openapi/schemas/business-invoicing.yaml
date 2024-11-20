@@ -1,0 +1,104 @@
+Invoice:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    stripeInvoiceId:
+      type: string
+    number:
+      type: string
+    customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        address:
+          $ref: '../schemas/orders.yaml#/Address'
+    items:
+      type: array
+      items:
+        type: object
+        properties:
+          description:
+            type: string
+          quantity:
+            type: integer
+          unitPrice:
+            type: number
+            format: float
+          amount:
+            type: number
+            format: float
+          taxRate:
+            type: number
+            format: float
+    subtotal:
+      type: number
+      format: float
+    tax:
+      type: number
+      format: float
+    total:
+      type: number
+      format: float
+    currency:
+      type: string
+      default: USD
+    status:
+      type: string
+      enum: [draft, open, paid, void, uncollectible]
+    dueDate:
+      type: string
+      format: date
+    paymentTerms:
+      type: string
+    notes:
+      type: string
+    metadata:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          format: uuid
+        bookingId:
+          type: string
+          format: uuid
+    paymentIntent:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        paymentMethod:
+          type: string
+    history:
+      type: array
+      items:
+        type: object
+        properties:
+          action:
+            type: string
+          timestamp:
+            type: string
+            format: date-time
+          user:
+            type: string
+            format: uuid
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time 

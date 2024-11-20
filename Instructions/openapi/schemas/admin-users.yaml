@@ -1,0 +1,139 @@
+UserManagementOverview:
+  type: object
+  properties:
+    totalUsers:
+      type: integer
+    activeUsers:
+      type: integer
+    suspendedUsers:
+      type: integer
+    unverifiedUsers:
+      type: integer
+    usersByRole:
+      type: object
+      properties:
+        contestants:
+          type: integer
+        businesses:
+          type: integer
+        directors:
+          type: integer
+        judges:
+          type: integer
+        supporters:
+          type: integer
+        admins:
+          type: integer
+
+AdminUserList:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    firstName:
+      type: string
+    lastName:
+      type: string
+    email:
+      type: string
+    role:
+      type: string
+    status:
+      type: string
+      enum: [active, pending, suspended, deactivated, deleted]
+    joinDate:
+      type: string
+      format: date-time
+    lastActive:
+      type: string
+      format: date-time
+    verificationStatus:
+      type: boolean
+
+AdminUserDetail:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    basicInfo:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        location:
+          type: object
+          properties:
+            city:
+              type: string
+            state:
+              type: string
+            country:
+              type: string
+    security:
+      type: object
+      properties:
+        emailVerified:
+          type: boolean
+        mfaEnabled:
+          type: boolean
+        lastPasswordChange:
+          type: string
+          format: date-time
+    accountStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [active, pending, suspended, deactivated, deleted]
+        statusReason:
+          type: string
+        statusChangedAt:
+          type: string
+          format: date-time
+        statusChangedBy:
+          type: string
+          format: uuid
+    loginHistory:
+      type: array
+      items:
+        type: object
+        properties:
+          timestamp:
+            type: string
+            format: date-time
+          ipAddress:
+            type: string
+          device:
+            type: string
+          location:
+            type: string
+    activityLog:
+      type: array
+      items:
+        type: object
+        properties:
+          action:
+            type: string
+          timestamp:
+            type: string
+            format: date-time
+          details:
+            type: string
+    permissions:
+      type: object
+      additionalProperties:
+        type: boolean
+    joinDate:
+      type: string
+      format: date-time
+    lastActive:
+      type: string
+      format: date-time 

@@ -1,0 +1,150 @@
+payments:
+  get:
+    summary: Get payments
+    tags:
+      - Business Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, completed, failed, refunded, disputed]
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved payments
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-finances-additional.yaml#/Payment'
+
+payment:
+  get:
+    summary: Get payment details
+    tags:
+      - Business Finances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved payment
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-finances-additional.yaml#/Payment'
+
+financial-reports:
+  get:
+    summary: Get financial reports
+    tags:
+      - Business Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: period
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved reports
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-finances-additional.yaml#/FinancialReport'
+
+  post:
+    summary: Generate new financial report
+    tags:
+      - Business Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              period:
+                type: object
+              format:
+                type: string
+    responses:
+      '201':
+        description: Report generation started
+
+tax-documents:
+  get:
+    summary: Get tax documents
+    tags:
+      - Business Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: year
+        schema:
+          type: integer
+      - in: query
+        name: type
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved tax documents
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-finances-additional.yaml#/TaxDocument'
+
+generate-tax-document:
+  post:
+    summary: Generate tax document
+    tags:
+      - Business Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              year:
+                type: integer
+              period:
+                type: string
+    responses:
+      '201':
+        description: Tax document generation started 

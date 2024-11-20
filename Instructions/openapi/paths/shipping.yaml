@@ -1,0 +1,149 @@
+shipping-label:
+  post:
+    summary: Generate shipping label
+    tags:
+      - Shipping
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [label, pickup, dropoff]
+              itemCount:
+                type: integer
+              pickupDetails:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                  timeWindow:
+                    type: string
+                    enum: [morning, afternoon, evening]
+                  instructions:
+                    type: string
+            required:
+              - type
+              - itemCount
+    responses:
+      '201':
+        description: Shipping label or pickup request created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/shipping.yaml#/ShippingLabel'
+
+dropoff-locations:
+  get:
+    summary: Get nearby dropoff locations
+    tags:
+      - Shipping
+    parameters:
+      - in: query
+        name: zipCode
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: radius
+        schema:
+          type: integer
+          default: 25
+          description: Search radius in miles
+    responses:
+      '200':
+        description: Successfully retrieved dropoff locations
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  address:
+                    $ref: '../schemas/orders.yaml#/Address'
+                  distance:
+                    type: number
+                    description: Distance in miles
+                  hours:
+                    type: object
+
+resale-estimate:
+  post:
+    summary: Get resale value estimate
+    tags:
+      - Shipping
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              brand:
+                type: string
+              styleNumber:
+                type: string
+              purchaseDate:
+                type: string
+                format: date
+              purchasePrice:
+                type: number
+              condition:
+                type: string
+                enum: [new_with_tags, like_new, gently_used, well_worn]
+              repairs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    description:
+                      type: string
+              cleaning:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    description:
+                      type: string
+              frontImage:
+                type: string
+                format: binary
+              backImage:
+                type: string
+                format: binary
+              additionalImages:
+                type: array
+                items:
+                  type: string
+                  format: binary
+            required:
+              - brand
+              - purchaseDate
+              - purchasePrice
+              - condition
+              - frontImage
+              - backImage
+    responses:
+      '200':
+        description: Successfully generated estimate
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/shipping.yaml#/ResaleEstimate' 

@@ -1,0 +1,130 @@
+dashboard:
+  get:
+    summary: Get director dashboard overview
+    tags:
+      - Director Dashboard
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved dashboard data
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/director-dashboard.yaml#/DirectorDashboard'
+
+recent-activity:
+  get:
+    summary: Get recent activity
+    tags:
+      - Director Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: pageantId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved recent activity
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+                  details:
+                    type: object
+
+pending-tasks:
+  get:
+    summary: Get pending tasks
+    tags:
+      - Director Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: priority
+        schema:
+          type: string
+          enum: [high, medium, low]
+    responses:
+      '200':
+        description: Successfully retrieved pending tasks
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  dueDate:
+                    type: string
+                    format: date
+                  details:
+                    type: object
+
+upcoming-deadlines:
+  get:
+    summary: Get upcoming deadlines
+    tags:
+      - Director Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: pageantId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: type
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved upcoming deadlines
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  date:
+                    type: string
+                    format: date
+                  details:
+                    type: object 

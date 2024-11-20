@@ -1,0 +1,324 @@
+DirectoryResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/PublicProfile'
+    total:
+      type: integer
+    page:
+      type: integer
+    totalPages:
+      type: integer
+    
+PublicProfile:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    username:
+      type: string
+    firstName:
+      type: string
+    lastName:
+      type: string
+    profilePicture:
+      type: string
+      format: uri
+    role:
+      type: string
+      enum:
+        - contestant
+        - director
+        - business
+        - parent
+        - supporter
+        - judge
+    title:
+      type: string
+      description: Current pageant title if applicable
+    location:
+      type: string
+    socialStats:
+      type: object
+      properties:
+        followers:
+          type: integer
+        following:
+          type: integer
+    isFollowing:
+      type: boolean
+      description: Whether the current user is following this profile
+  required:
+    - id
+    - username
+    - firstName
+    - lastName
+    - role
+
+ActivityPost:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    streamActivityId:
+      type: string
+      description: GetStream activity ID
+    userId:
+      type: string
+      format: uuid
+    title:
+      type: string
+      maxLength: 200
+    content:
+      type: string
+    mediaUrls:
+      type: array
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: uri
+          type:
+            type: string
+            enum: [image, video]
+    tags:
+      type: array
+      items:
+        type: string
+    visibility:
+      type: string
+      enum: [public, followers, private]
+      default: public
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - content
+
+ActivityReaction:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    streamReactionId:
+      type: string
+      description: GetStream reaction ID
+    userId:
+      type: string
+      format: uuid
+    activityId:
+      type: string
+    kind:
+      type: string
+      enum: [like, love, haha, wow, sad, angry]
+    data:
+      type: object
+      description: Additional reaction data
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - activityId
+    - kind
+
+ActivityComment:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    streamCommentId:
+      type: string
+      description: GetStream comment ID
+    userId:
+      type: string
+      format: uuid
+    activityId:
+      type: string
+    parentId:
+      type: string
+      description: Parent comment ID for replies
+    content:
+      type: string
+      maxLength: 1000
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - activityId
+    - content
+
+CommunityGroup:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 3
+      maxLength: 100
+    description:
+      type: string
+      maxLength: 1000
+    slug:
+      type: string
+    visibility:
+      type: string
+      enum: [public, private]
+      default: public
+    allowedRoles:
+      type: array
+      items:
+        type: string
+        enum:
+          - contestant
+          - director
+          - business
+          - parent
+          - supporter
+          - judge
+          - admin
+    profileImage:
+      type: string
+      format: uri
+    coverImage:
+      type: string
+      format: uri
+    settings:
+      type: object
+      properties:
+        allowPosting:
+          type: boolean
+          default: true
+        allowMediaUploads:
+          type: boolean
+          default: true
+        allowFileSharing:
+          type: boolean
+          default: true
+        allowMemberInvites:
+          type: boolean
+          default: true
+        allowMemberMessaging:
+          type: boolean
+          default: true
+        requireAdminApproval:
+          type: boolean
+          default: false
+    memberCount:
+      type: integer
+      default: 0
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - visibility
+
+GroupMember:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    groupId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    role:
+      type: string
+      enum: [member, moderator, admin]
+      default: member
+    status:
+      type: string
+      enum: [pending, active, banned]
+      default: active
+    joinedAt:
+      type: string
+      format: date-time
+  required:
+    - groupId
+    - userId
+
+GroupMedia:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    groupId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [image, video]
+    url:
+      type: string
+      format: uri
+    thumbnailUrl:
+      type: string
+      format: uri
+    caption:
+      type: string
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - groupId
+    - userId
+    - type
+    - url
+
+GroupFile:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    groupId:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    url:
+      type: string
+      format: uri
+    size:
+      type: integer
+    type:
+      type: string
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - groupId
+    - userId
+    - name
+    - url

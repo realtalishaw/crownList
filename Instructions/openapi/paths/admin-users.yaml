@@ -1,0 +1,158 @@
+user-management:
+  get:
+    summary: Get user management overview
+    tags:
+      - Admin Users
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved user management overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/admin-users.yaml#/UserManagementOverview'
+
+users:
+  get:
+    summary: Get user list
+    tags:
+      - Admin Users
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [active, pending, suspended, deactivated, deleted]
+      - in: query
+        name: role
+        schema:
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [name, email, joinDate, lastActive]
+        default: joinDate
+    responses:
+      '200':
+        description: Successfully retrieved users
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/admin-users.yaml#/AdminUserList'
+
+user-details:
+  get:
+    summary: Get user details
+    tags:
+      - Admin Users
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved user details
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/admin-users.yaml#/AdminUserDetail'
+
+update-user-status:
+  put:
+    summary: Update user status
+    tags:
+      - Admin Users
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [active, suspended, deactivated]
+              reason:
+                type: string
+    responses:
+      '200':
+        description: User status updated successfully
+
+flag-user:
+  post:
+    summary: Flag user account
+    tags:
+      - Admin Users
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
+              severity:
+                type: string
+                enum: [low, medium, high]
+    responses:
+      '200':
+        description: User flagged successfully
+
+export-users:
+  post:
+    summary: Export users
+    tags:
+      - Admin Users
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              format:
+                type: string
+                enum: [csv, excel]
+              filters:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  role:
+                    type: string
+                  dateRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date
+                      end:
+                        type: string
+                        format: date
+    responses:
+      '200':
+        description: Users exported successfully
+        content:
+          application/csv:
+            schema:
+              type: string
+              format: binary
+          application/vnd.ms-excel:
+            schema:
+              type: string
+              format: binary 

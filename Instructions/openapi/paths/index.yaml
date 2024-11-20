@@ -1,0 +1,809 @@
+# Auth paths
+/api/auth/login:
+  $ref: './auth.yaml#/login'
+/api/auth/logout:
+  $ref: './auth.yaml#/logout'
+
+# Profile paths
+/api/profile/me:
+  $ref: './profile.yaml#/me'
+/api/profile/username/{username}:
+  $ref: './profile.yaml#/username'
+/api/profile/update:
+  $ref: './profile.yaml#/update-profile'
+/api/profile/update-profile-picture:
+  $ref: './profile.yaml#/update-profile-picture'
+/api/profile/update-header-image:
+  $ref: './profile.yaml#/update-header-image'
+/api/profile/connect-business:
+  $ref: './profile.yaml#/connect-business'
+
+# Contestant paths
+/api/contestant-profile/{userId}:
+  $ref: './contestant.yaml#/contestant-profile'
+/api/contestant/settings:
+  $ref: './contestant.yaml#/contestant-settings'
+/api/contestant/profile-images:
+  $ref: './contestant.yaml#/contestant-profile-images'
+/api/contestant/dashboard:
+  $ref: './contestant.yaml#/dashboard'
+/api/contestant/saved-items:
+  $ref: './contestant.yaml#/saved-items'
+/api/contestant/bookings:
+  $ref: './contestant.yaml#/bookings'
+/api/contestant/wallet:
+  $ref: './contestant.yaml#/wallet'
+/api/contestant/wallet/transactions:
+  $ref: './contestant.yaml#/wallet-transactions'
+/api/contestant/payment-methods:
+  $ref: './contestant.yaml#/payment-methods'
+/api/contestant/payment-methods/{id}:
+  $ref: './contestant.yaml#/payment-method'
+/api/contestant/collections:
+  $ref: './contestant.yaml#/collections'
+/api/contestant/collections/{id}:
+  $ref: './contestant.yaml#/collection'
+/api/contestant/saved-items/search:
+  $ref: './contestant.yaml#/saved-items-search'
+/api/contestant/saved-items/{id}:
+  $ref: './contestant.yaml#/saved-item'
+/api/contestant/saved-items/{id}/move:
+  $ref: './contestant.yaml#/move-saved-item'
+
+# Business paths
+/api/businesses:
+  $ref: './business.yaml#/businesses'
+/api/businesses/{id}:
+  $ref: './business.yaml#/business'
+/api/businesses/{id}/services:
+  $ref: './business.yaml#/services'
+/api/businesses/{id}/services/{serviceId}:
+  $ref: './business.yaml#/service'
+/api/businesses/{id}/bookings:
+  $ref: './business.yaml#/bookings'
+/api/businesses/{id}/reviews:
+  $ref: './business.yaml#/reviews'
+/api/businesses/{id}/media:
+  $ref: './business.yaml#/media'
+
+# Article paths
+/api/articles/categories:
+  $ref: './articles.yaml#/categories'
+/api/articles/categories/{id}:
+  $ref: './articles.yaml#/category'
+/api/articles/topics:
+  $ref: './articles.yaml#/topics'
+/api/articles/topics/{id}:
+  $ref: './articles.yaml#/topic'
+/api/articles:
+  $ref: './articles.yaml#/articles'
+/api/articles/{id}:
+  $ref: './articles.yaml#/article'
+
+# Community paths
+/api/community/feed:
+  $ref: './community.yaml#/feed'
+/api/community/posts:
+  $ref: './community.yaml#/posts'
+/api/community/posts/{id}:
+  $ref: './community.yaml#/post'
+/api/community/posts/{id}/react:
+  $ref: './community.yaml#/react'
+/api/community/posts/{id}/comments:
+  $ref: './community.yaml#/comments'
+/api/community/follow:
+  $ref: './community.yaml#/follow'
+/api/community/unfollow/{userId}:
+  $ref: './community.yaml#/unfollow'
+/api/community/directory:
+  $ref: './community.yaml#/directory'
+/api/community/directory/{userId}:
+  $ref: './community.yaml#/directory-user'
+
+# Group paths
+/api/community/groups:
+  $ref: './groups.yaml#/groups'
+/api/community/groups/{id}:
+  $ref: './groups.yaml#/group'
+/api/community/groups/{id}/join:
+  $ref: './groups.yaml#/join'
+/api/community/groups/{id}/leave:
+  $ref: './groups.yaml#/leave'
+/api/community/groups/{id}/members:
+  $ref: './groups.yaml#/members'
+/api/community/groups/{id}/members/{userId}:
+  $ref: './groups.yaml#/member'
+/api/community/groups/{id}/invite:
+  $ref: './groups.yaml#/invite'
+/api/community/groups/{id}/media:
+  $ref: './groups.yaml#/media'
+/api/community/groups/{id}/files:
+  $ref: './groups.yaml#/files'
+
+# Shop paths
+/api/shop/products:
+  $ref: './shop.yaml#/products'
+/api/shop/products/{id}:
+  $ref: './shop.yaml#/product'
+/api/shop/categories:
+  $ref: './categories.yaml#/product-categories'
+/api/shop/categories/{id}:
+  $ref: './categories.yaml#/product-category'
+
+# Store paths
+/api/stores:
+  $ref: './stores.yaml#/stores'
+/api/stores/{id}:
+  $ref: './stores.yaml#/store'
+/api/stores/{id}/products:
+  $ref: './stores.yaml#/store-products'
+/api/stores/{id}/reviews:
+  $ref: './stores.yaml#/store-reviews'
+
+# Cart paths
+/api/cart:
+  $ref: './cart.yaml#/cart'
+/api/cart/items:
+  $ref: './cart.yaml#/cart-items'
+/api/cart/items/{id}:
+  $ref: './cart.yaml#/cart-item'
+
+# Checkout and Order paths
+/api/checkout:
+  $ref: './checkout.yaml#/checkout'
+/api/checkout/payment-success:
+  $ref: './checkout.yaml#/payment-success'
+/api/orders:
+  $ref: './checkout.yaml#/orders'
+/api/orders/{id}:
+  $ref: './checkout.yaml#/order'
+
+# Settings paths
+/api/settings:
+  $ref: './settings.yaml#/settings'
+/api/settings/notifications:
+  $ref: './settings.yaml#/update-notifications'
+/api/settings/privacy:
+  $ref: './settings.yaml#/update-privacy'
+/api/settings/account:
+  $ref: './settings.yaml#/update-account'
+
+# Resale paths
+/api/resale/overview:
+  $ref: './resale.yaml#/overview'
+/api/resale/shipments:
+  $ref: './resale.yaml#/shipments'
+/api/resale/shipments/{id}:
+  $ref: './resale.yaml#/shipment'
+/api/resale/items:
+  $ref: './resale.yaml#/resale-items'
+/api/resale/earnings:
+  $ref: './resale.yaml#/earnings'
+/api/resale/payouts:
+  $ref: './resale.yaml#/payouts'
+/api/resale/payouts/request:
+  $ref: './resale.yaml#/request-payout'
+/api/resale/payouts/{id}/cancel:
+  $ref: './resale.yaml#/cancel-payout'
+/api/resale/analytics:
+  $ref: './resale.yaml#/resale-analytics'
+/api/resale/items/{itemId}/tracking:
+  $ref: './resale.yaml#/resale-item-tracking'
+
+# Shipping paths
+/api/shipping/label:
+  $ref: './shipping.yaml#/shipping-label'
+/api/shipping/dropoff-locations:
+  $ref: './shipping.yaml#/dropoff-locations'
+/api/shipping/estimate:
+  $ref: './shipping.yaml#/resale-estimate'
+
+# Directory paths
+/api/directory:
+  $ref: './directory.yaml#/directory'
+/api/directory/categories:
+  $ref: './directory.yaml#/categories'
+/api/directory/categories/{id}:
+  $ref: './directory.yaml#/category'
+/api/directory/search:
+  $ref: './directory.yaml#/directory-search'
+/api/directory/businesses:
+  $ref: './directory.yaml#/businesses'
+/api/directory/businesses/{id}:
+  $ref: './directory.yaml#/business'
+
+# Wallet paths
+/api/wallet:
+  $ref: './wallet.yaml#/wallet'
+/api/wallet/payment-methods:
+  $ref: './wallet.yaml#/payment-methods'
+/api/wallet/payment-methods/{id}:
+  $ref: './wallet.yaml#/payment-method'
+/api/wallet/transactions:
+  $ref: './wallet.yaml#/transactions'
+/api/wallet/subscriptions:
+  $ref: './wallet.yaml#/subscriptions'
+/api/wallet/subscriptions/{id}:
+  $ref: './wallet.yaml#/subscription'
+
+# Favorites paths
+/api/favorites:
+  $ref: './favorites.yaml#/favorites'
+/api/favorites/{id}:
+  $ref: './favorites.yaml#/favorite'
+/api/favorites/collections:
+  $ref: './favorites.yaml#/collections'
+/api/favorites/collections/{id}:
+  $ref: './favorites.yaml#/collection'
+/api/favorites/{id}/move:
+  $ref: './favorites.yaml#/move-favorite'
+
+# Binder paths
+/api/binders:
+  $ref: './binders.yaml#/binders'
+/api/binders/{id}:
+  $ref: './binders.yaml#/binder'
+/api/binders/{id}/archive:
+  $ref: './binders.yaml#/archive-binder'
+
+# Binder Appearances paths
+/api/binders/{binderId}/appearances:
+  $ref: './binder-appearances.yaml#/appearances'
+/api/binders/{binderId}/appearances/{appearanceId}:
+  $ref: './binder-appearances.yaml#/appearance'
+/api/binders/{binderId}/appearances/{appearanceId}/photos:
+  $ref: './binder-appearances.yaml#/appearance-photos'
+/api/binders/{binderId}/booking-links:
+  $ref: './binder-appearances.yaml#/booking-links'
+/api/binders/{binderId}/booking-links/{linkId}:
+  $ref: './binder-appearances.yaml#/booking-link'
+
+# Binder Trip Details paths
+/api/binders/{binderId}/trip-details:
+  $ref: './binder-trip-details.yaml#/trip-details'
+/api/binders/{binderId}/trip-details/flights:
+  $ref: './binder-trip-details.yaml#/flights'
+/api/binders/{binderId}/trip-details/flights/{flightId}:
+  $ref: './binder-trip-details.yaml#/flight'
+/api/binders/{binderId}/trip-details/hotel:
+  $ref: './binder-trip-details.yaml#/hotel'
+/api/binders/{binderId}/trip-details/car-rental:
+  $ref: './binder-trip-details.yaml#/car-rental'
+
+# Binder section paths
+/api/binders/{binderId}/tasks:
+  $ref: './binder-sections.yaml#/binder-tasks'
+/api/binders/{binderId}/tasks/{taskId}:
+  $ref: './binder-sections.yaml#/binder-task'
+/api/binders/{binderId}/schedule:
+  $ref: './binder-sections.yaml#/binder-schedule'
+/api/binders/{binderId}/documents:
+  $ref: './binder-sections.yaml#/binder-documents'
+/api/binders/{binderId}/wardrobe:
+  $ref: './binder-sections.yaml#/binder-wardrobe'
+/api/binders/{binderId}/appearances:
+  $ref: './binder-sections.yaml#/appearances'
+/api/binders/{binderId}/appearances/{appearanceId}:
+  $ref: './binder-sections.yaml#/appearance'
+/api/binders/{binderId}/appearances/{appearanceId}/photos:
+  $ref: './binder-sections.yaml#/appearance-photos'
+/api/binders/{binderId}/booking-links:
+  $ref: './binder-sections.yaml#/booking-links'
+/api/binders/{binderId}/booking-links/{linkId}:
+  $ref: './binder-sections.yaml#/booking-link'
+/api/binders/{binderId}/travel:
+  $ref: './binder-sections.yaml#/binder-travel'
+/api/binders/{binderId}/platform:
+  $ref: './binder-sections.yaml#/binder-platform'
+/api/binders/{binderId}/finances:
+  $ref: './binder-sections.yaml#/binder-finances'
+
+# Binder Documents paths
+/api/binders/{binderId}/documents:
+  $ref: './binder-documents.yaml#/binder-documents'
+/api/binders/{binderId}/documents/{documentId}:
+  $ref: './binder-documents.yaml#/binder-document'
+/api/binders/{binderId}/documents/{documentId}/file:
+  $ref: './binder-documents.yaml#/document-file'
+/api/binders/{binderId}/documents/{documentId}/status:
+  $ref: './binder-documents.yaml#/document-status'
+
+# Binder Paperwork paths
+/api/binders/{binderId}/paperwork:
+  $ref: './binder-paperwork.yaml#/binder-paperwork'
+/api/binders/{binderId}/paperwork/{paperworkId}:
+  $ref: './binder-paperwork.yaml#/paperwork'
+/api/binders/{binderId}/paperwork/{paperworkId}/review:
+  $ref: './binder-paperwork.yaml#/paperwork-review'
+/api/binders/{binderId}/paperwork/{paperworkId}/file:
+  $ref: './binder-paperwork.yaml#/paperwork-file'
+
+# Binder Packing paths
+/api/binders/{binderId}/packing-list:
+  $ref: './binder-packing.yaml#/packing-list'
+/api/binders/{binderId}/packing-list/categories:
+  $ref: './binder-packing.yaml#/packing-categories'
+/api/binders/{binderId}/packing-list/categories/{categoryId}:
+  $ref: './binder-packing.yaml#/packing-category'
+/api/binders/{binderId}/packing-list/items:
+  $ref: './binder-packing.yaml#/packing-items'
+/api/binders/{binderId}/packing-list/items/{itemId}:
+  $ref: './binder-packing.yaml#/packing-item'
+/api/binders/{binderId}/packing-list/items/{itemId}/status:
+  $ref: './binder-packing.yaml#/packing-item-status'
+
+# Binder Social Media paths
+/api/binders/{binderId}/social-media/accounts:
+  $ref: './binder-social-media.yaml#/social-accounts'
+/api/binders/{binderId}/social-media/accounts/{accountId}:
+  $ref: './binder-social-media.yaml#/social-account'
+/api/binders/{binderId}/social-media/posts:
+  $ref: './binder-social-media.yaml#/scheduled-posts'
+/api/binders/{binderId}/social-media/posts/{postId}:
+  $ref: './binder-social-media.yaml#/scheduled-post'
+
+# Binder Media Kit paths
+/api/binders/{binderId}/media-kits:
+  $ref: './binder-media-kit.yaml#/media-kits'
+/api/binders/{binderId}/media-kits/{mediaKitId}:
+  $ref: './binder-media-kit.yaml#/media-kit'
+/api/binders/{binderId}/media-kits/{mediaKitId}/generate:
+  $ref: './binder-media-kit.yaml#/generate-file'
+/api/binders/{binderId}/media-kits/{mediaKitId}/files:
+  $ref: './binder-media-kit.yaml#/media-kit-files'
+/api/binders/{binderId}/media-kits/{mediaKitId}/files/{fileId}:
+  $ref: './binder-media-kit.yaml#/media-kit-file'
+
+# Binder Website paths
+/api/binders/{binderId}/website:
+  $ref: './binder-website.yaml#/website'
+/api/binders/{binderId}/website/analytics:
+  $ref: './binder-website.yaml#/website-analytics'
+/api/binders/{binderId}/website/publish:
+  $ref: './binder-website.yaml#/website-publish'
+
+# Binder Platform Development paths
+/api/binders/{binderId}/platform:
+  $ref: './binder-platform.yaml#/platform'
+/api/binders/{binderId}/platform/goals:
+  $ref: './binder-platform.yaml#/platform-goals'
+/api/binders/{binderId}/platform/initiatives:
+  $ref: './binder-platform.yaml#/platform-initiatives'
+/api/binders/{binderId}/platform/resources:
+  $ref: './binder-platform.yaml#/platform-resources'
+/api/binders/{binderId}/platform/partnerships:
+  $ref: './binder-platform.yaml#/platform-partnerships'
+
+# Binder Sponsorship paths
+/api/binders/{binderId}/sponsorship-packages:
+  $ref: './binder-sponsorships.yaml#/sponsorship-packages'
+/api/binders/{binderId}/sponsorship-packages/{packageId}:
+  $ref: './binder-sponsorships.yaml#/sponsorship-package'
+/api/binders/{binderId}/sponsors:
+  $ref: './binder-sponsorships.yaml#/sponsors'
+/api/binders/{binderId}/sponsors/{sponsorId}:
+  $ref: './binder-sponsorships.yaml#/sponsor'
+/api/binders/{binderId}/sponsors/{sponsorId}/followup:
+  $ref: './binder-sponsorships.yaml#/sponsor-followup'
+/api/binders/{binderId}/sponsors/{sponsorId}/documents:
+  $ref: './binder-sponsorships.yaml#/sponsor-documents'
+
+# Binder Fundraising paths
+/api/binders/{binderId}/fundraisers:
+  $ref: './binder-fundraising.yaml#/fundraisers'
+/api/binders/{binderId}/fundraisers/{fundraiserId}:
+  $ref: './binder-fundraising.yaml#/fundraiser'
+/api/binders/{binderId}/fundraisers/{fundraiserId}/status:
+  $ref: './binder-fundraising.yaml#/fundraiser-status'
+/api/binders/{binderId}/fundraisers/{fundraiserId}/updates:
+  $ref: './binder-fundraising.yaml#/fundraiser-updates'
+/api/binders/{binderId}/fundraisers/{fundraiserId}/donations:
+  $ref: './binder-fundraising.yaml#/donations'
+/api/binders/{binderId}/fundraisers/{fundraiserId}/donations/{donationId}/thank:
+  $ref: './binder-fundraising.yaml#/thank-donor'
+
+# Ambassador Program paths
+/api/ambassador/rewards:
+  $ref: './ambassador-rewards.yaml#/rewards'
+/api/ambassador/rewards/redeem:
+  $ref: './ambassador-rewards.yaml#/reward-redemption'
+/api/ambassador/rewards/history:
+  $ref: './ambassador-rewards.yaml#/redemption-history'
+
+# Ambassador Leaderboard paths
+/api/ambassador/leaderboard:
+  $ref: './ambassador-leaderboard.yaml#/leaderboard'
+/api/ambassador/leaderboard/rank:
+  $ref: './ambassador-leaderboard.yaml#/ambassador-rank'
+
+# Ambassador Points paths
+/api/ambassador/points:
+  $ref: './ambassador-points.yaml#/points-summary'
+/api/ambassador/points/history:
+  $ref: './ambassador-points.yaml#/points-history'
+/api/ambassador/points/adjust:
+  $ref: './ambassador-points.yaml#/points-adjustment'
+
+# Messaging paths
+/api/channels:
+  $ref: './messaging.yaml#/channels'
+/api/channels/{channelId}:
+  $ref: './messaging.yaml#/channel'
+/api/channels/{channelId}/members:
+  $ref: './messaging.yaml#/channel-members'
+/api/channels/{channelId}/messages:
+  $ref: './messaging.yaml#/messages'
+/api/channels/{channelId}/messages/{messageId}:
+  $ref: './messaging.yaml#/message'
+/api/channels/{channelId}/messages/{messageId}/reaction:
+  $ref: './messaging.yaml#/message-reaction'
+/api/conversations:
+  $ref: './messaging.yaml#/conversations'
+/api/conversations/{userId}:
+  $ref: './messaging.yaml#/conversation'
+
+# Notification paths
+/api/notifications:
+  $ref: './notifications.yaml#/notifications'
+/api/notifications/{id}:
+  $ref: './notifications.yaml#/notification'
+/api/notifications/mark-all-read:
+  $ref: './notifications.yaml#/mark-all-read'
+/api/notifications/preferences:
+  $ref: './notifications.yaml#/notification-preferences'
+
+# Business Dashboard paths
+/api/business/dashboard:
+  $ref: './business-dashboard.yaml#/dashboard'
+/api/business/dashboard/recent-activity:
+  $ref: './business-dashboard.yaml#/recent-activity'
+/api/business/dashboard/upcoming-bookings:
+  $ref: './business-dashboard.yaml#/upcoming-bookings'
+/api/business/dashboard/quick-actions:
+  $ref: './business-dashboard.yaml#/quick-actions'
+/api/business/dashboard/revenue-stats:
+  $ref: './business-dashboard.yaml#/revenue-stats'
+
+# Business Listings paths
+/api/business/listings:
+  $ref: './business-listings.yaml#/listings'
+/api/business/listings/{listingId}:
+  $ref: './business-listings.yaml#/listing'
+/api/business/listings/{listingId}/status:
+  $ref: './business-listings.yaml#/listing-status'
+/api/business/listings/{listingId}/media:
+  $ref: './business-listings.yaml#/listing-media'
+/api/business/listings/{listingId}/stats:
+  $ref: './business-listings.yaml#/listing-stats'
+
+# Business Bookings paths
+/api/business/bookings:
+  $ref: './business-bookings.yaml#/bookings'
+/api/business/bookings/{bookingId}:
+  $ref: './business-bookings.yaml#/booking'
+/api/business/bookings/{bookingId}/reschedule:
+  $ref: './business-bookings.yaml#/reschedule-booking'
+/api/business/bookings/{bookingId}/cancel:
+  $ref: './business-bookings.yaml#/cancel-booking'
+/api/business/bookings/{bookingId}/send-reminder:
+  $ref: './business-bookings.yaml#/send-reminder'
+
+# Business Calendar paths
+/api/business/service-schedules:
+  $ref: './business-calendar.yaml#/service-schedules'
+/api/business/service-schedules/{scheduleId}:
+  $ref: './business-calendar.yaml#/service-schedule'
+/api/business/available-slots:
+  $ref: './business-calendar.yaml#/available-slots'
+/api/business/block-dates:
+  $ref: './business-calendar.yaml#/block-dates'
+/api/business/custom-availability:
+  $ref: './business-calendar.yaml#/custom-availability'
+
+# Business Review paths
+/api/business/reviews:
+  $ref: './business-reviews.yaml#/reviews'
+/api/business/reviews/{reviewId}:
+  $ref: './business-reviews.yaml#/review'
+/api/business/reviews/{reviewId}/response:
+  $ref: './business-reviews.yaml#/review-response'
+/api/business/reviews/stats:
+  $ref: './business-reviews.yaml#/review-stats'
+
+# Update Business Review paths
+/api/business/reviews/{reviewId}/response/update:
+  $ref: './business-reviews.yaml#/review-response-update'
+/api/business/reviews/{reviewId}/response/delete:
+  $ref: './business-reviews.yaml#/review-response-delete'
+/api/business/reviews/{reviewId}/detail:
+  $ref: './business-reviews.yaml#/review-detail'
+
+# Business Analytics paths
+/api/business/analytics/overview:
+  $ref: './business-analytics.yaml#/analytics-overview'
+/api/business/analytics/revenue:
+  $ref: './business-analytics.yaml#/revenue-analytics'
+/api/business/analytics/service-performance:
+  $ref: './business-analytics.yaml#/service-performance'
+
+# Business Performance paths
+/api/business/performance/metrics:
+  $ref: './business-performance.yaml#/performance-metrics'
+/api/business/performance/client-retention:
+  $ref: './business-performance.yaml#/client-retention'
+/api/business/performance/reports/generate:
+  $ref: './business-performance.yaml#/generate-report'
+/api/business/performance/reports/{reportId}/download:
+  $ref: './business-performance.yaml#/download-report'
+
+# Business Finances paths
+/api/business/finances/wallet:
+  $ref: './business-finances.yaml#/wallet'
+/api/business/finances/transactions:
+  $ref: './business-finances.yaml#/transactions'
+/api/business/finances/payout-request:
+  $ref: './business-finances.yaml#/payout-request'
+/api/business/finances/payout-schedule:
+  $ref: './business-finances.yaml#/payout-schedule'
+
+# Business Invoicing paths
+/api/business/invoices:
+  $ref: './business-invoicing.yaml#/invoices'
+/api/business/invoices/{invoiceId}:
+  $ref: './business-invoicing.yaml#/invoice'
+/api/business/invoices/{invoiceId}/send:
+  $ref: './business-invoicing.yaml#/send-invoice'
+/api/business/invoices/{invoiceId}/void:
+  $ref: './business-invoicing.yaml#/void-invoice'
+/api/business/invoices/{invoiceId}/download:
+  $ref: './business-invoicing.yaml#/download-invoice'
+
+# Business Finances Additional paths
+/api/business/payments:
+  $ref: './business-finances-additional.yaml#/payments'
+/api/business/payments/{paymentId}:
+  $ref: './business-finances-additional.yaml#/payment'
+/api/business/financial-reports:
+  $ref: './business-finances-additional.yaml#/financial-reports'
+/api/business/tax-documents:
+  $ref: './business-finances-additional.yaml#/tax-documents'
+/api/business/tax-documents/generate:
+  $ref: './business-finances-additional.yaml#/generate-tax-document'
+
+# Business Promotions paths
+/api/business/promotions:
+  $ref: './business-promotions.yaml#/promotions'
+/api/business/promotions/{promotionId}:
+  $ref: './business-promotions.yaml#/promotion'
+/api/business/promotions/{promotionId}/status:
+  $ref: './business-promotions.yaml#/promotion-status'
+/api/business/promotions/{promotionId}/redemptions:
+  $ref: './business-promotions.yaml#/promotion-redemptions'
+/api/business/promotions/{promotionId}/analytics:
+  $ref: './business-promotions.yaml#/promotion-analytics'
+
+# Business Events paths
+/api/business/events:
+  $ref: './business-events.yaml#/events'
+/api/business/events/{eventId}:
+  $ref: './business-events.yaml#/event'
+/api/business/events/{eventId}/status:
+  $ref: './business-events.yaml#/event-status'
+
+# Business Event Detail paths
+/api/business/events/{eventId}/schedule:
+  $ref: './business-event-details.yaml#/event-schedule'
+/api/business/events/{eventId}/schedule/{itemId}:
+  $ref: './business-event-details.yaml#/schedule-item'
+/api/business/events/{eventId}/tickets:
+  $ref: './business-event-details.yaml#/event-tickets'
+/api/business/events/{eventId}/tickets/{ticketId}:
+  $ref: './business-event-details.yaml#/event-ticket'
+/api/business/events/{eventId}/sponsors:
+  $ref: './business-event-details.yaml#/event-sponsors'
+/api/business/events/{eventId}/sponsors/{sponsorId}:
+  $ref: './business-event-details.yaml#/event-sponsor'
+
+# Business Settings paths
+/api/business/settings:
+  $ref: './business-settings.yaml#/settings'
+/api/business/settings/notifications:
+  $ref: './business-settings.yaml#/notification-preferences'
+/api/business/settings/hours:
+  $ref: './business-settings.yaml#/business-hours'
+/api/business/settings/payment:
+  $ref: './business-settings.yaml#/payment-settings'
+/api/business/settings/connect-stripe:
+  $ref: './business-settings.yaml#/connect-stripe'
+/api/business/settings/delete-account:
+  $ref: './business-settings.yaml#/delete-account'
+
+# Director Dashboard paths
+/api/director/dashboard:
+  $ref: './director-dashboard.yaml#/dashboard'
+/api/director/dashboard/recent-activity:
+  $ref: './director-dashboard.yaml#/recent-activity'
+/api/director/dashboard/pending-tasks:
+  $ref: './director-dashboard.yaml#/pending-tasks'
+/api/director/dashboard/upcoming-deadlines:
+  $ref: './director-dashboard.yaml#/upcoming-deadlines'
+
+# Pageant Management paths
+/api/pageant/{pageantId}/contestants:
+  $ref: './pageant-management.yaml#/pageant-contestants'
+/api/pageant/{pageantId}/contestants/{contestantId}:
+  $ref: './pageant-management.yaml#/contestant'
+/api/pageant/{pageantId}/contestants/{contestantId}/status:
+  $ref: './pageant-management.yaml#/contestant-status'
+/api/pageant/{pageantId}/contestants/{contestantId}/submissions:
+  $ref: './pageant-management.yaml#/contestant-submissions'
+/api/pageant/{pageantId}/contestants/{contestantId}/submissions/{submissionId}/review:
+  $ref: './pageant-management.yaml#/review-submission'
+/api/pageant/{pageantId}/contestants/{contestantId}/payments:
+  $ref: './pageant-management.yaml#/contestant-payments'
+/api/pageant/{pageantId}/contestants/{contestantId}/payments/record:
+  $ref: './pageant-management.yaml#/record-payment'
+
+# Pageant Configuration paths
+/api/pageant/{pageantId}/forms:
+  $ref: './pageant-configuration.yaml#/pageant-forms'
+/api/pageant/{pageantId}/fees:
+  $ref: './pageant-configuration.yaml#/pageant-fees'
+/api/pageant/{pageantId}/competition-areas:
+  $ref: './pageant-configuration.yaml#/competition-areas'
+/api/pageant/{pageantId}/documents:
+  $ref: './pageant-configuration.yaml#/pageant-documents'
+/api/pageant/{pageantId}/competition/scoring:
+  $ref: './pageant-configuration.yaml#/competition-scoring'
+/api/pageant/{pageantId}/competition/results:
+  $ref: './pageant-configuration.yaml#/competition-results'
+
+# Pageant Judging paths
+/api/pageant/{pageantId}/judges:
+  $ref: './pageant-judging.yaml#/judges'
+/api/pageant/{pageantId}/scoring-sheets:
+  $ref: './pageant-judging.yaml#/scoring-sheets'
+/api/pageant/{pageantId}/live-scoring:
+  $ref: './pageant-judging.yaml#/live-scoring'
+/api/pageant/{pageantId}/aggregate-scores:
+  $ref: './pageant-judging.yaml#/aggregate-scores'
+/api/pageant/{pageantId}/awards:
+  $ref: './pageant-judging.yaml#/awards'
+/api/pageant/{pageantId}/contestants/import:
+  $ref: './pageant-judging.yaml#/contestant-management'
+/api/pageant/{pageantId}/contestants/export:
+  $ref: './pageant-judging.yaml#/contestant-management'
+
+# Contestant Portal paths
+/api/pageant/{pageantId}/portal:
+  $ref: './contestant-portal.yaml#/portal-access'
+/api/pageant/{pageantId}/portal/schedule:
+  $ref: './contestant-portal.yaml#/portal-schedule'
+/api/pageant/{pageantId}/portal/documents:
+  $ref: './contestant-portal.yaml#/portal-documents'
+/api/pageant/{pageantId}/portal/fees:
+  $ref: './contestant-portal.yaml#/portal-fees'
+/api/pageant/{pageantId}/portal/competitions:
+  $ref: './contestant-portal.yaml#/portal-competitions'
+/api/pageant/{pageantId}/portal/progress:
+  $ref: './contestant-portal.yaml#/portal-progress'
+
+# People's Choice paths
+/api/peoples-choice/overview:
+  $ref: './peoples-choice.yaml#/peoples-choice-overview'
+/api/peoples-choice/events:
+  $ref: './peoples-choice.yaml#/voting-events'
+/api/peoples-choice/events/{eventId}:
+  $ref: './peoples-choice.yaml#/voting-event'
+/api/peoples-choice/events/{eventId}/contestants:
+  $ref: './peoples-choice.yaml#/voting-contestants'
+/api/peoples-choice/events/{eventId}/settings:
+  $ref: './peoples-choice.yaml#/voting-settings'
+
+# Staff Management paths
+/api/staff/overview:
+  $ref: './staff-management.yaml#/staff-overview'
+/api/staff/members:
+  $ref: './staff-management.yaml#/staff-members'
+/api/staff/members/{memberId}:
+  $ref: './staff-management.yaml#/staff-member'
+/api/staff/roles:
+  $ref: './staff-management.yaml#/staff-roles'
+/api/staff/roles/{roleId}:
+  $ref: './staff-management.yaml#/staff-role'
+
+# Pageant Finance paths
+/api/pageant/{pageantId}/finances:
+  $ref: './pageant-finances.yaml#/pageant-financials'
+/api/pageant/{pageantId}/finances/transactions:
+  $ref: './pageant-finances.yaml#/pageant-transactions'
+/api/pageant/{pageantId}/finances/reports:
+  $ref: './pageant-finances.yaml#/generate-report'
+/api/pageant/{pageantId}/finances/revenue:
+  $ref: './pageant-finances.yaml#/revenue-overview'
+
+# Pageant Communications paths
+/api/pageant/{pageantId}/communications:
+  $ref: './pageant-communications.yaml#/communications-overview'
+/api/pageant/{pageantId}/communications/messages:
+  $ref: './pageant-communications.yaml#/messages'
+/api/pageant/{pageantId}/communications/messages/{messageId}:
+  $ref: './pageant-communications.yaml#/message'
+/api/pageant/{pageantId}/communications/messages/{messageId}/send:
+  $ref: './pageant-communications.yaml#/send-message'
+/api/pageant/{pageantId}/communications/templates:
+  $ref: './pageant-communications.yaml#/message-templates'
+/api/pageant/{pageantId}/communications/templates/{templateId}:
+  $ref: './pageant-communications.yaml#/message-template'
+
+# Support paths
+/api/support/tickets:
+  $ref: './support.yaml#/support-tickets'
+/api/support/tickets/{ticketId}:
+  $ref: './support.yaml#/support-ticket'
+/api/support/tickets/{ticketId}/messages:
+  $ref: './support.yaml#/ticket-message'
+/api/support/tickets/{ticketId}/status:
+  $ref: './support.yaml#/ticket-status'
+
+# Public Voting paths
+/api/voting/events:
+  $ref: './public-voting.yaml#/voting-events'
+/api/voting/events/{eventId}:
+  $ref: './public-voting.yaml#/voting-event'
+/api/voting/events/{eventId}/contestants:
+  $ref: './public-voting.yaml#/event-contestants'
+/api/voting/contestants/{contestantId}:
+  $ref: './public-voting.yaml#/contestant-profile'
+/api/voting/purchase:
+  $ref: './public-voting.yaml#/purchase-votes'
+/api/voting/transactions/{transactionId}:
+  $ref: './public-voting.yaml#/vote-transaction'
+
+# Admin Dashboard paths
+/api/admin/dashboard:
+  $ref: './admin-dashboard.yaml#/admin-overview'
+/api/admin/dashboard/activity:
+  $ref: './admin-dashboard.yaml#/platform-activity'
+/api/admin/dashboard/statistics:
+  $ref: './admin-dashboard.yaml#/user-statistics'
+/api/admin/dashboard/recent-activity:
+  $ref: './admin-dashboard.yaml#/recent-activity'
+
+# Admin User Management paths
+/api/admin/users/overview:
+  $ref: './admin-users.yaml#/user-management'
+/api/admin/users:
+  $ref: './admin-users.yaml#/users'
+/api/admin/users/{userId}:
+  $ref: './admin-users.yaml#/user-details'
+/api/admin/users/{userId}/status:
+  $ref: './admin-users.yaml#/update-user-status'
+/api/admin/users/{userId}/flag:
+  $ref: './admin-users.yaml#/flag-user'
+/api/admin/users/export:
+  $ref: './admin-users.yaml#/export-users'
+
+# Admin Business Management paths
+/api/admin/businesses/overview:
+  $ref: './admin-businesses.yaml#/business-management'
+/api/admin/businesses:
+  $ref: './admin-businesses.yaml#/businesses'
+/api/admin/businesses/applications:
+  $ref: './admin-businesses.yaml#/pending-applications'
+/api/admin/businesses/applications/{applicationId}/review:
+  $ref: './admin-businesses.yaml#/review-application'
+/api/admin/businesses/{businessId}/verification:
+  $ref: './admin-businesses.yaml#/business-verification'
+
+# Admin Content Moderation paths
+/api/admin/moderation/overview:
+  $ref: './admin-moderation.yaml#/moderation-overview'
+/api/admin/moderation/reports:
+  $ref: './admin-moderation.yaml#/reports'
+/api/admin/moderation/reports/{reportId}:
+  $ref: './admin-moderation.yaml#/report-details'
+/api/admin/moderation/reports/{reportId}/handle:
+  $ref: './admin-moderation.yaml#/handle-report'
+/api/admin/moderation/content/review:
+  $ref: './admin-moderation.yaml#/content-review'

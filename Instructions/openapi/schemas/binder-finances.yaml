@@ -1,0 +1,130 @@
+BudgetOverview:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    totalBudget:
+      type: number
+      format: float
+    summary:
+      type: object
+      properties:
+        totalExpenses:
+          type: number
+          format: float
+        totalPaid:
+          type: number
+          format: float
+        totalPending:
+          type: number
+          format: float
+        totalRaised:
+          type: number
+          format: float
+    upcomingPayments:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          name:
+            type: string
+          amount:
+            type: number
+            format: float
+          dueDate:
+            type: string
+            format: date
+          status:
+            type: string
+            enum: [pending, overdue, paid]
+    expensesByCategory:
+      type: object
+      additionalProperties:
+        type: number
+        format: float
+    monthlySpending:
+      type: array
+      items:
+        type: object
+        properties:
+          month:
+            type: string
+            format: date
+          amount:
+            type: number
+            format: float
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+Expense:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+    category:
+      type: string
+      enum: [entry_fee, wardrobe, travel, coaching, photography, other]
+    expectedAmount:
+      type: number
+      format: float
+    actualAmount:
+      type: number
+      format: float
+    dueDate:
+      type: string
+      format: date
+    paidDate:
+      type: string
+      format: date
+    status:
+      type: string
+      enum: [planned, pending, paid, overdue]
+    paymentMethod:
+      type: string
+    notes:
+      type: string
+    receipts:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          url:
+            type: string
+            format: uri
+          uploadedAt:
+            type: string
+            format: date-time
+          notes:
+            type: string
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - name
+    - category
+    - expectedAmount 

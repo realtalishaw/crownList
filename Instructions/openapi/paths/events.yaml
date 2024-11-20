@@ -1,0 +1,138 @@
+events:
+  get:
+    summary: Get events
+    tags:
+      - Events
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum:
+            - pageant
+            - workshop
+            - photoshoot
+            - appearance
+            - fundraiser
+            - other
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+            - in-person
+            - virtual
+            - hybrid
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+            - draft
+            - published
+            - cancelled
+            - completed
+    responses:
+      '200':
+        description: Successfully retrieved events
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/events.yaml#/Event'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+  post:
+    summary: Create a new event
+    tags:
+      - Events
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/events.yaml#/Event'
+    responses:
+      '201':
+        description: Event created successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+event:
+  get:
+    summary: Get event details
+    tags:
+      - Events
+    responses:
+      '200':
+        description: Successfully retrieved event
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/events.yaml#/Event'
+      '404':
+        description: Event not found
+
+  put:
+    summary: Update event details
+    tags:
+      - Events
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/events.yaml#/Event'
+    responses:
+      '200':
+        description: Event updated successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+      '404':
+        description: Event not found
+
+  delete:
+    summary: Delete event
+    tags:
+      - Events
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Event deleted successfully
+      '401':
+        description: Unauthorized
+      '404':
+        description: Event not found 

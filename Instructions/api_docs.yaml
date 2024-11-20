@@ -1,0 +1,2565 @@
+openapi: 3.0.0
+info:
+  title: Pageant Management Platform API
+  version: 1.0.0
+  description: |
+    API specification for the Pageant Management Platform, enabling users to manage pageant events,
+    contestants, businesses, and related services.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://pageantplatform.com/api
+    description: Production server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    
+  schemas:
+    ArticleCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        slug:
+          type: string
+        order:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+
+    ArticleTopic:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        categoryId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        slug:
+          type: string
+        order:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+        - categoryId
+
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        topicId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        content:
+          type: string
+          minLength: 10
+        slug:
+          type: string
+        excerpt:
+          type: string
+          maxLength: 500
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [draft, published, archived]
+          default: draft
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - title
+        - content
+        - topicId
+        - status
+
+    FAQ:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        question:
+          type: string
+          minLength: 3
+          maxLength: 500
+        answer:
+          type: string
+          minLength: 3
+          maxLength: 5000
+        order:
+          type: integer
+          description: Optional ordering for display purposes
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - question
+        - answer
+
+    ContactSubmission:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        message:
+          type: string
+          minLength: 10
+          maxLength: 1000
+        sentAt:
+          type: string
+          format: date-time
+      required:
+        - email
+        - name
+        - message
+
+    TitleholderOfTheWeek:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        name:
+          type: string
+        title:
+          type: string
+        year:
+          type: integer
+          minimum: 1900
+          maximum: 2100
+        bio:
+          type: string
+        socialMedia:
+          type: object
+          properties:
+            instagram:
+              type: string
+              format: uri
+            facebook:
+              type: string
+              format: uri
+            twitter:
+              type: string
+              format: uri
+            tiktok:
+              type: string
+              format: uri
+        youtubeVideoUrl:
+          type: string
+          format: uri
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - startDate
+        - endDate
+        - name
+        - title
+        - year
+        - bio
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+    
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+    
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+          minLength: 3
+          maxLength: 30
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        role:
+          type: string
+          enum:
+            - contestant
+            - director
+            - business
+            - parent
+            - supporter
+            - judge
+            - admin
+          description: User's role in the system
+        profilePicture:
+          type: string
+          format: uri
+        bio:
+          type: string
+        contactNumber:
+          type: string
+        location:
+          type: string
+        title:
+          type: string
+          description: Current pageant title if applicable
+        privacy:
+          type: object
+          properties:
+            isPublic:
+              type: boolean
+              default: true
+            showEmail:
+              type: boolean
+              default: false
+            showPhone:
+              type: boolean
+              default: false
+            showLocation:
+              type: boolean
+              default: true
+            showBirthday:
+              type: boolean
+              default: false
+        socialStats:
+          type: object
+          properties:
+            followers:
+              type: integer
+              default: 0
+            following:
+              type: integer
+              default: 0
+            posts:
+              type: integer
+              default: 0
+        socialLinks:
+          type: object
+          properties:
+            instagram:
+              type: string
+              format: uri
+            facebook:
+              type: string
+              format: uri
+            twitter:
+              type: string
+              format: uri
+            tiktok:
+              type: string
+              format: uri
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - username
+        - firstName
+        - lastName
+        - role
+
+    UserStatus:
+      type: object
+      properties:
+        exists:
+          type: boolean
+        isRegistered:
+          type: boolean
+        email:
+          type: string
+          format: email
+
+    ResourceCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        slug:
+          type: string
+        order:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        categoryId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        description:
+          type: string
+          minLength: 10
+        url:
+          type: string
+          format: uri
+        downloadUrl:
+          type: string
+          format: uri
+        imageUrl:
+          type: string
+          format: uri
+        authorName:
+          type: string
+          maxLength: 100
+        authorUrl:
+          type: string
+          format: uri
+        type:
+          type: string
+          enum:
+            - blog
+            - video
+            - download
+            - worksheet
+            - checklist
+            - template
+            - guide
+            - tutorial
+            - webinar
+            - course
+            - ebook
+            - podcast
+            - link
+          description: Type of resource content
+        views:
+          type: integer
+          default: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - title
+        - description
+        - categoryId
+        - type
+        - url
+
+    Business:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        type:
+          type: string
+          enum:
+            - pageant
+            - vendor
+            - sponsor
+            - venue
+            - service
+          description: Type of business
+        # ... other business fields
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        businessId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+        timeZone:
+          type: string
+        location:
+          type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            country:
+              type: string
+            isTBA:
+              type: boolean
+              default: false
+        category:
+          type: string
+          enum:
+            - pageant
+            - workshop
+            - photoshoot
+            - appearance
+            - fundraiser
+            - other
+        type:
+          type: string
+          enum:
+            - in-person
+            - virtual
+            - hybrid
+        headerImage:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+            - cancelled
+            - completed
+        capacity:
+          type: integer
+          minimum: 1
+        isPageant:
+          type: boolean
+          description: Indicates if this is a pageant event
+        pageantDetails:
+          type: object
+          properties:
+            division:
+              type: string
+            ageGroup:
+              type: string
+            preliminaryDeadline:
+              type: string
+              format: date
+            finalDeadline:
+              type: string
+              format: date
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - businessId
+        - name
+        - startDate
+        - endDate
+        - category
+        - type
+
+    EventSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        eventId:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                format: time
+              title:
+                type: string
+              description:
+                type: string
+              location:
+                type: string
+              duration:
+                type: integer
+                description: Duration in minutes
+
+    EventTicket:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        eventId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        quantity:
+          type: integer
+        quantityRemaining:
+          type: integer
+        saleStartDate:
+          type: string
+          format: date-time
+        saleEndDate:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+            - general
+            - vip
+            - early-bird
+            - contestant
+            - spectator
+        status:
+          type: string
+          enum:
+            - active
+            - sold-out
+            - sale-ended
+            - not-started
+
+    EventPromotion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        eventId:
+          type: string
+          format: uuid
+        code:
+          type: string
+        type:
+          type: string
+          enum:
+            - percentage
+            - fixed
+            - free
+        value:
+          type: number
+        maxUses:
+          type: integer
+        usedCount:
+          type: integer
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - active
+            - expired
+            - depleted
+
+    EventRegistration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        eventId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        ticketId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - pending
+            - confirmed
+            - cancelled
+        type:
+          type: string
+          enum:
+            - contestant
+            - spectator
+        contestantDetails:
+          type: object
+          properties:
+            division:
+              type: string
+            number:
+              type: string
+            paperworkStatus:
+              type: string
+              enum:
+                - not-started
+                - in-progress
+                - completed
+            binderId:
+              type: string
+              format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    BlogCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        slug:
+          type: string
+        order:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+
+    BlogPost:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        slug:
+          type: string
+        excerpt:
+          type: string
+          maxLength: 500
+        content:
+          type: string
+          minLength: 10
+        categoryId:
+          type: string
+          format: uuid
+        tags:
+          type: array
+          items:
+            type: string
+        authorId:
+          type: string
+          format: uuid
+        featuredImage:
+          type: string
+          format: uri
+        thumbnailImage:
+          type: string
+          format: uri
+        metaTitle:
+          type: string
+          maxLength: 100
+        metaDescription:
+          type: string
+          maxLength: 200
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+            - archived
+          default: draft
+        isFeatured:
+          type: boolean
+          default: false
+        views:
+          type: integer
+          default: 0
+        likes:
+          type: integer
+          default: 0
+        readTime:
+          type: integer
+          description: Estimated reading time in minutes
+        publishedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - title
+        - content
+        - categoryId
+        - authorId
+        - status
+
+    BlogComment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        postId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        parentId:
+          type: string
+          format: uuid
+          description: ID of parent comment for nested replies
+        content:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - spam
+            - deleted
+          default: pending
+        likes:
+          type: integer
+          default: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - postId
+        - userId
+        - content
+
+    ActivityPost:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        streamActivityId:
+          type: string
+          description: GetStream activity ID
+        userId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        content:
+          type: string
+        mediaUrls:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+              type:
+                type: string
+                enum: [image, video]
+        tags:
+          type: array
+          items:
+            type: string
+        visibility:
+          type: string
+          enum: [public, followers, private]
+          default: public
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - content
+
+    ActivityReaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        streamReactionId:
+          type: string
+          description: GetStream reaction ID
+        userId:
+          type: string
+          format: uuid
+        activityId:
+          type: string
+        kind:
+          type: string
+          enum: [like, love, haha, wow, sad, angry]
+        data:
+          type: object
+          description: Additional reaction data
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - activityId
+        - kind
+
+    ActivityComment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        streamCommentId:
+          type: string
+          description: GetStream comment ID
+        userId:
+          type: string
+          format: uuid
+        activityId:
+          type: string
+        parentId:
+          type: string
+          description: Parent comment ID for replies
+        content:
+          type: string
+          maxLength: 1000
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - activityId
+        - content
+
+    CommunityGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 3
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 1000
+        slug:
+          type: string
+        visibility:
+          type: string
+          enum: [public, private]
+          default: public
+        allowedRoles:
+          type: array
+          items:
+            type: string
+            enum:
+              - contestant
+              - director
+              - business
+              - parent
+              - supporter
+              - judge
+              - admin
+        profileImage:
+          type: string
+          format: uri
+        coverImage:
+          type: string
+          format: uri
+        settings:
+          type: object
+          properties:
+            allowPosting:
+              type: boolean
+              default: true
+            allowMediaUploads:
+              type: boolean
+              default: true
+            allowFileSharing:
+              type: boolean
+              default: true
+            allowMemberInvites:
+              type: boolean
+              default: true
+            allowMemberMessaging:
+              type: boolean
+              default: true
+            requireAdminApproval:
+              type: boolean
+              default: false
+        memberCount:
+          type: integer
+          default: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name
+        - visibility
+
+    GroupMember:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [member, moderator, admin]
+          default: member
+        status:
+          type: string
+          enum: [pending, active, banned]
+          default: active
+        joinedAt:
+          type: string
+          format: date-time
+      required:
+        - groupId
+        - userId
+
+    GroupMedia:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [image, video]
+        url:
+          type: string
+          format: uri
+        thumbnailUrl:
+          type: string
+          format: uri
+        caption:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - groupId
+        - userId
+        - type
+        - url
+
+    GroupFile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        size:
+          type: integer
+        type:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - groupId
+        - userId
+        - name
+        - url
+
+    ResaleItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        shipmentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - pending_review
+            - accepted
+            - rejected
+            - donated
+            - listed
+            - sold
+            - returned
+        type:
+          type: string
+          enum:
+            - dress
+            - gown
+            - costume
+            - shoes
+            - accessories
+            - other
+        sortBy:
+          type: string
+          enum:
+            - date_added
+            - status
+            - price
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - userId
+        - status
+        - type
+        - sortBy
+        - page
+        - limit
+
+paths:
+  /api/auth/login:
+    post:
+      summary: Request login via Supabase magic link
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                redirectTo:
+                  type: string
+                  description: URL to redirect to after email verification
+              required:
+                - email
+      responses:
+        '200':
+          description: Magic link sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/auth/logout:
+    post:
+      summary: Logout current user and invalidate session
+      tags:
+        - Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully logged out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/profile/me:
+    get:
+      summary: Get current user's profile
+      tags:
+        - Profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+    put:
+      summary: Update current user's profile
+      tags:
+        - Profile
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+      responses:
+        '200':
+          description: Successfully updated profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/articles/categories:
+    get:
+      summary: Get all article categories
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: Successfully retrieved categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArticleCategory'
+
+    post:
+      summary: Create a new article category
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleCategory'
+      responses:
+        '201':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleCategory'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/articles/categories/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The ID of the category
+    
+    get:
+      summary: Get a specific category with its topics
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: Successfully retrieved category
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ArticleCategory'
+                  - type: object
+                    properties:
+                      topics:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ArticleTopic'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    put:
+      summary: Update a category
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleCategory'
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleCategory'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+        '404':
+          description: Category not found
+    
+    delete:
+      summary: Delete a category
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Category deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Category not found
+
+  /api/articles/topics:
+    post:
+      summary: Create a new topic
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleTopic'
+      responses:
+        '201':
+          description: Topic created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleTopic'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+
+  /api/articles/topics/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The ID of the topic
+    
+    get:
+      summary: Get a specific topic with its articles
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: Successfully retrieved topic
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ArticleTopic'
+                  - type: object
+                    properties:
+                      articles:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Article'
+    
+    put:
+      summary: Update a topic
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleTopic'
+      responses:
+        '200':
+          description: Topic updated successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+        '404':
+          description: Topic not found
+    
+    delete:
+      summary: Delete a topic
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Topic deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Topic not found
+
+  /api/articles:
+    post:
+      summary: Create a new article
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+      responses:
+        '201':
+          description: Article created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+
+    get:
+      summary: Search articles
+      tags:
+        - Articles
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search query
+        - in: query
+          name: categoryId
+          schema:
+            type: string
+            format: uuid
+          description: Filter by category
+        - in: query
+          name: topicId
+          schema:
+            type: string
+            format: uuid
+          description: Filter by topic
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+          description: Filter by tags
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Successfully retrieved articles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+
+  /api/articles/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The ID of the article
+    
+    get:
+      summary: Get a specific article
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: Successfully retrieved article
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '404':
+          description: Article not found
+    
+    put:
+      summary: Update an article
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+      responses:
+        '200':
+          description: Article updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+        '404':
+          description: Article not found
+    
+    delete:
+      summary: Delete an article
+      tags:
+        - Articles
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Article deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Article not found
+
+    /api/blog/posts/{id}/like:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      
+      post:
+        summary: Like/unlike a blog post
+        tags:
+          - Blog
+        security:
+          - BearerAuth: []
+        responses:
+          '200':
+            description: Like status updated successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    liked:
+                      type: boolean
+                    likes:
+                      type: integer
+          '401':
+            description: Unauthorized
+          '404':
+            description: Post not found
+
+    /api/blog/posts/{id}/comments:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      
+      post:
+        summary: Add a comment to a blog post
+        tags:
+          - Blog
+        security:
+          - BearerAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogComment'
+        responses:
+          '201':
+            description: Comment added successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BlogComment'
+          '400':
+            description: Invalid input
+          '401':
+            description: Unauthorized
+          '404':
+            description: Post not found
+
+    /api/blog/comments/{id}:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      
+      put:
+        summary: Update a comment
+        tags:
+          - Blog
+        security:
+          - BearerAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                    minLength: 1
+                    maxLength: 1000
+                  required:
+                    - content
+        responses:
+          '200':
+            description: Comment updated successfully
+          '400':
+            description: Invalid input
+          '401':
+            description: Unauthorized
+          '404':
+            description: Comment not found
+
+      delete:
+        summary: Delete a comment
+        tags:
+          - Blog
+        security:
+          - BearerAuth: []
+        responses:
+          '200':
+            description: Comment deleted successfully
+          '401':
+            description: Unauthorized
+          '404':
+            description: Comment not found
+
+  /api/community/feed:
+    get:
+      summary: Get activity feed
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: feedGroup
+          schema:
+            type: string
+            enum: [user, timeline, notification]
+            default: timeline
+          description: Type of feed to retrieve
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - in: query
+          name: offset
+          schema:
+            type: string
+            description: GetStream pagination ID
+      responses:
+        '200':
+          description: Successfully retrieved feed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ActivityPost'
+                  next:
+                    type: string
+                    description: Next page token
+        '401':
+          description: Unauthorized
+
+  /api/community/posts:
+    post:
+      summary: Create a new post
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityPost'
+      responses:
+        '201':
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityPost'
+        '401':
+          description: Unauthorized
+
+  /api/community/posts/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The ID of the post
+    
+    get:
+      summary: Get post details
+      tags:
+        - Community
+      responses:
+        '200':
+          description: Successfully retrieved post
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ActivityPost'
+                  - type: object
+                    properties:
+                      reactions:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                        description: Count of each reaction type
+                      comments:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ActivityComment'
+        '404':
+          description: Post not found
+
+    put:
+      summary: Update a post
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityPost'
+      responses:
+        '200':
+          description: Post updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not post owner
+        '404':
+          description: Post not found
+
+    delete:
+      summary: Delete a post
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Post deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not post owner
+        '404':
+          description: Post not found
+
+  /api/community/posts/{id}/react:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    post:
+      summary: React to a post
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityReaction'
+      responses:
+        '201':
+          description: Reaction added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityReaction'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Post not found
+
+  /api/community/posts/{id}/comments:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    post:
+      summary: Comment on a post
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityComment'
+      responses:
+        '201':
+          description: Comment added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityComment'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Post not found
+
+  /api/community/follow:
+    post:
+      summary: Follow a user
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                targetUserId:
+                  type: string
+                  format: uuid
+              required:
+                - targetUserId
+      responses:
+        '200':
+          description: Successfully followed user
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+
+  /api/community/unfollow/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    post:
+      summary: Unfollow a user
+      tags:
+        - Community
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully unfollowed user
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+
+  /api/community/groups:
+    get:
+      summary: Get community groups
+      tags:
+        - Community Groups
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search query
+        - in: query
+          name: visibility
+          schema:
+            type: string
+            enum: [public, private]
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Successfully retrieved groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommunityGroup'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+
+    post:
+      summary: Create a new group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunityGroup'
+      responses:
+        '201':
+          description: Group created successfully
+        '401':
+          description: Unauthorized
+
+  /api/community/groups/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    get:
+      summary: Get group details
+      tags:
+        - Community Groups
+      responses:
+        '200':
+          description: Successfully retrieved group
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CommunityGroup'
+                  - type: object
+                    properties:
+                      members:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/GroupMember'
+                            - type: object
+                              properties:
+                                user:
+                                  $ref: '#/components/schemas/UserProfile'
+
+    put:
+      summary: Update group details
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunityGroup'
+      responses:
+        '200':
+          description: Group updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not group admin
+
+    delete:
+      summary: Delete group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Group deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not group admin
+
+  /api/community/groups/{id}/join:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    post:
+      summary: Join or request to join group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully joined group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMember'
+        '202':
+          description: Join request pending approval
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not allowed to join
+
+  /api/community/groups/{id}/leave:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    post:
+      summary: Leave group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully left group
+        '401':
+          description: Unauthorized
+
+  /api/community/groups/{id}/members:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    get:
+      summary: Get group members
+      tags:
+        - Community Groups
+      responses:
+        '200':
+          description: Successfully retrieved members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/GroupMember'
+                    - type: object
+                      properties:
+                        user:
+                          $ref: '#/components/schemas/UserProfile'
+
+  /api/community/groups/{id}/members/{userId}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    put:
+      summary: Update member role or status
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum: [member, moderator, admin]
+                status:
+                  type: string
+                  enum: [active, banned]
+      responses:
+        '200':
+          description: Member updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not group admin
+
+  /api/community/groups/{id}/invite:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    post:
+      summary: Invite users to group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+      responses:
+        '200':
+          description: Invites sent successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not allowed to invite
+
+  /api/community/groups/{id}/media:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    get:
+      summary: Get group media
+      tags:
+        - Community Groups
+      responses:
+        '200':
+          description: Successfully retrieved media
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupMedia'
+
+    post:
+      summary: Upload media to group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                type:
+                  type: string
+                  enum: [image, video]
+                caption:
+                  type: string
+      responses:
+        '201':
+          description: Media uploaded successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Media uploads not allowed
+
+  /api/community/groups/{id}/files:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    
+    get:
+      summary: Get group files
+      tags:
+        - Community Groups
+      responses:
+        '200':
+          description: Successfully retrieved files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupFile'
+
+    post:
+      summary: Upload file to group
+      tags:
+        - Community Groups
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+      responses:
+        '201':
+          description: File uploaded successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: File sharing not allowed
+
+  /api/community/directory:
+    get:
+      summary: Get public community members directory
+      tags:
+        - Community
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search by name or username
+        - in: query
+          name: role
+          schema:
+            type: string
+            enum:
+              - contestant
+              - director
+              - business
+              - parent
+              - supporter
+              - judge
+          description: Filter by user role
+        - in: query
+          name: location
+          schema:
+            type: string
+          description: Filter by location
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+            enum:
+              - newest
+              - followers
+              - alphabetical
+            default: newest
+          description: Sort order for results
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Results per page
+      responses:
+        '200':
+          description: Successfully retrieved directory members
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        username:
+                          type: string
+                        firstName:
+                          type: string
+                        lastName:
+                          type: string
+                        profilePicture:
+                          type: string
+                          format: uri
+                        role:
+                          type: string
+                        title:
+                          type: string
+                        location:
+                          type: string
+                        socialStats:
+                          type: object
+                          properties:
+                            followers:
+                              type: integer
+                            posts:
+                              type: integer
+                        isFollowing:
+                          type: boolean
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+
+  /api/community/directory/{userId}:
+    get:
+      summary: Get public profile details
+      tags:
+        - Community
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully retrieved profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '404':
+          description: Profile not found or private
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

@@ -1,0 +1,768 @@
+dashboard:
+  get:
+    summary: Get contestant dashboard data
+    tags:
+      - Contestant
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved dashboard data
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/contestant.yaml#/ContestantDashboard'
+      '401':
+        description: Unauthorized
+      '404':
+        description: Contestant not found
+
+saved-items:
+  get:
+    summary: Get contestant's saved items
+    tags:
+      - Contestant
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [products, businesses, pageants]
+        description: Filter by item type
+    responses:
+      '200':
+        description: Successfully retrieved saved items
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: array
+                  items:
+                    $ref: '../schemas/products.yaml#/Product'
+                businesses:
+                  type: array
+                  items:
+                    $ref: '../schemas/business.yaml#/Business'
+                pageants:
+                  type: array
+                  items:
+                    $ref: '../schemas/events.yaml#/Event'
+
+  post:
+    summary: Save an item
+    tags:
+      - Contestant
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemType:
+                type: string
+                enum: [product, business, pageant]
+              itemId:
+                type: string
+                format: uuid
+            required:
+              - itemType
+              - itemId
+    responses:
+      '200':
+        description: Item saved successfully
+
+bookings:
+  get:
+    summary: Get contestant's bookings
+    tags:
+      - Contestant
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [upcoming, completed, cancelled]
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved bookings
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      serviceId:
+                        type: string
+                        format: uuid
+                      businessName:
+                        type: string
+                      serviceName:
+                        type: string
+                      dateTime:
+                        type: string
+                        format: date-time
+                      status:
+                        type: string
+                        enum: [upcoming, completed, cancelled]
+                      price:
+                        type: number
+                        format: float
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+wallet:
+  get:
+    summary: Get contestant's wallet information
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved wallet information
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/contestant.yaml#/Wallet'
+      '401':
+        description: Unauthorized
+      '404':
+        description: Wallet not found
+
+wallet-transactions:
+  get:
+    summary: Get wallet transaction history
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [payment, refund, deposit, withdrawal, transfer]
+        description: Filter by transaction type
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, completed, failed, cancelled]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved transactions
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/contestant.yaml#/Transaction'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+payment-methods:
+  get:
+    summary: Get contestant's payment methods
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved payment methods
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/contestant.yaml#/PaymentMethod'
+
+  post:
+    summary: Add new payment method
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              stripePaymentMethodId:
+                type: string
+              isDefault:
+                type: boolean
+            required:
+              - stripePaymentMethodId
+    responses:
+      '201':
+        description: Payment method added successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/contestant.yaml#/PaymentMethod'
+
+payment-method:
+  delete:
+    summary: Remove payment method
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Payment method removed successfully
+
+  put:
+    summary: Update payment method (e.g., set as default)
+    tags:
+      - Wallet
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              isDefault:
+                type: boolean
+            required:
+              - isDefault
+    responses:
+      '200':
+        description: Payment method updated successfully
+
+collections:
+  get:
+    summary: Get user's collections
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved collections
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/contestant.yaml#/Collection'
+
+  post:
+    summary: Create new collection
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/contestant.yaml#/Collection'
+    responses:
+      '201':
+        description: Collection created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/contestant.yaml#/Collection'
+
+collection:
+  get:
+    summary: Get collection details with items
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved collection
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '../schemas/contestant.yaml#/Collection'
+                - type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        $ref: '../schemas/contestant.yaml#/SavedItem'
+
+  put:
+    summary: Update collection
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/contestant.yaml#/Collection'
+    responses:
+      '200':
+        description: Collection updated successfully
+
+  delete:
+    summary: Delete collection
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Collection deleted successfully
+
+saved-items-search:
+  get:
+    summary: Search saved items across collections
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [event, business, product]
+        description: Filter by item type
+      - in: query
+        name: collectionId
+        schema:
+          type: string
+          format: uuid
+        description: Filter by collection
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [newest, oldest, name]
+        default: newest
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved saved items
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/contestant.yaml#/SavedItem'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+saved-item:
+  post:
+    summary: Save item to collection
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemType:
+                type: string
+                enum: [event, business, product]
+              itemId:
+                type: string
+                format: uuid
+              collectionId:
+                type: string
+                format: uuid
+              notes:
+                type: string
+            required:
+              - itemType
+              - itemId
+    responses:
+      '201':
+        description: Item saved successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/contestant.yaml#/SavedItem'
+
+  delete:
+    summary: Remove saved item
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Item removed successfully
+
+move-saved-item:
+  post:
+    summary: Move item to different collection
+    tags:
+      - Collections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemId:
+                type: string
+                format: uuid
+              targetCollectionId:
+                type: string
+                format: uuid
+            required:
+              - itemId
+              - targetCollectionId
+    responses:
+      '200':
+        description: Item moved successfully
+
+contestants:
+  get:
+    summary: Get all contestants
+    tags:
+      - Contestants
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search by name or title
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [newest, followers, title]
+        default: newest
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved contestants
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/contestant.yaml#/ContestantProfile'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+  post:
+    summary: Create new contestant profile
+    tags:
+      - Contestants
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/contestant.yaml#/ContestantProfile'
+    responses:
+      '201':
+        description: Contestant profile created successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+contestant-profile:
+  get:
+    summary: Get detailed contestant profile data
+    description: Get contestant-specific data for a user with contestant role
+    tags:
+      - Contestants
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved contestant profile
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                basicProfile:
+                  $ref: '../schemas/users.yaml#/UserProfile'
+                contestantDetails:
+                  $ref: '../schemas/contestant.yaml#/ContestantDetails'
+      '404':
+        description: User not found or not a contestant
+
+  put:
+    summary: Update contestant-specific profile data
+    description: Update contestant-specific details for a user with contestant role
+    tags:
+      - Contestants
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/contestant.yaml#/ContestantDetails'
+    responses:
+      '200':
+        description: Contestant details updated successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+      '403':
+        description: User is not a contestant
+
+contestant-settings:
+  get:
+    summary: Get contestant's profile and settings
+    tags:
+      - Contestants
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved contestant settings
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profile:
+                  $ref: '../schemas/contestant.yaml#/ContestantDetails'
+                preferences:
+                  type: object
+                  properties:
+                    notifications:
+                      type: object
+                      properties:
+                        pageantReminders:
+                          type: boolean
+                        practiceReminders:
+                          type: boolean
+                        competitionUpdates:
+                          type: boolean
+                        coachingReminders:
+                          type: boolean
+                        newOpportunities:
+                          type: boolean
+                    privacy:
+                      type: object
+                      properties:
+                        showMeasurements:
+                          type: boolean
+                        showAchievements:
+                          type: boolean
+                        showSocialMedia:
+                          type: boolean
+                        allowMessaging:
+                          type: boolean
+                        showPageantHistory:
+                          type: boolean
+                    appearance:
+                      type: object
+                      properties:
+                        theme:
+                          type: string
+                          enum: [light, dark, system]
+                        dashboardLayout:
+                          type: string
+                          enum: [grid, list]
+                    communication:
+                      type: object
+                      properties:
+                        preferredContactMethod:
+                          type: string
+                          enum: [email, phone, app]
+                        language:
+                          type: string
+                        timezone:
+                          type: string
+
+  put:
+    summary: Update contestant's profile and settings
+    tags:
+      - Contestants
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              profile:
+                $ref: '../schemas/contestant.yaml#/ContestantDetails'
+              preferences:
+                type: object
+                properties:
+                  notifications:
+                    type: object
+                  privacy:
+                    type: object
+                  appearance:
+                    type: object
+                  communication:
+                    type: object
+    responses:
+      '200':
+        description: Settings updated successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+contestant-profile-images:
+  post:
+    summary: Update contestant's profile or header image
+    tags:
+      - Contestants
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [profile, header]
+              file:
+                type: string
+                format: binary
+            required:
+              - type
+              - file
+    responses:
+      '200':
+        description: Image updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized

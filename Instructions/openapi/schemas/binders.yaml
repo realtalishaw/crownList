@@ -1,0 +1,46 @@
+Binder:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 1
+      maxLength: 100
+    competitionDate:
+      type: string
+      format: date
+    location:
+      type: string
+    preparationProgress:
+      type: number
+      minimum: 0
+      maximum: 100
+      description: Percentage of completion
+    status:
+      type: string
+      enum: [active, archived, completed]
+      default: active
+    eventId:
+      type: string
+      format: uuid
+      description: Optional - link to specific pageant event
+    notes:
+      type: string
+    lastAccessed:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - userId
+    - name
+    - competitionDate 

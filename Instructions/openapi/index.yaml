@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Pageant Management Platform API
+  version: 1.0.0
+  description: |
+    API specification for the Pageant Management Platform, enabling users to manage pageant events,
+    contestants, businesses, and related services.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://pageantplatform.com/api
+    description: Production server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    $ref: './schemas/index.yaml'
+
+paths:
+  $ref: './paths/index.yaml' 

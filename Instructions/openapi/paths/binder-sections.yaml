@@ -1,0 +1,1807 @@
+# Tasks
+binder-tasks:
+  get:
+    summary: Get tasks for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, in_progress, completed, overdue]
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: priority
+        schema:
+          type: string
+          enum: [high, medium, low]
+    responses:
+      '200':
+        description: Successfully retrieved tasks
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/BinderTask'
+
+  post:
+    summary: Create new task
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderTask'
+    responses:
+      '201':
+        description: Task created successfully
+
+binder-task:
+  put:
+    summary: Update task
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderTask'
+    responses:
+      '200':
+        description: Task updated successfully
+
+  delete:
+    summary: Delete task
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Task deleted successfully
+
+# Schedule
+binder-schedule:
+  get:
+    summary: Get schedule items for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: type
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved schedule
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/BinderSchedule'
+
+  post:
+    summary: Add schedule item
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderSchedule'
+    responses:
+      '201':
+        description: Schedule item added successfully
+
+# Documents
+binder-documents:
+  get:
+    summary: Get all documents for a binder
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [contract, application, photo, bio, resume, other]
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [pending, submitted, approved, rejected]
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [date, name, type, status]
+        default: date
+    responses:
+      '200':
+        description: Successfully retrieved documents
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-sections.yaml#/BinderDocument'
+                total:
+                  type: integer
+                pending:
+                  type: integer
+                submitted:
+                  type: integer
+
+  post:
+    summary: Upload new document
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+              type:
+                type: string
+                enum: [contract, application, photo, bio, resume, other]
+              title:
+                type: string
+              notes:
+                type: string
+              dueDate:
+                type: string
+                format: date
+    responses:
+      '201':
+        description: Document uploaded successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderDocument'
+
+binder-document:
+  get:
+    summary: Get specific document
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: path
+        name: documentId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved document
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderDocument'
+      '404':
+        description: Document not found
+
+  put:
+    summary: Update document metadata
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+                enum: [contract, application, photo, bio, resume, other]
+              status:
+                type: string
+                enum: [pending, submitted, approved, rejected]
+              notes:
+                type: string
+              dueDate:
+                type: string
+                format: date
+    responses:
+      '200':
+        description: Document updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderDocument'
+
+  delete:
+    summary: Delete document
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Document deleted successfully
+
+document-file:
+  put:
+    summary: Update document file
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Document file updated successfully
+
+document-status:
+  put:
+    summary: Update document status
+    tags:
+      - Binder Documents
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [pending, submitted, approved, rejected]
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Document status updated successfully
+
+# Wardrobe
+binder-wardrobe:
+  get:
+    summary: Get wardrobe items for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved wardrobe items
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/BinderWardrobe'
+
+  post:
+    summary: Add wardrobe item
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderWardrobe'
+    responses:
+      '201':
+        description: Wardrobe item added successfully
+
+# Appearances
+binder-appearances:
+  get:
+    summary: Get appearances for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved appearances
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/BinderAppearance'
+
+  post:
+    summary: Add appearance
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderAppearance'
+    responses:
+      '201':
+        description: Appearance added successfully
+
+# Travel
+binder-travel:
+  get:
+    summary: Get travel arrangements for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved travel arrangements
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/BinderTravel'
+
+  post:
+    summary: Add travel arrangement
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderTravel'
+    responses:
+      '201':
+        description: Travel arrangement added successfully
+
+# Platform
+binder-platform:
+  get:
+    summary: Get platform information for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved platform information
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderPlatform'
+
+  put:
+    summary: Update platform information
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderPlatform'
+    responses:
+      '200':
+        description: Platform information updated successfully
+
+# Finances
+binder-finances:
+  get:
+    summary: Get financial information for a binder
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved financial information
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderFinances'
+
+  post:
+    summary: Add financial record
+    tags:
+      - Binder Sections
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/BinderFinances'
+    responses:
+      '201':
+        description: Financial record added successfully
+
+# Paperwork
+binder-paperwork:
+  get:
+    summary: Get all paperwork for a binder
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, pending_review, reviewed, approved, rejected, submitted]
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: dueDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum: [dueDate, status, lastReviewed, title]
+        default: dueDate
+    responses:
+      '200':
+        description: Successfully retrieved paperwork
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-sections.yaml#/BinderPaperwork'
+                summary:
+                  type: object
+                  properties:
+                    total:
+                      type: integer
+                    pendingReview:
+                      type: integer
+                    overdue:
+                      type: integer
+                    approved:
+                      type: integer
+
+  post:
+    summary: Create new paperwork
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+              title:
+                type: string
+              type:
+                type: string
+              dueDate:
+                type: string
+                format: date
+              notes:
+                type: string
+    responses:
+      '201':
+        description: Paperwork created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderPaperwork'
+
+paperwork:
+  get:
+    summary: Get specific paperwork
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: path
+        name: paperworkId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved paperwork
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/BinderPaperwork'
+
+  put:
+    summary: Update paperwork metadata
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              type:
+                type: string
+              dueDate:
+                type: string
+                format: date
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Paperwork updated successfully
+
+  delete:
+    summary: Delete paperwork
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Paperwork deleted successfully
+
+paperwork-review:
+  post:
+    summary: Submit paperwork for review
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Paperwork submitted for review successfully
+
+  put:
+    summary: Review paperwork
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [approved, rejected]
+              reviewNotes:
+                type: string
+    responses:
+      '200':
+        description: Paperwork reviewed successfully
+
+paperwork-file:
+  put:
+    summary: Update paperwork file
+    tags:
+      - Binder Paperwork
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Paperwork file updated successfully
+
+# Update/Add to existing binder-sections.yaml
+wardrobe-groups:
+  get:
+    summary: Get all wardrobe groups for a binder
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: eventId
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved wardrobe groups
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-sections.yaml#/WardrobeGroup'
+                summary:
+                  type: object
+                  properties:
+                    totalItems:
+                      type: integer
+                    totalCost:
+                      type: number
+                    itemsNeeded:
+                      type: integer
+                    itemsReady:
+                      type: integer
+
+  post:
+    summary: Create new wardrobe group
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/WardrobeGroup'
+    responses:
+      '201':
+        description: Wardrobe group created successfully
+
+wardrobe-group:
+  get:
+    summary: Get specific wardrobe group
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved wardrobe group
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/WardrobeGroup'
+
+  put:
+    summary: Update wardrobe group
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/WardrobeGroup'
+    responses:
+      '200':
+        description: Wardrobe group updated successfully
+
+  delete:
+    summary: Delete wardrobe group
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Wardrobe group deleted successfully
+
+wardrobe-items:
+  get:
+    summary: Get all wardrobe items in a group
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+      - in: query
+        name: category
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved wardrobe items
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/WardrobeItem'
+
+  post:
+    summary: Add wardrobe item to group
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/binder-sections.yaml#/WardrobeItem'
+              photos:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Wardrobe item added successfully
+
+wardrobe-item:
+  get:
+    summary: Get specific wardrobe item
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved wardrobe item
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/WardrobeItem'
+
+  put:
+    summary: Update wardrobe item
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/WardrobeItem'
+    responses:
+      '200':
+        description: Wardrobe item updated successfully
+
+  delete:
+    summary: Delete wardrobe item
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Wardrobe item deleted successfully
+
+wardrobe-item-photos:
+  post:
+    summary: Add photos to wardrobe item
+    tags:
+      - Binder Wardrobe
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              photos:
+                type: array
+                items:
+                  type: string
+                  format: binary
+              type:
+                type: string
+                enum: [main, detail, alteration, reference]
+    responses:
+      '200':
+        description: Photos added successfully
+
+# Add to existing binder-sections.yaml
+schedules:
+  get:
+    summary: Get schedules for a binder
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: includePersonal
+        schema:
+          type: boolean
+        description: Include personal schedule modifications
+    responses:
+      '200':
+        description: Successfully retrieved schedules
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                official:
+                  $ref: '../schemas/binder-sections.yaml#/Schedule'
+                personal:
+                  $ref: '../schemas/binder-sections.yaml#/Schedule'
+
+  post:
+    summary: Create new schedule
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/Schedule'
+    responses:
+      '201':
+        description: Schedule created successfully
+
+schedule-events:
+  get:
+    summary: Get events for a specific day
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: type
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved events
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/ScheduleEvent'
+
+  post:
+    summary: Add event to schedule
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/ScheduleEvent'
+    responses:
+      '201':
+        description: Event added successfully
+
+schedule-event:
+  get:
+    summary: Get specific event details
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved event
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/ScheduleEvent'
+
+  put:
+    summary: Update event
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/ScheduleEvent'
+    responses:
+      '200':
+        description: Event updated successfully
+      '403':
+        description: Not authorized to modify official event
+
+  delete:
+    summary: Delete event
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Event deleted successfully
+      '403':
+        description: Not authorized to delete official event
+
+personal-schedule:
+  put:
+    summary: Update personal schedule preferences
+    tags:
+      - Binder Schedule
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              eventId:
+                type: string
+                format: uuid
+              isInPersonalSchedule:
+                type: boolean
+              personalNotes:
+                type: string
+              reminders:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: string
+                      format: date-time
+                    type:
+                      type: string
+                      enum: [email, push, sms]
+    responses:
+      '200':
+        description: Personal schedule preferences updated successfully
+
+# Add to existing binder-sections.yaml
+packing-list:
+  get:
+    summary: Get packing list for a binder
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved packing list
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/PackingList'
+
+  post:
+    summary: Create new packing list
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/PackingList'
+    responses:
+      '201':
+        description: Packing list created successfully
+
+packing-categories:
+  post:
+    summary: Add category to packing list
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/PackingCategory'
+    responses:
+      '201':
+        description: Category added successfully
+
+packing-category:
+  put:
+    summary: Update packing category
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/PackingCategory'
+    responses:
+      '200':
+        description: Category updated successfully
+
+  delete:
+    summary: Delete packing category
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Category deleted successfully
+
+packing-items:
+  post:
+    summary: Add item to packing list
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/PackingItem'
+    responses:
+      '201':
+        description: Item added successfully
+
+packing-item:
+  put:
+    summary: Update packing item
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/PackingItem'
+    responses:
+      '200':
+        description: Item updated successfully
+
+  delete:
+    summary: Delete packing item
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Item deleted successfully
+
+packing-item-status:
+  put:
+    summary: Toggle packed status of item
+    tags:
+      - Binder Packing List
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              isPacked:
+                type: boolean
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Item status updated successfully
+
+# Add to existing binder-sections.yaml
+competitions:
+  get:
+    summary: Get competitions for a binder
+    tags:
+      - Binder Competitions
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: includeOfficial
+        schema:
+          type: boolean
+        description: Include official pageant competitions
+      - in: query
+        name: participatingOnly
+        schema:
+          type: boolean
+        description: Only show competitions contestant is participating in
+      - in: query
+        name: type
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved competitions
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-sections.yaml#/Competition'
+                summary:
+                  type: object
+                  properties:
+                    totalCompetitions:
+                      type: integer
+                    mandatoryCompetitions:
+                      type: integer
+                    optionalCompetitions:
+                      type: integer
+                    totalPercentage:
+                      type: number
+                      format: float
+
+  post:
+    summary: Create new competition
+    tags:
+      - Binder Competitions
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/Competition'
+    responses:
+      '201':
+        description: Competition created successfully
+      '403':
+        description: Cannot create competitions for official pageant
+
+competition:
+  get:
+    summary: Get competition details
+    tags:
+      - Binder Competitions
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved competition
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/Competition'
+
+  put:
+    summary: Update competition
+    tags:
+      - Binder Competitions
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/Competition'
+    responses:
+      '200':
+        description: Competition updated successfully
+      '403':
+        description: Cannot modify official pageant competition
+
+  delete:
+    summary: Delete competition
+    tags:
+      - Binder Competitions
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Competition deleted successfully
+      '403':
+        description: Cannot delete official pageant competition
+
+competition-participation:
+  put:
+    summary: Update participation status for competition
+    tags:
+      - Binder Competitions
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              isParticipating:
+                type: boolean
+              notes:
+                type: string
+    responses:
+      '200':
+        description: Participation status updated successfully
+
+# Add to existing binder-sections.yaml
+trip-details:
+  get:
+    summary: Get trip details for a binder
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved trip details
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/TripDetails'
+
+  post:
+    summary: Create trip details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/TripDetails'
+    responses:
+      '201':
+        description: Trip details created successfully
+
+  put:
+    summary: Update trip details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/TripDetails'
+    responses:
+      '200':
+        description: Trip details updated successfully
+
+flights:
+  post:
+    summary: Add flight details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/binder-sections.yaml#/FlightDetail'
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '201':
+        description: Flight details added successfully
+
+flight:
+  put:
+    summary: Update flight details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/FlightDetail'
+    responses:
+      '200':
+        description: Flight details updated successfully
+
+  delete:
+    summary: Delete flight details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Flight details deleted successfully
+
+hotel:
+  put:
+    summary: Update hotel details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/binder-sections.yaml#/HotelDetail'
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '200':
+        description: Hotel details updated successfully
+
+car-rental:
+  put:
+    summary: Update car rental details
+    tags:
+      - Binder Trip Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/binder-sections.yaml#/CarRentalDetail'
+              attachments:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      '200':
+        description: Car rental details updated successfully
+
+# Add to existing binder-sections.yaml
+appearances:
+  get:
+    summary: Get appearances for a binder
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: binderId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: status
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved appearances
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/binder-sections.yaml#/Appearance'
+                stats:
+                  type: object
+                  properties:
+                    totalAppearances:
+                      type: integer
+                    totalHours:
+                      type: integer
+                    totalPeopleReached:
+                      type: integer
+                    totalFundsRaised:
+                      type: number
+
+  post:
+    summary: Create new appearance
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/Appearance'
+    responses:
+      '201':
+        description: Appearance created successfully
+
+appearance:
+  get:
+    summary: Get appearance details
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved appearance
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/binder-sections.yaml#/Appearance'
+
+  put:
+    summary: Update appearance
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/Appearance'
+    responses:
+      '200':
+        description: Appearance updated successfully
+
+  delete:
+    summary: Delete appearance
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Appearance deleted successfully
+
+appearance-photos:
+  post:
+    summary: Add photos to appearance
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              photos:
+                type: array
+                items:
+                  type: string
+                  format: binary
+              captions:
+                type: array
+                items:
+                  type: string
+    responses:
+      '200':
+        description: Photos added successfully
+
+booking-links:
+  get:
+    summary: Get booking links
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved booking links
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/binder-sections.yaml#/AppearanceBookingLink'
+
+  post:
+    summary: Create booking link
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/AppearanceBookingLink'
+    responses:
+      '201':
+        description: Booking link created successfully
+
+booking-link:
+  put:
+    summary: Update booking link
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/binder-sections.yaml#/AppearanceBookingLink'
+    responses:
+      '200':
+        description: Booking link updated successfully
+
+  delete:
+    summary: Delete booking link
+    tags:
+      - Binder Appearances
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Booking link deleted successfully

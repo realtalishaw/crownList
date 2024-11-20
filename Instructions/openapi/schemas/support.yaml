@@ -1,0 +1,84 @@
+SupportTicket:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    userId:
+      type: string
+      format: uuid
+    category:
+      type: string
+      enum: [technical, billing, account, pageant, business, other]
+    priority:
+      type: string
+      enum: [low, medium, high, urgent]
+    status:
+      type: string
+      enum: [open, in_progress, resolved, closed]
+    subject:
+      type: string
+    description:
+      type: string
+    attachments:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          filename:
+            type: string
+          url:
+            type: string
+            format: uri
+          size:
+            type: integer
+          type:
+            type: string
+    messages:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          sender:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+                enum: [user, support]
+              name:
+                type: string
+          content:
+            type: string
+          attachments:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                filename:
+                  type: string
+          createdAt:
+            type: string
+            format: date-time
+    assignedTo:
+      type: string
+      format: uuid
+    lastUpdated:
+      type: string
+      format: date-time
+    createdAt:
+      type: string
+      format: date-time
+  required:
+    - category
+    - subject
+    - description 

@@ -1,0 +1,204 @@
+event-schedule:
+  get:
+    summary: Get event schedule
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved schedule
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-event-details.yaml#/EventSchedule'
+
+  post:
+    summary: Create or update event schedule
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-event-details.yaml#/EventSchedule'
+    responses:
+      '200':
+        description: Schedule updated successfully
+
+schedule-item:
+  post:
+    summary: Add schedule item
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              startTime:
+                type: string
+                format: date-time
+              endTime:
+                type: string
+                format: date-time
+    responses:
+      '201':
+        description: Schedule item added successfully
+
+  put:
+    summary: Update schedule item
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Schedule item updated successfully
+
+  delete:
+    summary: Delete schedule item
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Schedule item deleted successfully
+
+event-tickets:
+  get:
+    summary: Get event tickets
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved tickets
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-event-details.yaml#/EventTicket'
+
+  post:
+    summary: Create new ticket type
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-event-details.yaml#/EventTicket'
+    responses:
+      '201':
+        description: Ticket type created successfully
+
+event-ticket:
+  put:
+    summary: Update ticket type
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-event-details.yaml#/EventTicket'
+    responses:
+      '200':
+        description: Ticket type updated successfully
+
+  delete:
+    summary: Delete ticket type
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Ticket type deleted successfully
+
+event-sponsors:
+  get:
+    summary: Get event sponsors
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved sponsors
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/business-event-details.yaml#/EventSponsor'
+
+  post:
+    summary: Add event sponsor
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '../schemas/business-event-details.yaml#/EventSponsor'
+              logo:
+                type: string
+                format: binary
+    responses:
+      '201':
+        description: Sponsor added successfully
+
+event-sponsor:
+  put:
+    summary: Update sponsor
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/business-event-details.yaml#/EventSponsor'
+    responses:
+      '200':
+        description: Sponsor updated successfully
+
+  delete:
+    summary: Remove sponsor
+    tags:
+      - Event Details
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Sponsor removed successfully 

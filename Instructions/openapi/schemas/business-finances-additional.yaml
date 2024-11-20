@@ -1,0 +1,168 @@
+Payment:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    stripePaymentId:
+      type: string
+    amount:
+      type: number
+      format: float
+    currency:
+      type: string
+      default: USD
+    type:
+      type: string
+      enum: [booking, invoice, subscription, other]
+    status:
+      type: string
+      enum: [pending, completed, failed, refunded, disputed]
+    customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+    paymentMethod:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [card, bank_transfer, wallet]
+        details:
+          type: object
+          properties:
+            last4:
+              type: string
+            brand:
+              type: string
+    relatedDocument:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [invoice, booking, order]
+        id:
+          type: string
+          format: uuid
+    createdAt:
+      type: string
+      format: date-time
+
+FinancialReport:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [income_statement, balance_sheet, cash_flow, tax_summary, custom]
+    period:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    summary:
+      type: object
+      properties:
+        totalRevenue:
+          type: number
+          format: float
+        totalExpenses:
+          type: number
+          format: float
+        netIncome:
+          type: number
+          format: float
+        taxableAmount:
+          type: number
+          format: float
+    categories:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          amount:
+            type: number
+            format: float
+          percentage:
+            type: number
+            format: float
+    format:
+      type: string
+      enum: [pdf, csv, excel]
+    status:
+      type: string
+      enum: [generating, ready, failed]
+    downloadUrl:
+      type: string
+      format: uri
+    createdAt:
+      type: string
+      format: date-time
+
+TaxDocument:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [1099_K, W9, tax_return, sales_tax, other]
+    year:
+      type: integer
+    period:
+      type: string
+      enum: [annual, quarterly, monthly]
+    status:
+      type: string
+      enum: [pending, ready, submitted, accepted]
+    summary:
+      type: object
+      properties:
+        grossAmount:
+          type: number
+          format: float
+        taxableAmount:
+          type: number
+          format: float
+        taxRate:
+          type: number
+          format: float
+        taxDue:
+          type: number
+          format: float
+    documentUrl:
+      type: string
+      format: uri
+    submissionDate:
+      type: string
+      format: date
+    dueDate:
+      type: string
+      format: date
+    createdAt:
+      type: string
+      format: date-time 

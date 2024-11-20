@@ -1,0 +1,84 @@
+AdminDashboard:
+  type: object
+  properties:
+    overview:
+      type: object
+      properties:
+        totalUsers:
+          type: integer
+        activeUsers:
+          type: integer
+        totalBusinesses:
+          type: integer
+        activeBusinesses:
+          type: integer
+        pendingReviews:
+          type: integer
+        totalReports:
+          type: integer
+        newUsersToday:
+          type: integer
+        newBusinessesToday:
+          type: integer
+    platformActivity:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+            format: date
+          metrics:
+            type: object
+            properties:
+              activeUsers:
+                type: integer
+              newUsers:
+                type: integer
+              totalSessions:
+                type: integer
+              averageSessionDuration:
+                type: integer
+              pageViews:
+                type: integer
+    userStats:
+      type: object
+      properties:
+        byType:
+          type: object
+          properties:
+            contestants:
+              type: integer
+            businesses:
+              type: integer
+            directors:
+              type: integer
+            judges:
+              type: integer
+            supporters:
+              type: integer
+        byStatus:
+          type: object
+          properties:
+            active:
+              type: integer
+            pending:
+              type: integer
+            suspended:
+              type: integer
+    recentActivity:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [user_registration, business_registration, review_submission, report_filed]
+          timestamp:
+            type: string
+            format: date-time
+          details:
+            type: object 

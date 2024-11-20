@@ -1,0 +1,73 @@
+# Update to focus on contestant-specific fields only
+ContestantDetails:
+  type: object
+  properties:
+    currentTitle:
+      type: string
+    platform:
+      type: string
+      description: Social cause or platform
+    pageantHistory:
+      type: array
+      items:
+        type: object
+        properties:
+          pageantName:
+            type: string
+          year:
+            type: integer
+          placement:
+            type: string
+          title:
+            type: string
+    measurements:
+      type: object
+      properties:
+        height:
+          type: string
+        dress:
+          type: string
+        shoe:
+          type: string
+    talents:
+      type: array
+      items:
+        type: string
+    achievements:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          organization:
+            type: string
+          date:
+            type: string
+            format: date
+          description:
+            type: string
+    languages:
+      type: array
+      items:
+        type: string
+    education:
+      type: object
+      properties:
+        school:
+          type: string
+        degree:
+          type: string
+        fieldOfStudy:
+          type: string
+        graduationYear:
+          type: integer
+  required:
+    - currentTitle
+    - platform
+    - pageantHistory
+    - measurements
+    - talents
+    - achievements
+    - languages
+    - education

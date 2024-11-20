@@ -1,0 +1,167 @@
+peoples-choice-overview:
+  get:
+    summary: Get people's choice overview and stats
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/peoples-choice.yaml#/VotingStats'
+
+voting-events:
+  get:
+    summary: Get all voting events
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [draft, active, ended, cancelled]
+    responses:
+      '200':
+        description: Successfully retrieved voting events
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/peoples-choice.yaml#/PeoplesChoiceEvent'
+
+  post:
+    summary: Create new voting event
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/peoples-choice.yaml#/PeoplesChoiceEvent'
+    responses:
+      '201':
+        description: Voting event created successfully
+
+voting-event:
+  get:
+    summary: Get voting event details
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved voting event
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/peoples-choice.yaml#/PeoplesChoiceEvent'
+
+  put:
+    summary: Update voting event
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/peoples-choice.yaml#/PeoplesChoiceEvent'
+    responses:
+      '200':
+        description: Voting event updated successfully
+
+  delete:
+    summary: Delete voting event
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Voting event deleted successfully
+
+voting-contestants:
+  post:
+    summary: Add/Update contestants in voting event
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                contestantId:
+                  type: string
+                  format: uuid
+                photo:
+                  type: string
+                  format: uri
+    responses:
+      '200':
+        description: Contestants updated successfully
+
+  delete:
+    summary: Remove contestant from voting event
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: contestantId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Contestant removed successfully
+
+voting-settings:
+  put:
+    summary: Update voting event settings
+    tags:
+      - People's Choice
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              paidVoting:
+                type: boolean
+              votePrice:
+                type: number
+              voteBundles:
+                type: array
+              dailyVoteLimit:
+                type: integer
+              showVoteCount:
+                type: boolean
+              showTop3:
+                type: boolean
+    responses:
+      '200':
+        description: Settings updated successfully 

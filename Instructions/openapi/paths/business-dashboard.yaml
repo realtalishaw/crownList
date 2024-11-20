@@ -1,0 +1,181 @@
+dashboard:
+  get:
+    summary: Get business dashboard data
+    tags:
+      - Business Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+          enum: [today, week, month, year]
+        default: month
+    responses:
+      '200':
+        description: Successfully retrieved dashboard data
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/business-dashboard.yaml#/BusinessDashboard'
+
+recent-activity:
+  get:
+    summary: Get recent business activity
+    tags:
+      - Business Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [booking, review, message, order, payment]
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved recent activity
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  type:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+                  data:
+                    type: object
+                  user:
+                    type: object
+
+upcoming-bookings:
+  get:
+    summary: Get upcoming bookings
+    tags:
+      - Business Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [confirmed, pending, cancelled]
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 10
+    responses:
+      '200':
+        description: Successfully retrieved upcoming bookings
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  clientInfo:
+                    type: object
+                  serviceInfo:
+                    type: object
+                  bookingDetails:
+                    type: object
+
+quick-actions:
+  get:
+    summary: Get quick actions
+    tags:
+      - Business Dashboard
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Successfully retrieved quick actions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  priority:
+                    type: string
+                  data:
+                    type: object
+
+revenue-stats:
+  get:
+    summary: Get revenue statistics
+    tags:
+      - Business Dashboard
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+          enum: [daily, monthly, yearly]
+        default: monthly
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: Successfully retrieved revenue statistics
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      period:
+                        type: string
+                      amount:
+                        type: number
+                        format: float
+                summary:
+                  type: object
+                  properties:
+                    total:
+                      type: number
+                      format: float
+                    average:
+                      type: number
+                      format: float
+                    change:
+                      type: number
+                      format: float 

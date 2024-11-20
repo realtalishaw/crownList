@@ -1,0 +1,142 @@
+pageant-financials:
+  get:
+    summary: Get pageant financial overview
+    tags:
+      - Pageant Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: path
+        name: pageantId
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Successfully retrieved financial overview
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/pageant-finances.yaml#/PageantFinancials'
+
+pageant-transactions:
+  get:
+    summary: Get pageant transactions
+    tags:
+      - Pageant Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum: [revenue, expense]
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: category
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successfully retrieved transactions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/pageant-finances.yaml#/PageantTransaction'
+
+generate-report:
+  post:
+    summary: Generate financial report
+    tags:
+      - Pageant Finances
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reportType:
+                type: string
+                enum: [monthly_revenue, expense_breakdown, application_fees, complete]
+              startDate:
+                type: string
+                format: date
+              endDate:
+                type: string
+                format: date
+              format:
+                type: string
+                enum: [pdf, excel, csv]
+    responses:
+      '200':
+        description: Report generated successfully
+        content:
+          application/pdf:
+            schema:
+              type: string
+              format: binary
+          application/vnd.ms-excel:
+            schema:
+              type: string
+              format: binary
+          text/csv:
+            schema:
+              type: string
+              format: binary
+
+revenue-overview:
+  get:
+    summary: Get revenue overview
+    tags:
+      - Pageant Finances
+    security:
+      - BearerAuth: []
+    parameters:
+      - in: query
+        name: period
+        schema:
+          type: string
+          enum: [daily, weekly, monthly]
+        default: monthly
+    responses:
+      '200':
+        description: Successfully retrieved revenue overview
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trends:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      period:
+                        type: string
+                      amount:
+                        type: number
+                      change:
+                        type: number
+                breakdown:
+                  type: object
+                  properties:
+                    byCategory:
+                      type: object
+                    byPaymentMethod:
+                      type: object 

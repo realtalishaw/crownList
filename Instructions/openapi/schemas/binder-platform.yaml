@@ -1,0 +1,164 @@
+Platform:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    status:
+      type: string
+      enum: [draft, active, archived]
+    cause:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum: [education, environment, health, social_justice, community, youth, other]
+        targetAudience:
+          type: string
+        problemStatement:
+          type: string
+        solution:
+          type: string
+    goals:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          description:
+            type: string
+          timeline:
+            type: string
+          status:
+            type: string
+            enum: [planned, in_progress, completed]
+          metrics:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                target:
+                  type: number
+                current:
+                  type: number
+                unit:
+                  type: string
+    initiatives:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          description:
+            type: string
+          startDate:
+            type: string
+            format: date
+          endDate:
+            type: string
+            format: date
+          status:
+            type: string
+            enum: [planned, active, completed]
+          impact:
+            type: object
+            properties:
+              peopleReached:
+                type: integer
+              volunteersEngaged:
+                type: integer
+              fundsRaised:
+                type: number
+              otherMetrics:
+                type: object
+    resources:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          type:
+            type: string
+            enum: [research, statistics, article, video, contact]
+          title:
+            type: string
+          url:
+            type: string
+          notes:
+            type: string
+    partnerships:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          organizationName:
+            type: string
+          contactPerson:
+            type: string
+          email:
+            type: string
+          phone:
+            type: string
+          status:
+            type: string
+            enum: [potential, active, completed]
+          notes:
+            type: string
+    presentations:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          audience:
+            type: string
+          date:
+            type: string
+            format: date
+          location:
+            type: string
+          notes:
+            type: string
+          materials:
+            type: array
+            items:
+              type: string
+              format: uri
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - binderId
+    - name
+    - cause 

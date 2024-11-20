@@ -1,0 +1,21 @@
+BinderDocument:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    binderId:
+      type: string
+      format: uuid
+    title:
+      type: string
+    type:
+      type: string
+      enum: [contract, application, photo, bio, resume, other]
+    status:
+      type: string
+      enum: [pending, submitted, approved, rejected]
+    url:
+      type: string
+      format: uri
+    # ... rest of BinderDocument schema 

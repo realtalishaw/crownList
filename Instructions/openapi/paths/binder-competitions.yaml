@@ -1,0 +1,16 @@
+competitions:
+  get:
+    summary: Get competitions for a binder
+    tags:
+      - Binder Competitions
+    # ... rest of competitions endpoint
+
+competition:
+  get:
+    summary: Get competition details
+    # ... rest of competition endpoint
+
+competition-participation:
+  put:
+    summary: Update participation status for competition
+    # ... rest of participation endpoint 

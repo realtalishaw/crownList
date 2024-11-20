@@ -1,0 +1,169 @@
+stores:
+  get:
+    summary: Get all stores
+    tags:
+      - Stores
+    parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search by store name
+      - in: query
+        name: rating
+        schema:
+          type: number
+        description: Filter by minimum rating
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            - rating
+            - newest
+            - popular
+        default: rating
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved stores
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/stores.yaml#/Store'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+  post:
+    summary: Create a new store
+    tags:
+      - Stores
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/stores.yaml#/Store'
+    responses:
+      '201':
+        description: Store created successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized
+
+store:
+  get:
+    summary: Get store details
+    tags:
+      - Stores
+    responses:
+      '200':
+        description: Successfully retrieved store
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '../schemas/stores.yaml#/Store'
+                - type: object
+                  properties:
+                    reviews:
+                      type: array
+                      items:
+                        $ref: '../schemas/stores.yaml#/StoreReview'
+      '404':
+        description: Store not found
+
+store-products:
+  get:
+    summary: Get store products
+    tags:
+      - Stores
+    parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: condition
+        schema:
+          type: string
+      - in: query
+        name: sortBy
+        schema:
+          type: string
+          enum:
+            - newest
+            - price-low-high
+            - price-high-low
+        default: newest
+      - in: query
+        name: page
+        schema:
+          type: integer
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 20
+    responses:
+      '200':
+        description: Successfully retrieved store products
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../schemas/products.yaml#/Product'
+                total:
+                  type: integer
+                page:
+                  type: integer
+                totalPages:
+                  type: integer
+
+store-reviews:
+  post:
+    summary: Add store review
+    tags:
+      - Stores
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/stores.yaml#/StoreReview'
+    responses:
+      '201':
+        description: Review added successfully
+      '400':
+        description: Invalid input
+      '401':
+        description: Unauthorized

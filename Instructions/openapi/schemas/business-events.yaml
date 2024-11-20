@@ -1,0 +1,119 @@
+BusinessEvent:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    businessId:
+      type: string
+      format: uuid
+    type:
+      type: string
+      enum: [general, pageant]
+    title:
+      type: string
+    slug:
+      type: string
+    description:
+      type: string
+    shortDescription:
+      type: string
+      maxLength: 200
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    timezone:
+      type: string
+    isOnline:
+      type: boolean
+      default: false
+    location:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+    virtualEventUrl:
+      type: string
+      format: uri
+    status:
+      type: string
+      enum: [draft, published, cancelled, completed]
+    capacity:
+      type: integer
+    registeredCount:
+      type: integer
+      default: 0
+    ticketing:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        tickets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              description:
+                type: string
+              price:
+                type: number
+                format: float
+              quantity:
+                type: integer
+              soldCount:
+                type: integer
+                default: 0
+              saleStartDate:
+                type: string
+                format: date-time
+              saleEndDate:
+                type: string
+                format: date-time
+    coverImage:
+      type: string
+      format: uri
+    images:
+      type: array
+      items:
+        type: string
+        format: uri
+    visibility:
+      type: string
+      enum: [public, private, unlisted]
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+  required:
+    - businessId
+    - type
+    - title
+    - startDate 
